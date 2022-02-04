@@ -20,7 +20,7 @@ const Register = () => {
           setNameError("Name is required");
         } else if (email === "") {
           setEmailError("Email is required");
-        } else if (email === "") {
+        } else if (password === "") {
           setPasswordError("Password is required");
         } else if (emailError === "") {
           setDisabled(true);    
