@@ -40,7 +40,7 @@ const CssTextField = styled(TextField)({
     '& .MuiInputBase-input': {
       borderRadius: "10px",
       position: 'relative',
-      backgroundColor: theme.palette.mode === 'light' ? '#ECE8E8' : '#fcfcfb',
+      backgroundColor: theme.palette.mode === 'light' ? '#E0E1E5' : '#fcfcfb',
       border: '1px solid #ced4da',
       fontSize: 16,
       width: '100%',
