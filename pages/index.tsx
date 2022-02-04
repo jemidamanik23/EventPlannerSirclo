@@ -7,6 +7,7 @@ import { CustomButtonPrimary, CustomButtonSecondary } from '../components/Custom
 import HomeCard from '../components/HomeCard/HomeCard'
 import EventCard from '../components/EventCard/EventCard'
 import CommentBox from '../components/CommentBox/CommentBox'
+import {ParticipantBox, ParticipantNumber} from '../components/ParticipantBox/ParticipantBox'
 
 const Home: NextPage = () => {
   return (
@@ -24,6 +25,9 @@ const Home: NextPage = () => {
 
 
                 />
+
+      <ParticipantBox participant='Jemi Damanik'/>
+      <ParticipantNumber participantNumber={100}/>
     </div>
 
     
