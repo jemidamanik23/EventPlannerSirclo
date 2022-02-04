@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       <CommentBox caption='Keren euyy' />
 
       <TextInput placeholder='Placeholder' value='value' textLabel='Name'/>
-      <CustomButtonPrimary caption='SIMPAN1'/>
+      <CustomButtonPrimary width='100%' caption='SIMPAN1'/>
       <CustomButtonSecondary caption='SIMPAN2'/>
       <EventCard eventTitle='Event 1' time='13 Januari 2022' category='Technology'/>
       <HomeCard

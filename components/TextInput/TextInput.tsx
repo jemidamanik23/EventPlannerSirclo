@@ -12,6 +12,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
 import InputUnstyled, { InputUnstyledProps } from '@mui/base/InputUnstyled';
 import { CustomParagraph } from '../CustomTypography/CustomTypography';
+import { Typography } from '@mui/material';
 
 
   interface inputDetail {
@@ -73,8 +74,9 @@ type inputSelect = {
 function TextInput(props:inputDetail) {
     return (
     <Box>
-        <CustomParagraph content={props.textLabel}/>
-        <CustomInput  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />;
+        <Typography><CustomParagraph content={props.textLabel}/> <span style={{ color: "red" }}>{props.errorVal}</span></Typography>
+        
+        <CustomInput  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
     </Box>
     
     )
