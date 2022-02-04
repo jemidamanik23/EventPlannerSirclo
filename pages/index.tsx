@@ -8,8 +8,25 @@ import HomeCard from '../components/HomeCard/HomeCard'
 import EventCard from '../components/EventCard/EventCard'
 import CommentBox from '../components/CommentBox/CommentBox'
 import {ParticipantBox, ParticipantNumber} from '../components/ParticipantBox/ParticipantBox'
+import client from '../utils/apollo-client'
+import { GET_USERS } from '../utils/queries'
+import { Users } from '../types/users'
 
-const Home: NextPage = () => {
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: GET_USERS
+  });
+  
+  return {
+    props: {
+      users: data.users
+    }
+  }
+}
+
+const Home = ({users}: Users) => {
+  console.log(users);
+  
   return (
     <div>
       <CommentBox caption='Keren euyy' />
@@ -29,8 +46,6 @@ const Home: NextPage = () => {
       <ParticipantBox participant='Jemi Damanik'/>
       <ParticipantNumber participantNumber={100}/>
     </div>
-
-    
     
   )
 }
