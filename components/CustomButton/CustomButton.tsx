@@ -36,7 +36,7 @@ function CustomButtonSecondary({ caption, OnClick, isDisabled }: { caption: stri
   );
 }
 
-function CustomButtonPrimary({ caption, OnClick, isDisabled }: { caption: string, OnClick?: ()=>void ,isDisabled? :boolean}) {
+function CustomButtonPrimary({width, caption, OnClick, isDisabled }: {width:string, caption: string, OnClick?: ()=>void ,isDisabled? :boolean}) {
   return (
     <Button
       onClick={OnClick}
@@ -47,6 +47,7 @@ function CustomButtonPrimary({ caption, OnClick, isDisabled }: { caption: string
         textTransform: "none",
         padding: "0px",
         transition: "all 0.4s ease",
+        width:{width},
         "&:hover": {
           backgroundColor: "#F34F51",
           border: "2px solid #F34F51",
