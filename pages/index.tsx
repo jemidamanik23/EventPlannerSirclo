@@ -12,6 +12,7 @@ import client from '../utils/apollo-client'
 import { GET_USERS } from '../utils/queries'
 import { Users } from '../types/users'
 import { useEffect } from 'react'
+import Login from './login-page'
 
 // export async function getStaticProps() {
 //   const { data } = await client.query({
@@ -26,28 +27,28 @@ import { useEffect } from 'react'
 // }
 
 const Home = ({users}: Users) => {
-  useEffect(()=>{
-    fetchData();
-  }, [])
+  // useEffect(()=>{
+  //   fetchData();
+  // }, [])
 
-  const fetchData = async() => {
-    const token = localStorage.getItem("token")
-    const { data } = await client.query({
-      query: GET_USERS,
-      context: {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
-        }
-      }
-    })
-    console.log(data);
-  }
+  // const fetchData = async() => {
+  //   const token = localStorage.getItem("token")
+  //   const { data } = await client.query({
+  //     query: GET_USERS,
+  //     context: {
+  //       headers: {
+  //         Authorization: token ? `Bearer ${token}` : "",
+  //       }
+  //     }
+  //   })
+  //   console.log(data);
+  // }
 
   //console.log(users);
   
   return (
     <div>
-      <CommentBox caption='Keren euyy' />
+      {/* <CommentBox caption='Keren euyy' />
 
       <TextInput placeholder='Placeholder' value='value' textLabel='Name'/>
       <CustomButtonPrimary width='100%' caption='SIMPAN1'/>
@@ -62,7 +63,8 @@ const Home = ({users}: Users) => {
                 />
 
       <ParticipantBox participant='Jemi Damanik'/>
-      <ParticipantNumber participantNumber={100}/>
+      <ParticipantNumber participantNumber={100}/> */}
+      <Login/>
     </div>
     
   )

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { CustomH1, CustomParagraph } from '../components/CustomTypography/CustomTypography';
 import { TextInput } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
+import client from '../utils/apollo-client';
+import { GET_LOGIN } from '../utils/queries';
 
 const Login = () => {
     const [email, setEmail] = useState<string>("");
@@ -12,6 +14,18 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
 
+    useEffect(()=>{
+      fetchData();
+    }, [])
+  
+    const handleSubmit = async() => {
+      //const token = localStorage.getItem("token")
+      const { data } = await client.query({
+        query: GET_LOGIN,
+        variables: { email, password },
+      })
+      localStorage.setItem("token", data.login.token);
+    }
 
     const fetchData = async () => {
         if (email === "") {
@@ -20,9 +34,13 @@ const Login = () => {
           setPasswordError("Password is required");
         } else if (emailError === "") {
           setDisabled(true);   
-          
-          
-        }
+        } 
+          // const { data } = await client.query({
+          //   query: GET_LOGIN,
+          //   variables: { email, password },
+          // })
+          // console.log(data);
+          //localStorage.setItem("token", data.login.token);
       };
       const signup = () => {
       };    
@@ -72,7 +90,7 @@ const Login = () => {
             }}>
                 <TextInput textLabel='Email' placeholder='jemi@gmail.com' type='text' onChange={(e) => handleEmail(e)} errorVal={emailError}/>
                 <TextInput textLabel='Password' placeholder='Enter Your Password' type='password' onChange={(e) => handlePassword(e)} errorVal={passwordError} />
-                <CustomButtonPrimary caption='Submit' width='30%' OnClick={fetchData} isDisabled={disabledVal}/>  
+                <CustomButtonPrimary caption='Submit' width='30%' OnClick={handleSubmit} isDisabled={disabledVal}/>  
                 <Box sx={{ 
                     margin:"0% 5% 0% 5%",
                     display:"flex",

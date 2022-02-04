@@ -15,3 +15,12 @@ export const GET_USERS = gql`
         }
     }
 `;
+
+export const GET_LOGIN = gql`
+    query ($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            code
+            token
+        }
+    }
+`;
