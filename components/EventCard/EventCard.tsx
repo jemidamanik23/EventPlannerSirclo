@@ -8,11 +8,13 @@ import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import {ButtonDelete, ButtonEdit } from "../CustomButton/CustomButton";
+import { CustomH2, CustomParagraph } from "../CustomTypography/CustomTypography";
 
 interface eventcard {
   srcImage?: string;
   eventTitle?: string;
   time?: string;
+  category?:string;
   handleDelete?:()=>void
   handleEdit?:()=>void
 
@@ -25,17 +27,14 @@ function EventCard(props: eventcard) {
           background: "#A95050",
           borderRadius:"10px",
           boxShadow:"5px 5px 0px rgba(0, 0, 0, 0.5)",
-
-
        }}>
            <Box sx={{ 
                padding:"1%",
 
             }}>
             <Box>
-               <Typography>
-                   Event
-               </Typography>
+                <CustomH2 content={props.eventTitle}/>
+
             </Box>
             <Box sx={{ 
                 display:"flex",
@@ -44,13 +43,8 @@ function EventCard(props: eventcard) {
                 justifyContent: "space-between", 
              }}>
                 <Box sx={{ width: '80%' }}>
-                    <Typography>
-                        Kategori : Technology
-                    </Typography>
-                    <Typography>
-                        Dijadwalkan pada : 13 Januari 2022
-                    </Typography>
-
+                    <CustomParagraph content={props.category}/>
+                    <CustomParagraph content={props.time}/>
                 </Box>
                 <Box sx={{ 
                     width:"20%",
