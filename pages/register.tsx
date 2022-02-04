@@ -4,6 +4,8 @@ import { CustomH1, CustomParagraph } from '../components/CustomTypography/Custom
 import { TextInput } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
+import { useMutation } from '@apollo/client';
+import { SET_REGISTER } from '../utils/queries';
 
 const Register = () => {
     const [name, setName] = useState<string>("");
@@ -13,7 +15,15 @@ const Register = () => {
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
+    const [setRegister] = useMutation(SET_REGISTER)
 
+    const handleSubmit = async() => {
+      setRegister({variables: {name, email, password}})
+      
+      setName("")
+      setEmail("")
+      setPassword("")
+    }
 
     const fetchData = async () => {
         if (name === "") {
@@ -24,8 +34,7 @@ const Register = () => {
           setPasswordError("Password is required");
         } else if (emailError === "") {
           setDisabled(true);    
-          
-          
+    
         }
       };
       const login = () => {
@@ -86,7 +95,7 @@ const Register = () => {
                 <TextInput textLabel='Name' placeholder='Enter your fullname' type='text' onChange={(e) => handleName(e)} errorVal={nameError}/>
                 <TextInput textLabel='Email' placeholder='jemi@gmail.com' type='text' onChange={(e) => handleEmail(e)} errorVal={emailError}/>
                 <TextInput textLabel='Password' placeholder='Enter Your Password' type='password' onChange={(e) => handlePassword(e)} errorVal={passwordError} />
-                <CustomButtonPrimary caption='Submit' width='30%' OnClick={fetchData} isDisabled={disabledVal}/>  
+                <CustomButtonPrimary caption='Submit' width='30%' OnClick={handleSubmit} isDisabled={disabledVal}/>  
                 <Box sx={{ 
                     margin:"0% 5% 0% 5%",
                     display:"flex",

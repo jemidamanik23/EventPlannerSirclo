@@ -13,18 +13,19 @@ import { GET_USERS } from '../utils/queries'
 import { Users } from '../types/users'
 import { useEffect } from 'react'
 import Login from './login-page'
+import Register from './register'
 
-// export async function getStaticProps() {
-//   const { data } = await client.query({
-//     query: GET_USERS
-//   });
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: GET_USERS
+  });
   
-//   return {
-//     props: {
-//       users: data.users
-//     }
-//   }
-// }
+  return {
+    props: {
+      users: data.users
+    }
+  }
+}
 
 const Home = ({users}: Users) => {
   // useEffect(()=>{
@@ -63,8 +64,9 @@ const Home = ({users}: Users) => {
                 />
 
       <ParticipantBox participant='Jemi Damanik'/>
-      <ParticipantNumber participantNumber={100}/> */}
-      <Login/>
+      <ParticipantNumber participantNumber={100}/> 
+      <Login/> */}
+      <Register/>
     </div>
     
   )

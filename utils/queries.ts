@@ -24,3 +24,12 @@ export const GET_LOGIN = gql`
         }
     }
 `;
+
+export const SET_REGISTER = gql`
+mutation ($name: String!, $email: String!, $password: String!) {
+    createUser(input: {name: $name, email: $email, password: $password}){
+        id
+        name
+    }
+  }
+`;
