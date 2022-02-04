@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {TextInput2} from '../components/TextInput/TextInput'
+import {TextInput} from '../components/TextInput/TextInput'
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton'
 import HomeCard from '../components/HomeCard/HomeCard'
 import EventCard from '../components/EventCard/EventCard'
@@ -10,7 +10,8 @@ import EventCard from '../components/EventCard/EventCard'
 const Home: NextPage = () => {
   return (
     <div>
-      <TextInput2 placeholder='Placeholder' value='value' textLabel='Name'/>
+
+      <TextInput placeholder='Placeholder' value='value' textLabel='Name'/>
       <CustomButtonPrimary caption='SIMPAN1'/>
       <CustomButtonSecondary caption='SIMPAN2'/>
       <EventCard eventTitle='Event 1' time='13 Januari 2022' category='Technology'/>
