@@ -1,5 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import "@fontsource/nunito/700.css";
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function CustomButtonSecondary({ caption, OnClick, isDisabled }: { caption: string, OnClick?: ()=>void ,isDisabled?: boolean}) {
   return (
@@ -64,4 +66,47 @@ function CustomButtonPrimary({ caption, OnClick, isDisabled }: { caption: string
   );
 }
 
-export { CustomButtonPrimary, CustomButtonSecondary };
+function ButtonEdit({  OnClick }: { OnClick?: ()=>void}) {
+  return (
+    <Button
+      onClick={OnClick}
+      sx={{
+        borderRadius: "0px",
+        backgroundColor: "#FFFFFF",
+        padding: "0px",
+        transition: "all 0.4s ease",
+        width:"61px",
+        height:"38px",
+        "&:hover": {
+          backgroundColor: "#FFFFFF",
+        },
+      }}>
+        <ModeEditIcon color="action"/>
+    </Button>
+  );
+}
+
+function ButtonDelete({  OnClick }: { OnClick?: ()=>void}) {
+  return (
+    <Button
+      onClick={OnClick}
+      sx={{
+        borderRadius: "0px",
+        backgroundColor: "#FFFFFF",
+        padding: "0px",
+        transition: "all 0.4s ease",
+        width:"61px",
+        height:"38px",
+        "&:hover": {
+          backgroundColor: "#FFFFFF",
+        },
+      }}>
+        <DeleteForeverIcon color="action"/>
+
+
+    </Button>
+  );
+}
+
+
+export { CustomButtonPrimary, CustomButtonSecondary, ButtonEdit, ButtonDelete };
