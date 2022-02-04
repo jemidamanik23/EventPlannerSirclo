@@ -46,6 +46,32 @@ function CustomH1({ content }: { content:string | undefined}) {
       </Typography>
     );
   }
+
+  function CustomParticipantBox({ content }: { content:string | undefined }) {
+    return (
+      <Typography sx={{ 
+        fontFamily: "Nunito",
+        fontSize:{xs:"12px", sm:"18px",md:"20px"},
+        color:"#000000",
+        textAlign: "center"
+       }}>
+           {content}
+      </Typography>
+    );
+  }
+
+  function CustomParticipantNumberBox({ content }: { content:string | number | undefined }) {
+    return (
+      <Typography sx={{ 
+        fontFamily: "Nunito",
+        fontSize:{xs:"12px", sm:"18px",md:"20px"},
+        color:"#000000",
+        textAlign: "center"
+       }}>
+          Participants ({content})
+      </Typography>
+    );
+  }
   
   
-  export { CustomH1, CustomPlaceholder, CustomH2, CustomParagraph };
+  export { CustomH1, CustomPlaceholder, CustomH2, CustomParagraph, CustomParticipantBox, CustomParticipantNumberBox };
