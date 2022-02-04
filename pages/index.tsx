@@ -11,21 +11,39 @@ import {ParticipantBox, ParticipantNumber} from '../components/ParticipantBox/Pa
 import client from '../utils/apollo-client'
 import { GET_USERS } from '../utils/queries'
 import { Users } from '../types/users'
+import { useEffect } from 'react'
 
-export async function getStaticProps() {
-  const { data } = await client.query({
-    query: GET_USERS
-  });
+// export async function getStaticProps() {
+//   const { data } = await client.query({
+//     query: GET_USERS
+//   });
   
-  return {
-    props: {
-      users: data.users
-    }
-  }
-}
+//   return {
+//     props: {
+//       users: data.users
+//     }
+//   }
+// }
 
 const Home = ({users}: Users) => {
-  console.log(users);
+  useEffect(()=>{
+    fetchData();
+  }, [])
+
+  const fetchData = async() => {
+    const token = localStorage.getItem("token")
+    const { data } = await client.query({
+      query: GET_USERS,
+      context: {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        }
+      }
+    })
+    console.log(data);
+  }
+
+  //console.log(users);
   
   return (
     <div>
