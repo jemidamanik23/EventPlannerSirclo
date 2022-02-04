@@ -39,7 +39,7 @@ function CustomH1({ content }: { content:string | undefined}) {
     return (
       <Typography sx={{ 
         fontFamily: "Nunito",
-        fontSize:{xs:"24px", sm:"18px",md:"12px"},
+        fontSize:{xs:"12px", sm:"18px",md:"20px"},
         color:"#000000",
        }}>
            {content}
