@@ -6,10 +6,12 @@ import {TextInput} from '../components/TextInput/TextInput'
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton'
 import HomeCard from '../components/HomeCard/HomeCard'
 import EventCard from '../components/EventCard/EventCard'
+import CommentBox from '../components/CommentBox/CommentBox'
 
 const Home: NextPage = () => {
   return (
     <div>
+      <CommentBox caption='Keren euyy' />
 
       <TextInput placeholder='Placeholder' value='value' textLabel='Name'/>
       <CustomButtonPrimary caption='SIMPAN1'/>
