@@ -41,6 +41,50 @@ type inputSelect = {
   const StyledInputElement = styled('input')(
     ({ theme }) => `
     width: 100%;
+    height:100%;
+    font-size: 0.875rem;
+    font-family: nunito;
+    font-weight: 400;
+    line-height: 1.5;
+    color: "#E0E1E5";
+    background: #E0E1E5;
+    border: 1px solid #E0E1E5;
+    border-radius: 8px;
+    padding: 12px 12px;
+    transition: all 150ms ease;  
+    &:hover {
+      background: #E0E1E5;
+      border-color: #E0E1E5;
+    }  
+    &:focus {
+      outline: 2px solid #E0E1E5;
+      outline-offset: 2px;
+    }
+  `,
+  );  
+  const CustomInput = React.forwardRef(function CustomInput(
+    props: InputUnstyledProps,
+    ref: React.ForwardedRef<HTMLDivElement>,
+  ) {
+    return (
+      <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref} />
+    );
+  });  
+function TextInput(props:inputDetail) {
+    return (
+    <Box>
+        <Typography><CustomParagraph content={props.textLabel}/> <span style={{ color: "red" }}>{props.errorVal}</span></Typography>
+        
+        <CustomInput  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
+    </Box>
+    
+    )
+  }
+
+  const StyledInputElementText = styled('input')(
+    ({ theme }) => `
+    width: 100%;
+    height:20vh;
     font-size: 0.875rem;
     font-family: nunito;
     font-weight: 400;
@@ -62,27 +106,27 @@ type inputSelect = {
   `,
   );
   
-  const CustomInput = React.forwardRef(function CustomInput(
+  const CustomTextArea = React.forwardRef(function CustomInput(
     props: InputUnstyledProps,
     ref: React.ForwardedRef<HTMLDivElement>,
   ) {
     return (
-      <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref} />
+      <InputUnstyled components={{ Input: StyledInputElementText }} {...props} ref={ref} />
     );
   });
   
-function TextInput(props:inputDetail) {
+function TextArea(props:inputDetail) {
     return (
     <Box>
         <Typography><CustomParagraph content={props.textLabel}/> <span style={{ color: "red" }}>{props.errorVal}</span></Typography>
         
-        <CustomInput  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
+        <CustomTextArea  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
     </Box>
     
     )
   }
 
-export {TextInput}
+export {TextInput, TextArea}
 
 // how to call
 {/* <InputText2 textLabel='Nama' placeholder='nama' width='300px'/> */}
