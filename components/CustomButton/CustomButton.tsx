@@ -3,7 +3,7 @@ import "@fontsource/nunito/700.css";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-function CustomButtonSecondary({ caption, OnClick, isDisabled }: { caption: string, OnClick?: ()=>void ,isDisabled?: boolean}) {
+function CustomButtonSecondary({ width, caption, OnClick, isDisabled }: { width:string, caption: string, OnClick?: ()=>void ,isDisabled?: boolean}) {
   return (
     <Button
     onClick={OnClick}
@@ -14,6 +14,7 @@ function CustomButtonSecondary({ caption, OnClick, isDisabled }: { caption: stri
         textTransform: "none",
         padding: "0px",
         transition: "all 0.4s ease",
+        width:{width},
         "&:hover": {
           backgroundColor: " #F34F51",
         },

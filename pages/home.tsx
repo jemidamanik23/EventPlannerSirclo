@@ -4,6 +4,7 @@ import HomeCard from "../components/HomeCard/HomeCard";
 import React, { useState } from "react";
 import { CustomH1, CustomTitle } from "../components/CustomTypography/CustomTypography";
 import FilterListIcon from '@mui/icons-material/FilterList';
+import Link from "next/link";
 
 const HomePage = () => {
   const [categoryOpenMenu, setCategoryOpenMenu] = useState<null | HTMLElement>(
@@ -14,19 +15,22 @@ const HomePage = () => {
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isHidden, setIsHidden] = useState<boolean>(false);
 
-  const [events, setEvents] = useState<{name: string, image: string, time: string}[]>([{
-      name: "Nobar LFC",
-      image: "image.url",
-      time: "13:00"
+  const [events, setEvents] = useState<{id:number, name: string, image: string, time: string}[]>([{
+        id:1,
+        name: "Nobar LFC",
+        image: "image.url",
+        time: "13:00"
         },{
+        id: 2,
         name: "Nobar Timnas",
         image: "image.url",
         time: "19:00"
         },{
-    name: "Nobar Spiderman",
-    image: "image.url",
-    time: "17:00"
-    }
+        id: 3,
+        name: "Nobar Spiderman",
+        image: "image.url",
+        time: "17:00"
+        }
     ]);
   const [categoryPage, setCategoryPage] = useState<string>("All Category");
   const openCategory = Boolean(categoryOpenMenu);
@@ -202,14 +206,16 @@ const HomePage = () => {
                     },
                     }}>
                     {events.map((value) => (
-                    <Grid item key={1}>
+                    <Link href={`/details/${value.id}`}>
+                    <Grid item key={value.id}>
                         <HomeCard
                         name={value.name}
                         image={value.image}
                         time={value.time}
-                        //OnClick={() => handleToDetails(value.id)}
+                        //OnClick={()=><Link href={`/details/${value.id}`}/>}
                         />
                     </Grid>
+                    </Link>
                      ))}
                 </Grid>
                 <Box

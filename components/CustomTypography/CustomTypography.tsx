@@ -60,7 +60,7 @@ function CustomH1({ content }: { content:string | undefined}) {
     );
   }
 
-  function CustomParticipantNumberBox({ content }: { content:string | number | undefined }) {
+  function CustomParticipantNumberBox({ content }: { content:string | number | undefined | Element}) {
     return (
       <Typography sx={{ 
         fontFamily: "Nunito",
