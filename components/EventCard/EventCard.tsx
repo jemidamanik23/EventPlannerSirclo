@@ -12,9 +12,9 @@ import { CustomH2, CustomParagraph } from "../CustomTypography/CustomTypography"
 
 interface eventcard {
   srcImage?: string;
-  eventTitle?: string;
-  time?: string;
-  category?:string;
+  eventTitle: string;
+  time: string;
+  category:string;
   handleDelete?:()=>void
   handleEdit?:()=>void
 
@@ -51,9 +51,8 @@ function EventCard(props: eventcard) {
                     display:"flex",
                     flexDirection:"row",
                     gap:"5%", }}>
-                    <ButtonEdit/>
-                    <ButtonDelete/>
-                    
+                    <ButtonEdit OnClick={props.handleEdit}/>
+                    <ButtonDelete OnClick={props.handleDelete}/>                    
 
                 </Box>
             </Box>
