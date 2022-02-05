@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 import {TextInput} from '../components/TextInput/TextInput'
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton'
 import HomeCard from '../components/HomeCard/HomeCard'
-import EventCard from '../components/EventCard/EventCard'
+import {EventCard} from '../components/EventCard/EventCard'
 import CommentBox from '../components/CommentBox/CommentBox'
 import {ParticipantBox, ParticipantNumber} from '../components/ParticipantBox/ParticipantBox'
 import client from '../utils/apollo-client'
@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 import Login from './login-page'
 import Register from './register'
 import HomePage from './home'
+import EventHistory from './eventHistory'
 
 const Home = ({users}: Users) => {
   // useEffect(()=>{
@@ -55,8 +56,9 @@ const Home = ({users}: Users) => {
       <ParticipantBox participant='Jemi Damanik'/>
       <ParticipantNumber participantNumber={100}/> 
       <Login/> 
-      <Register/> */}
-      <HomePage/>
+      <Register/> 
+      <HomePage/>*/}
+      <EventHistory/>
     </div>
     
   )

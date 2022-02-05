@@ -7,8 +7,9 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import {ButtonDelete, ButtonEdit } from "../CustomButton/CustomButton";
+import {ButtonCancel, ButtonDelete, ButtonEdit } from "../CustomButton/CustomButton";
 import { CustomH2, CustomParagraph } from "../CustomTypography/CustomTypography";
+
 
 interface eventcard {
   srcImage?: string;
@@ -66,4 +67,57 @@ function EventCard(props: eventcard) {
   );
 }
 
-export default EventCard;
+interface eventhistorycard {
+    eventTitle?: string;
+    status?: string;
+    category?:string;
+    handleDelete?:()=>void
+    handleCancel?:()=>void
+  }
+
+function EventHistoryCard(props: eventhistorycard) {
+    return (
+        <Box sx={{ 
+            width: "100%",
+            background: "#A95050",
+            borderRadius:"10px",
+            boxShadow:"5px 5px 0px rgba(0, 0, 0, 0.5)",
+         }}>
+             <Box sx={{ 
+                 padding:"1%",
+  
+              }}>
+              <Box>
+                  <CustomH2 content={props.eventTitle}/>
+  
+              </Box>
+              <Box sx={{ 
+                  display:"flex",
+                  flexDirection:"row",
+                  gap:"5px",
+                  justifyContent: "space-between", 
+               }}>
+                  <Box sx={{ width: '80%' }}>
+                      <CustomParagraph content={props.status}/>
+                  </Box>
+                  <Box sx={{ 
+                      width:"20%",
+                      display:"flex",
+                      flexDirection:"row",
+                      gap:"5%", }}>
+                      <ButtonCancel/>
+                      <ButtonDelete/>
+                      
+  
+                  </Box>
+              </Box>
+  
+             </Box>
+            
+  
+        </Box>
+  
+    );
+  }
+
+export {EventCard, EventHistoryCard};

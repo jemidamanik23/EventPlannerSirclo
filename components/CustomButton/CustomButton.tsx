@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 import "@fontsource/nunito/700.css";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 function CustomButtonSecondary({ width, caption, OnClick, isDisabled }: { width:string, caption: string, OnClick?: ()=>void ,isDisabled?: boolean}) {
   return (
@@ -110,5 +111,27 @@ function ButtonDelete({  OnClick }: { OnClick?: ()=>void}) {
   );
 }
 
+function ButtonCancel({  OnClick }: { OnClick?: ()=>void}) {
+  return (
+    <Button
+      onClick={OnClick}
+      sx={{
+        borderRadius: "0px",
+        backgroundColor: "#FFFFFF",
+        padding: "0px",
+        transition: "all 0.4s ease",
+        width:"61px",
+        height:"38px",
+        "&:hover": {
+          backgroundColor: "#FFFFFF",
+        },
+      }}>
+        <CancelIcon color="action"/>
 
-export { CustomButtonPrimary, CustomButtonSecondary, ButtonEdit, ButtonDelete };
+
+    </Button>
+  );
+}
+
+
+export { CustomButtonPrimary, CustomButtonSecondary, ButtonEdit, ButtonDelete, ButtonCancel };
