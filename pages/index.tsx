@@ -14,18 +14,7 @@ import { Users } from '../types/users'
 import { useEffect } from 'react'
 import Login from './login-page'
 import Register from './register'
-
-export async function getStaticProps() {
-  const { data } = await client.query({
-    query: GET_USERS
-  });
-  
-  return {
-    props: {
-      users: data.users
-    }
-  }
-}
+import HomePage from './home'
 
 const Home = ({users}: Users) => {
   // useEffect(()=>{
@@ -65,8 +54,9 @@ const Home = ({users}: Users) => {
 
       <ParticipantBox participant='Jemi Damanik'/>
       <ParticipantNumber participantNumber={100}/> 
-      <Login/> */}
-      <Register/> 
+      <Login/> 
+      <Register/> */}
+      <HomePage/>
     </div>
     
   )

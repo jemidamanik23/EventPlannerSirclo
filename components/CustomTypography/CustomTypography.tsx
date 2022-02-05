@@ -72,6 +72,18 @@ function CustomH1({ content }: { content:string | undefined}) {
       </Typography>
     );
   }
+
+  function CustomTitle({ content }: { content:string | undefined}) {
+    return (
+      <Typography sx={{ 
+        fontFamily: "Nunito",
+        fontSize:{xs:"30px", sm:"40px",md:"48px"},
+        textAlign: "center"
+       }}>
+           {content}
+      </Typography>
+    );
+  }
   
   
-  export { CustomH1, CustomPlaceholder, CustomH2, CustomParagraph, CustomParticipantBox, CustomParticipantNumberBox };
+  export { CustomH1, CustomPlaceholder, CustomH2, CustomParagraph, CustomParticipantBox, CustomParticipantNumberBox, CustomTitle };
