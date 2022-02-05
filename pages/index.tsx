@@ -66,7 +66,7 @@ const Home = ({users}: Users) => {
       <ParticipantBox participant='Jemi Damanik'/>
       <ParticipantNumber participantNumber={100}/> 
       <Login/> */}
-      <Register/>
+      <Register/> 
     </div>
     
   )

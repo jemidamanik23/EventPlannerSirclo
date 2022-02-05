@@ -17,13 +17,13 @@ const Register = () => {
     const [disabledVal, setDisabled] = useState<boolean>(false);
     const [setRegister] = useMutation(SET_REGISTER)
 
-    const handleSubmit = async() => {
-      setRegister({variables: {name, email, password}})
+    // const handleSubmit = async() => {
+    //   setRegister({variables: {name, email, password}})
       
-      setName("")
-      setEmail("")
-      setPassword("")
-    }
+    //   setName("")
+    //   setEmail("")
+    //   setPassword("")
+    // }
 
     const fetchData = async () => {
         if (name === "") {
@@ -32,9 +32,14 @@ const Register = () => {
           setEmailError("Email is required");
         } else if (password === "") {
           setPasswordError("Password is required");
-        } else if (emailError === "") {
+        } else if (emailError === "" && nameError === "" && passwordError === "") {
           setDisabled(true);    
-    
+          
+          setRegister({variables: {name, email, password}})
+      
+          setName("")
+          setEmail("")
+          setPassword("")
         }
       };
       const login = () => {
@@ -73,6 +78,7 @@ const Register = () => {
         }
       };
   return (
+    <>
       <Box sx={{ 
           margin:"5px 200px 5px 200px"
        }}>
@@ -95,7 +101,7 @@ const Register = () => {
                 <TextInput textLabel='Name' placeholder='Enter your fullname' type='text' onChange={(e) => handleName(e)} errorVal={nameError}/>
                 <TextInput textLabel='Email' placeholder='jemi@gmail.com' type='text' onChange={(e) => handleEmail(e)} errorVal={emailError}/>
                 <TextInput textLabel='Password' placeholder='Enter Your Password' type='password' onChange={(e) => handlePassword(e)} errorVal={passwordError} />
-                <CustomButtonPrimary caption='Submit' width='30%' OnClick={handleSubmit} isDisabled={disabledVal}/>  
+                <CustomButtonPrimary caption='Submit' width='30%' OnClick={fetchData} isDisabled={disabledVal}/>  
                 <Box sx={{ 
                     margin:"0% 5% 0% 5%",
                     display:"flex",
@@ -114,6 +120,7 @@ const Register = () => {
            
 
       </Box>
+    </>
   )
 };
 

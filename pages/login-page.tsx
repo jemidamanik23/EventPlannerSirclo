@@ -18,29 +18,33 @@ const Login = () => {
       fetchData();
     }, [])
   
-    const handleSubmit = async() => {
-      //const token = localStorage.getItem("token")
-      const { data } = await client.query({
-        query: GET_LOGIN,
-        variables: { email, password },
-      })
-      localStorage.setItem("token", data.login.token);
-    }
+    // const handleSubmit = async() => {
+    //   //const token = localStorage.getItem("token")
+    //   const { data } = await client.query({
+    //     query: GET_LOGIN,
+    //     variables: { email, password },
+    //   })
+    //   localStorage.setItem("token", data.login.token);
+    // }
 
     const fetchData = async () => {
         if (email === "") {
           setEmailError("Email is required");
         } else if (password === "") {
           setPasswordError("Password is required");
-        } else if (emailError === "") {
+        } else if (emailError === "" && passwordError === "") {
           setDisabled(true);   
-        } 
-          // const { data } = await client.query({
-          //   query: GET_LOGIN,
-          //   variables: { email, password },
-          // })
-          // console.log(data);
+          const { data } = await client.query({
+            query: GET_LOGIN,
+            variables: { email, password },
+          })
+          console.log(data);
           //localStorage.setItem("token", data.login.token);
+
+          setEmail("");
+          setPassword("");
+        } 
+          
       };
       const signup = () => {
       };    
@@ -90,7 +94,7 @@ const Login = () => {
             }}>
                 <TextInput textLabel='Email' placeholder='jemi@gmail.com' type='text' onChange={(e) => handleEmail(e)} errorVal={emailError}/>
                 <TextInput textLabel='Password' placeholder='Enter Your Password' type='password' onChange={(e) => handlePassword(e)} errorVal={passwordError} />
-                <CustomButtonPrimary caption='Submit' width='30%' OnClick={handleSubmit} isDisabled={disabledVal}/>  
+                <CustomButtonPrimary caption='Submit' width='30%' OnClick={fetchData} isDisabled={disabledVal}/>  
                 <Box sx={{ 
                     margin:"0% 5% 0% 5%",
                     display:"flex",
