@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { CustomH1, CustomParagraph } from '../components/CustomTypography/CustomTypography';
 import { TextInput } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
+import client from '../utils/apollo-client';
+import { GET_LOGIN } from '../utils/queries';
 
 const Login = () => {
     const [email, setEmail] = useState<string>("");
@@ -12,17 +14,37 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
 
+    useEffect(()=>{
+      fetchData();
+    }, [])
+  
+    // const handleSubmit = async() => {
+    //   //const token = localStorage.getItem("token")
+    //   const { data } = await client.query({
+    //     query: GET_LOGIN,
+    //     variables: { email, password },
+    //   })
+    //   localStorage.setItem("token", data.login.token);
+    // }
 
     const fetchData = async () => {
         if (email === "") {
           setEmailError("Email is required");
         } else if (password === "") {
           setPasswordError("Password is required");
-        } else if (emailError === "") {
+        } else if (emailError === "" && passwordError === "") {
           setDisabled(true);   
+          const { data } = await client.query({
+            query: GET_LOGIN,
+            variables: { email, password },
+          })
+          console.log(data);
+          //localStorage.setItem("token", data.login.token);
+
+          setEmail("");
+          setPassword("");
+        } 
           
-          
-        }
       };
       const signup = () => {
       };    

@@ -4,6 +4,8 @@ import { CustomH1, CustomParagraph } from '../components/CustomTypography/Custom
 import { TextInput } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
+import { useMutation } from '@apollo/client';
+import { SET_REGISTER } from '../utils/queries';
 
 const Register = () => {
     const [name, setName] = useState<string>("");
@@ -13,7 +15,15 @@ const Register = () => {
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
+    const [setRegister] = useMutation(SET_REGISTER)
 
+    // const handleSubmit = async() => {
+    //   setRegister({variables: {name, email, password}})
+      
+    //   setName("")
+    //   setEmail("")
+    //   setPassword("")
+    // }
 
     const fetchData = async () => {
         if (name === "") {
@@ -22,10 +32,14 @@ const Register = () => {
           setEmailError("Email is required");
         } else if (password === "") {
           setPasswordError("Password is required");
-        } else if (emailError === "") {
+        } else if (emailError === "" && nameError === "" && passwordError === "") {
           setDisabled(true);    
           
-          
+          setRegister({variables: {name, email, password}})
+      
+          setName("")
+          setEmail("")
+          setPassword("")
         }
       };
       const login = () => {
@@ -64,6 +78,7 @@ const Register = () => {
         }
       };
   return (
+    <>
       <Box sx={{ 
           margin:"5px 200px 5px 200px"
        }}>
@@ -105,6 +120,7 @@ const Register = () => {
            
 
       </Box>
+    </>
   )
 };
 

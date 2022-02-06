@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/system';
 import { CustomParticipantBox, CustomParticipantNumberBox } from '../CustomTypography/CustomTypography';
+import { Typography } from '@mui/material';
 
 function ParticipantBox({ participant }: { participant: string }) {
     return (
@@ -10,14 +11,21 @@ function ParticipantBox({ participant }: { participant: string }) {
             borderRadius : "0px",
             padding:"3px"
          }}>
-             <CustomParticipantBox content={participant} />
+            <Typography sx={{ 
+                fontFamily: "Nunito",
+                fontSize:{xs:"12px", sm:"18px",md:"20px"},
+                color:"#000000",
+                textAlign: "center"
+            }}>
+                {participant}
+            </Typography>
             
         </Box>
      
     );
 }
 
-function ParticipantNumber({ participantNumber }: { participantNumber: number }) {
+function ParticipantNumber({ content }: { content: number }) {
     return (
         <Box sx={{ 
             width:"200px",
@@ -25,7 +33,15 @@ function ParticipantNumber({ participantNumber }: { participantNumber: number })
             borderRadius : "0px",
             padding:"3px"
          }}>
-             <CustomParticipantNumberBox content={participantNumber} />
+             <Typography sx={{ 
+                fontFamily: "Nunito",
+                fontSize:{xs:"12px", sm:"18px",md:"20px"},
+                color:"#000000",
+                textAlign: "center"
+            }}>
+                Participants ({content})
+            </Typography>
+             {/* <CustomParticipantNumberBox content={participantNumber} /> */}
             
         </Box>
      
