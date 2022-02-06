@@ -5,31 +5,41 @@ import styles from '../styles/Home.module.css'
 import {TextInput} from '../components/TextInput/TextInput'
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton'
 import HomeCard from '../components/HomeCard/HomeCard'
-import EventCard from '../components/EventCard/EventCard'
+import {EventCard} from '../components/EventCard/EventCard'
 import CommentBox from '../components/CommentBox/CommentBox'
 import {ParticipantBox, ParticipantNumber} from '../components/ParticipantBox/ParticipantBox'
 import client from '../utils/apollo-client'
 import { GET_USERS } from '../utils/queries'
 import { Users } from '../types/users'
-
-export async function getStaticProps() {
-  const { data } = await client.query({
-    query: GET_USERS
-  });
-  
-  return {
-    props: {
-      users: data.users
-    }
-  }
-}
+import { useEffect } from 'react'
+import Login from './login-page'
+import Register from './register'
+import HomePage from './home'
+import EventHistory from './eventHistory'
 
 const Home = ({users}: Users) => {
-  console.log(users);
+  // useEffect(()=>{
+  //   fetchData();
+  // }, [])
+
+  // const fetchData = async() => {
+  //   const token = localStorage.getItem("token")
+  //   const { data } = await client.query({
+  //     query: GET_USERS,
+  //     context: {
+  //       headers: {
+  //         Authorization: token ? `Bearer ${token}` : "",
+  //       }
+  //     }
+  //   })
+  //   console.log(data);
+  // }
+
+  //console.log(users);
   
   return (
     <div>
-      <CommentBox caption='Keren euyy' />
+      {/* <CommentBox caption='Keren euyy' />
 
       <TextInput placeholder='Placeholder' value='value' textLabel='Name'/>
       <CustomButtonPrimary width='100%' caption='SIMPAN1'/>
@@ -44,7 +54,11 @@ const Home = ({users}: Users) => {
                 />
 
       <ParticipantBox participant='Jemi Damanik'/>
-      <ParticipantNumber participantNumber={100}/>
+      <ParticipantNumber participantNumber={100}/> 
+      <Login/> 
+      <Register/> 
+      <HomePage/>*/}
+      <EventHistory/>
     </div>
     
   )

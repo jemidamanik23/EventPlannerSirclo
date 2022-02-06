@@ -15,7 +15,7 @@ function HomeCard({
 }: {
   image?: string;
   name?: string;
-  OnClick?: () => void;
+  OnClick?: any;
   time?: string;
 }) {
   return (
