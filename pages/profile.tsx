@@ -1,7 +1,13 @@
-import { Email } from "@mui/icons-material";
+import { Email, Router } from "@mui/icons-material";
 import { Box } from "@mui/material"
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { CustomH1, CustomParagraph } from "../components/CustomTypography/CustomTypography"
+import client from '../utils/apollo-client'
+import { Users } from '../types/users'
+import GetToken from "../utils/getToken";
+import PrivateRoute from "../utils/privateRoute";
+import { CustomButtonPrimary, CustomButtonSecondary } from "../components/CustomButton/CustomButton";
 
 const Profile = () => {
     const [name, setName] = useState<string>("");
@@ -13,12 +19,21 @@ const Profile = () => {
     const [phone, setPhone] = useState<string>("");
     const [image, setImage] = useState<string>("");
     const [id, setId] = useState<string>("");
-
-
+    const [token, setToken] = useState<string | null>("");
+    const router = useRouter();    
 
     useEffect(() => {
-        setImage("")       
+        if(localStorage.getItem("token")!==null){
+                setToken(localStorage.getItem("token"))          
+            }else{
+                router.replace('/login-page')
+            }
       }, []);  
+
+      const goEdit = () => {
+        router.push('/profile-edit')
+      };
+
 
 
     return(
@@ -50,6 +65,9 @@ const Profile = () => {
              
              <Box sx={{ 
                  padding: "5%",
+                 display:"flex",
+                 flexDirection : "column",
+                 gap : "5vh",
               }}>
                   <Box sx={{ 
                       display:"flex",
@@ -61,8 +79,7 @@ const Profile = () => {
                            width: "50%",
                            display:"flex",
                            flexDirection : "column",
-                           height : "40vh",
-                            gap : "10%",                            
+                            gap : "5vh",                            
                         }}>
                             <CustomParagraph content="Name" />
                             <CustomParagraph content="Birthday" />
@@ -71,13 +88,13 @@ const Profile = () => {
                             <CustomParagraph content="Gender" />
                             <CustomParagraph content="Address" />
                             <CustomParagraph content="Phone Number" />
+                            
                        </Box>
                        <Box sx={{ 
                            width: "50%",
                            display:"flex",
                            flexDirection : "column",
-                           height : "40vh",
-                            gap : "10%",
+                            gap : "5vh",
                         }}>
                             <CustomParagraph content={name} />
                             <CustomParagraph content={birthday} />
@@ -85,10 +102,26 @@ const Profile = () => {
                             <CustomParagraph content={password}/>
                             <CustomParagraph content={gender} />
                             <CustomParagraph content={address}/>
-                            <CustomParagraph content={phone} />                            
-
+                            <CustomParagraph content={phone} /> 
                        </Box>
-
+                       
+                  </Box>
+                  <Box sx={{ 
+                      display:"flex",
+                      flexDirection: "row", 
+                   }}>
+                      <Box sx={{ 
+                          width:"50%"
+                       }}>
+                      <CustomButtonSecondary width="30%" caption="EDIT" OnClick={goEdit}/>
+                      </Box>
+                      <Box sx={{ 
+                          width:"50%",
+                          textAlign:"end"
+                       }}>
+                      <CustomButtonPrimary width="30%" caption="DELETE"/>
+                      </Box>
+                       
                   </Box>
 
              </Box>

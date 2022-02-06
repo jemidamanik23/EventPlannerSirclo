@@ -2,13 +2,25 @@ import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { CustomH1 } from "../components/CustomTypography/CustomTypography";
 import {EventCard, EventHistoryCard} from "../components/EventCard/EventCard";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const EventHistory = () => {
+    const router = useRouter();
+    const [token, setToken] = useState<string | null>("");
     // dummy
     const [sejarah, setSejarah] = useState<{id: number, title: string, status: string}[]>([
         {id: 1, title: "Nobar LFC", status: "Waiting"},
         {id: 2, title: "Nobar Spiderman", status: "Finished"}
     ]);
+
+    useEffect(() => {
+        if(localStorage.getItem("token")!==null){
+                setToken(localStorage.getItem("token"))          
+            }else{
+                router.replace('/login-page')
+            }
+      }, []); 
 
     return(
         <Box>

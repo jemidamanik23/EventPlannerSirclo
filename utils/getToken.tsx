@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function getToken() {
+function GetToken() {
     const [auth, setAuth] = useState<string|null>("");
     let token: string | null = "";
 
@@ -16,4 +16,4 @@ function getToken() {
     );
 }
 
-export default getToken;
+export default GetToken;

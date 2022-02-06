@@ -4,12 +4,16 @@ import { CustomH1, CustomParagraph } from '../components/CustomTypography/Custom
 import { TextInput, TextArea } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton';
 import { useState } from 'react';
-import EventCard from '../components/EventCard/EventCard';
+import {EventCard} from '../components/EventCard/EventCard';
 import { Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useRouter } from "next/router";
+import { useEffect } from 'react';
 
 
 const Event = () => {
+    const router = useRouter();
+    const [token, setToken] = useState<string | null>("");
     const [events, setEvents] = useState<{title: string, time: string, category: string}[]>([
         {
         title: "Nobar LFC",
@@ -29,10 +33,20 @@ const Event = () => {
 
       ]);
 
+      useEffect(() => {
+        if(localStorage.getItem("token")!==null){
+                setToken(localStorage.getItem("token"))          
+            }else{
+                router.replace('/login-page')
+            }
+      }, []); 
+
       const addEvent = async () => {
+          router.push('/cu-event')
     }
 
     const nextEvent = async () => {
+        router.push('/eventHistory')
     }
 
       const handleEdit = async () => {

@@ -6,6 +6,8 @@ import { CustomButtonPrimary, CustomButtonSecondary } from '../components/Custom
 import { Typography } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { SET_REGISTER } from '../utils/queries';
+import { useRouter } from "next/router";
+import { useEffect } from 'react';
 
 const Register = () => {
     const [name, setName] = useState<string>("");
@@ -16,14 +18,14 @@ const Register = () => {
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
     const [setRegister] = useMutation(SET_REGISTER)
+    const router = useRouter();
 
-    // const handleSubmit = async() => {
-    //   setRegister({variables: {name, email, password}})
-      
-    //   setName("")
-    //   setEmail("")
-    //   setPassword("")
-    // }
+    useEffect(() => {
+      if(localStorage.getItem("token")!==null){
+              router.replace('/')
+          }
+    }, []); 
+
 
     const fetchData = async () => {
         if (name === "") {
@@ -33,16 +35,16 @@ const Register = () => {
         } else if (password === "") {
           setPasswordError("Password is required");
         } else if (emailError === "" && nameError === "" && passwordError === "") {
-          setDisabled(true);    
-          
+          setDisabled(true);          
           setRegister({variables: {name, email, password}})
-      
           setName("")
           setEmail("")
           setPassword("")
+          router.push('/login-page')
         }
       };
       const login = () => {
+        router.push('/login-page')
       };    
 
     const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {

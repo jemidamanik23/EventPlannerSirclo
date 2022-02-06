@@ -5,8 +5,10 @@ import React, { useState } from "react";
 import { CustomH1, CustomTitle } from "../components/CustomTypography/CustomTypography";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const HomePage = () => {
+    const router = useRouter();
   const [categoryOpenMenu, setCategoryOpenMenu] = useState<null | HTMLElement>(
     null
   );

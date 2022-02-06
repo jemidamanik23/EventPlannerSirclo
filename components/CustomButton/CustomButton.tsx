@@ -4,7 +4,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-function CustomButtonSecondary({ width, caption, OnClick, isDisabled }: { width:string, caption: string, OnClick?: ()=>void ,isDisabled?: boolean}) {
+function CustomButtonSecondary({ width, caption, OnClick, isDisabled }: { width?:string, caption: string, OnClick?: ()=>void ,isDisabled?: boolean}) {
   return (
     <Button
     onClick={OnClick}
@@ -38,7 +38,7 @@ function CustomButtonSecondary({ width, caption, OnClick, isDisabled }: { width:
   );
 }
 
-function CustomButtonPrimary({width, caption, OnClick, isDisabled }: {width:string, caption: string, OnClick?: ()=>void ,isDisabled? :boolean}) {
+function CustomButtonPrimary({width, caption, OnClick, isDisabled }: {width?:string, caption: string, OnClick?: ()=>void ,isDisabled? :boolean}) {
   return (
     <Button
       onClick={OnClick}

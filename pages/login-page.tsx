@@ -6,6 +6,7 @@ import { CustomButtonPrimary, CustomButtonSecondary } from '../components/Custom
 import { Typography } from '@mui/material';
 import client from '../utils/apollo-client';
 import { GET_LOGIN } from '../utils/queries';
+import { useRouter } from "next/router";
 
 const Login = () => {
     const [email, setEmail] = useState<string>("");
@@ -13,10 +14,13 @@ const Login = () => {
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
+    const router = useRouter();
 
-    useEffect(()=>{
-      fetchData();
-    }, [])
+    useEffect(() => {
+      if(localStorage.getItem("token")!==null){
+              router.replace('/')
+          }
+    }, []); 
   
     // const handleSubmit = async() => {
     //   //const token = localStorage.getItem("token")
@@ -39,14 +43,15 @@ const Login = () => {
             variables: { email, password },
           })
           console.log(data);
-          //localStorage.setItem("token", data.login.token);
-
+          localStorage.setItem("token", data.login.token);
           setEmail("");
           setPassword("");
+          router.push('/')
         } 
           
       };
       const signup = () => {
+        router.push('/register')
       };    
 
 

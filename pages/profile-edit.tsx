@@ -4,6 +4,8 @@ import { CustomH1 } from "../components/CustomTypography/CustomTypography"
 import { CustomParagraph } from "../components/CustomTypography/CustomTypography"
 import { TextInput } from "../components/TextInput/TextInput"
 import { useState, useEffect } from "react"
+import { useRouter } from "next/router";
+
 
 const ProfileEdit = () => {
     const [name, setName] = useState<string>("");
@@ -18,6 +20,16 @@ const ProfileEdit = () => {
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
+    const [token, setToken] = useState<string | null>("");
+    const router = useRouter(); 
+
+    useEffect(() => {
+      if(localStorage.getItem("token")!==null){
+              setToken(localStorage.getItem("token"))          
+          }else{
+              router.replace('/login-page')
+          }
+    }, []);  
 
     const fetchData = async () => {
         if (name === "") {
@@ -28,6 +40,7 @@ const ProfileEdit = () => {
           setDisabled(true);    
           
           
+          router.push('/profile')
         }
       };
 

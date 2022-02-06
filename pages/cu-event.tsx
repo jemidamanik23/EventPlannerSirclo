@@ -4,6 +4,8 @@ import { CustomH1 } from '../components/CustomTypography/CustomTypography';
 import { TextInput, TextArea } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary } from '../components/CustomButton/CustomButton';
 import { useState } from 'react';
+import { useRouter } from "next/router";
+import { useEffect } from 'react';
 
 const CuEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
@@ -21,6 +23,16 @@ const CuEvent = () => {
     const [imgEventError, setImgEventError] = useState<string>("");
     const [detailEventError, setDetailEventError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
+    const [token, setToken] = useState<string | null>("");
+    const router = useRouter();
+
+    useEffect(() => {
+      if(localStorage.getItem("token")!==null){
+              setToken(localStorage.getItem("token"))          
+          }else{
+              router.replace('/login-page')
+          }
+    }, []);
 
     const handleSubmit = async () => {
         if (nameEvent === "") {
@@ -37,6 +49,9 @@ const CuEvent = () => {
             setDetailEventError("Detail is required");
         } else if (nameEventError === "") {
           setDisabled(true);   
+
+
+          router.push('/events')
           
           
         }
