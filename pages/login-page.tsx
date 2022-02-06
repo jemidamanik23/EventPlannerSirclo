@@ -21,15 +21,6 @@ const Login = () => {
               router.replace('/')
           }
     }, []); 
-  
-    // const handleSubmit = async() => {
-    //   //const token = localStorage.getItem("token")
-    //   const { data } = await client.query({
-    //     query: GET_LOGIN,
-    //     variables: { email, password },
-    //   })
-    //   localStorage.setItem("token", data.login.token);
-    // }
 
     const fetchData = async () => {
         if (email === "") {
@@ -44,6 +35,7 @@ const Login = () => {
           })
           console.log(data);
           localStorage.setItem("token", data.login.token);
+          localStorage.setItem("id_user", data.login.id_user);
           setEmail("");
           setPassword("");
           router.push('/')

@@ -5,6 +5,8 @@ import { CustomParagraph } from "../components/CustomTypography/CustomTypography
 import { TextInput } from "../components/TextInput/TextInput"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/router";
+import { GET_PROFILE } from "../utils/queries"
+import client from "../utils/apollo-client"
 
 
 const ProfileEdit = () => {
@@ -24,24 +26,35 @@ const ProfileEdit = () => {
     const router = useRouter(); 
 
     useEffect(() => {
-      if(localStorage.getItem("token")!==null){
-              setToken(localStorage.getItem("token"))          
-          }else{
-              router.replace('/login-page')
-          }
+      // if(localStorage.getItem("token")!==null){
+      //         setToken(localStorage.getItem("token"))          
+      //     }else{
+      //         router.replace('/login-page')
+      //     }
+
+          fetchData();
     }, []);  
 
     const fetchData = async () => {
-        if (name === "") {
-          setNameError("Name is required");
-        } else if (email === "") {
-          setEmailError("Email is required");
-        } else if (emailError === "") {
-          setDisabled(true);    
+        // if (name === "") {
+        //   setNameError("Name is required");
+        // } else if (email === "") {
+        //   setEmailError("Email is required");
+        // } else if (emailError === "") {
+        //   setDisabled(true);    
+          const { data } = await client.query({
+            query: GET_PROFILE,
+            variables: { id:9 },
+            context: {
+              headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            },
+          });
+          console.log(data);
           
           
           router.push('/profile')
-        }
       };
 
     const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -68,7 +68,6 @@ function EventCard(props: eventcard) {
 
 interface eventhistorycard {
     eventTitle?: string;
-    status?: string;
     category?:string;
     handleDelete?:()=>void
     handleCancel?:()=>void
@@ -89,26 +88,6 @@ function EventHistoryCard(props: eventhistorycard) {
               <Box>
                   <CustomH2 content={props.eventTitle}/>
   
-              </Box>
-              <Box sx={{ 
-                  display:"flex",
-                  flexDirection:"row",
-                  gap:"5px",
-                  justifyContent: "space-between", 
-               }}>
-                  <Box sx={{ width: '80%' }}>
-                      <CustomParagraph content={props.status}/>
-                  </Box>
-                  <Box sx={{ 
-                      width:"20%",
-                      display:"flex",
-                      flexDirection:"row",
-                      gap:"5%", }}>
-                      <ButtonCancel/>
-                      <ButtonDelete/>
-                      
-  
-                  </Box>
               </Box>
   
              </Box>

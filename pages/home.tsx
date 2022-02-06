@@ -1,11 +1,13 @@
 import { Alert, Box, Grid, IconButton, Menu, MenuItem, Pagination, Snackbar, Typography } from "@mui/material"
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import HomeCard from "../components/HomeCard/HomeCard";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomH1, CustomTitle } from "../components/CustomTypography/CustomTypography";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Link from "next/link";
 import { useRouter } from "next/router";
+import client from "../utils/apollo-client";
+import { GET_EVENT } from "../utils/queries";
 
 const HomePage = () => {
     const router = useRouter();
@@ -40,6 +42,18 @@ const HomePage = () => {
   const [page, setPage] = React.useState(1);
 
   const [openAlert, setOpenAlert] = React.useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []); 
+
+  const fetchData = async() => {
+    const { data } = await client.query({
+        query: GET_EVENT,
+    })
+    console.log(data);
+    
+  }
 
   const handleCloseAlert = (
     event?: React.SyntheticEvent | Event,

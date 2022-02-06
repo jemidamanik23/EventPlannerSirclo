@@ -49,7 +49,7 @@ const EventHistory = () => {
                 <Box sx={{mt:5}}>
                     {sejarah.map((value)=>(
                     <Box key={value.id} sx={{mt:2}}>
-                        <EventHistoryCard eventTitle={value.title} status={value.status}/>
+                        <EventHistoryCard eventTitle={value.title}/>
                     </Box>
                     ))}
                 </Box>
