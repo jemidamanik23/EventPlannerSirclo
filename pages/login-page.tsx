@@ -104,14 +104,13 @@ const Login = () => {
                     margin:"0% 5% 0% 5%",
                     display:"flex",
                     flexDirection:"row",   
-                    gap:"3px"                 
+                    gap:"1%",                 
                  }}>
                      <CustomParagraph content="Don't have any account?"/>
-                     <Typography sx={{ 
+                     <Typography  sx={{ 
                          color:"#F34F51"
-                      }} 
-                      onClick={signup}>
-                     {" "}Register
+                      }}  onClick={signup}>
+                         <CustomParagraph content='Register'/>
                      </Typography>
                 </Box>  
                        

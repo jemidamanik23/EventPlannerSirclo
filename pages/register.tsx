@@ -8,6 +8,7 @@ import { useMutation } from '@apollo/client';
 import { SET_REGISTER } from '../utils/queries';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const Register = () => {
     const [name, setName] = useState<string>("");
@@ -107,14 +108,14 @@ const Register = () => {
                 <Box sx={{ 
                     margin:"0% 5% 0% 5%",
                     display:"flex",
-                    flexDirection:"row",                    
+                    flexDirection:"row",      
+                    gap:"1%"              
                  }}>
                      <CustomParagraph content='Already have an account? '/>
                      <Typography onClick={login}>
-                         Login
+                         <CustomParagraph content='Login'/>
                      </Typography>
-                     <span onClick={login} style={{ color: "#F34F51" }}>{" "} Login {" "}</span>{" "}
-                    
+                   
                 </Box>  
                        
             </Box>
