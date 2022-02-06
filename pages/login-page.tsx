@@ -38,7 +38,7 @@ const Login = () => {
           localStorage.setItem("id_user", data.login.id_user);
           setEmail("");
           setPassword("");
-          router.push('/')
+          router.push('/home')
         } 
           
       };

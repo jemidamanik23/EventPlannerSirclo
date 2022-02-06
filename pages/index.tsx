@@ -16,26 +16,9 @@ import Login from './login-page'
 import Register from './register'
 import HomePage from './home'
 import EventHistory from './eventHistory'
+import Profile from './profile'
 
 const Home = ({users}: Users) => {
-  // useEffect(()=>{
-  //   fetchData();
-  // }, [])
-
-  // const fetchData = async() => {
-  //   const token = localStorage.getItem("token")
-  //   const { data } = await client.query({
-  //     query: GET_USERS,
-  //     context: {
-  //       headers: {
-  //         Authorization: token ? `Bearer ${token}` : "",
-  //       }
-  //     }
-  //   })
-  //   console.log(data);
-  // }
-
-  //console.log(users);
   
   return (
     <div>
@@ -57,8 +40,10 @@ const Home = ({users}: Users) => {
       <ParticipantNumber participantNumber={100}/> 
       <Login/> 
       <Register/> 
-      <HomePage/>*/}
       <HomePage/>
+      <Profile/>
+      */}
+      <Login/>
     </div>
     
   )

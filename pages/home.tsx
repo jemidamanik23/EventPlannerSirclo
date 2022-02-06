@@ -7,74 +7,74 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import client from "../utils/apollo-client";
-import { GET_EVENT } from "../utils/queries";
+import { GET_CATEGORY, GET_EVENT } from "../utils/queries";
 
 const HomePage = () => {
     const router = useRouter();
-  const [categoryOpenMenu, setCategoryOpenMenu] = useState<null | HTMLElement>(
-    null
-  );
-  const [textSend, setTextSend] = useState<string>("")
-  const [countProducts, setCountProducts] = useState<number>(0);
-  const [isReady, setIsReady] = useState<boolean>(false);
-  const [isHidden, setIsHidden] = useState<boolean>(false);
+    const [categoryOpenMenu, setCategoryOpenMenu] = useState<null | HTMLElement>(null);
+    const [countProducts, setCountProducts] = useState<number>(0);
 
-  const [events, setEvents] = useState<{id:number, name: string, image: string, time: string}[]>([{
-        id:1,
-        name: "Nobar LFC",
-        image: "image.url",
-        time: "13:00"
-        },{
-        id: 2,
-        name: "Nobar Timnas",
-        image: "image.url",
-        time: "19:00"
-        },{
-        id: 3,
-        name: "Nobar Spiderman",
-        image: "image.url",
-        time: "17:00"
-        }
-    ]);
-  const [categoryPage, setCategoryPage] = useState<string>("All Category");
-  const openCategory = Boolean(categoryOpenMenu);
+    const [events, setEvents] = useState<any[]>([]);
+    const [category, setCategory] = useState<any[]>([]);
+    const [categoryPage, setCategoryPage] = useState<string>("All Category");
+    const openCategory = Boolean(categoryOpenMenu);
 
-  const [page, setPage] = React.useState(1);
+    const [page, setPage] = React.useState(1);
 
-  const [openAlert, setOpenAlert] = React.useState(false);
+    const [openAlert, setOpenAlert] = React.useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []); 
+    useEffect(() => {
+        fetchData();
+        fetchCategory();
+    }, []); 
 
-  const fetchData = async() => {
-    const { data } = await client.query({
-        query: GET_EVENT,
-    })
-    console.log(data);
-    
-  }
-
-  const handleCloseAlert = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
+    const fetchData = async() => {
+        const { data } = await client.query({
+            query: GET_EVENT,
+        })
+        
+        setEvents(data.events)
+        console.log(data.events.counts);
+        console.log(data);
+        
     }
-    setOpenAlert(false);
-  };
 
-  const handleClickCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setCategoryOpenMenu(event.currentTarget);
-  };
+    const fetchCategory = async() => {
+        const { data } = await client.query({
+            query: GET_CATEGORY,
+            context: {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        })
 
-  const handleCloseCategory = () => {
-    setCategoryOpenMenu(null);
-  };
+        console.log(data);
+        setCategory(data.category);
+    }
+
+    const handleCloseAlert = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+        return;
+        }
+        setOpenAlert(false);
+    };
+
+    const handleClickCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setCategoryOpenMenu(event.currentTarget);
+    };
+
+    const handleCloseCategory = () => {
+        setCategoryOpenMenu(null);
+    };
 
     return(
+        
         <Box>
+            {console.log(events)}
             <Box
                 sx={{
                     minHeight: "900px",
@@ -90,7 +90,8 @@ const HomePage = () => {
                         fontFamily: "Nunito",
                         fontWeight: "700",
                         fontSize: "36px",
-                        color: "#2296CB",
+                        color: "#000000",
+                        textAlign: "center"
                     }}>
                     <CustomH1 content='Events' />
                     </Typography>
@@ -176,35 +177,12 @@ const HomePage = () => {
                                 >
                                     All Category
                                 </MenuItem>
-                                <MenuItem 
+                                {category.map((item) => (
+                                <MenuItem key={item.id}
                                 //onClick={handleCategoryProcessor}
-                                >Game
+                                >{item.description}
                                 </MenuItem>
-                                <MenuItem 
-                                //onClick={handleCategoryGraphic}
-                                >
-                                Art
-                                </MenuItem>
-                                <MenuItem 
-                                //onClick={handleCategoryRAM}
-                                >
-                                Sport
-                                </MenuItem>
-                                <MenuItem 
-                                //onClick={handleCategoryInternalStorage}
-                                >
-                                Technology
-                                </MenuItem>
-                                <MenuItem 
-                                //onClick={handleCategoryInternalStorage}
-                                >
-                                Music
-                                </MenuItem>
-                                <MenuItem 
-                                //onClick={handleCategoryInternalStorage}
-                                >
-                                Education
-                                </MenuItem>
+                                ))}
                             </Menu>
                     </Box>
                 </Box>
@@ -225,9 +203,9 @@ const HomePage = () => {
                     <Link href={`/details/${value.id}`}>
                     <Grid item key={value.id}>
                         <HomeCard
-                        name={value.name}
-                        image={value.image}
-                        time={value.time}
+                        name={value.title}
+                        image={value.photo}
+                        time={value.end_date}
                         //OnClick={()=><Link href={`/details/${value.id}`}/>}
                         />
                     </Grid>
