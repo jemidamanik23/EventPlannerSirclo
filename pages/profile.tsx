@@ -1,7 +1,16 @@
-import { Email } from "@mui/icons-material";
+import { Email, Router } from "@mui/icons-material";
 import { Box } from "@mui/material"
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { CustomH1, CustomParagraph } from "../components/CustomTypography/CustomTypography"
+import client from '../utils/apollo-client'
+import { Users } from '../types/users'
+import GetToken from "../utils/getToken";
+import PrivateRoute from "../utils/privateRoute";
+import { CustomButtonPrimary, CustomButtonSecondary } from "../components/CustomButton/CustomButton";
+import { GET_PROFILE } from "../utils/queries";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer";
 
 const Profile = () => {
     const [name, setName] = useState<string>("");
@@ -13,15 +22,48 @@ const Profile = () => {
     const [phone, setPhone] = useState<string>("");
     const [image, setImage] = useState<string>("");
     const [id, setId] = useState<string>("");
-
-
+    const [token, setToken] = useState<string | null>("");
+    const router = useRouter();    
+    let idUser: number|string|null  ;
 
     useEffect(() => {
-        setImage("")       
-      }, []);  
+    if(localStorage.getItem("token")!==null){
+            setToken(localStorage.getItem("token"))          
+        }else{
+            router.replace('/login-page')
+        }
+        idUser = localStorage.getItem("id_user")
+        fetchData();
+    }, []);  
 
+    const goEdit = () => {
+    router.push('/profile-edit')
+    };
+
+    const fetchData = async() => {
+        const { data } = await client.query({
+            query: GET_PROFILE,
+            variables: {id: idUser},
+            context: {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        })
+        
+        setName(data.usersById.name)
+        setEmail(data.usersById.email)
+        setBirthday(data.usersById.birth_date)
+        setPassword(data.usersById.password)
+        setGender(data.usersById.gender)
+        setAddress(data.usersById.address)
+        setPhone(data.usersById.phone_number)
+        setImage(data.usersById.photo)
+    }
 
     return(
+        <Box>
+            {/* <Header/> */}
         <Box  sx={{ 
             margin:"5% 10% 5% 10%"
          }}>
@@ -50,6 +92,9 @@ const Profile = () => {
              
              <Box sx={{ 
                  padding: "5%",
+                 display:"flex",
+                 flexDirection : "column",
+                 gap : "5vh",
               }}>
                   <Box sx={{ 
                       display:"flex",
@@ -61,39 +106,54 @@ const Profile = () => {
                            width: "50%",
                            display:"flex",
                            flexDirection : "column",
-                           height : "40vh",
-                            gap : "10%",                            
+                            gap : "5vh",                            
                         }}>
                             <CustomParagraph content="Name" />
                             <CustomParagraph content="Birthday" />
                             <CustomParagraph content="Email" />
-                            <CustomParagraph content="Password" />
                             <CustomParagraph content="Gender" />
                             <CustomParagraph content="Address" />
                             <CustomParagraph content="Phone Number" />
+                            
                        </Box>
                        <Box sx={{ 
                            width: "50%",
                            display:"flex",
                            flexDirection : "column",
-                           height : "40vh",
-                            gap : "10%",
+                            gap : "5vh",
                         }}>
                             <CustomParagraph content={name} />
                             <CustomParagraph content={birthday} />
                             <CustomParagraph content={email} />
-                            <CustomParagraph content={password}/>
                             <CustomParagraph content={gender} />
                             <CustomParagraph content={address}/>
-                            <CustomParagraph content={phone} />                            
-
+                            <CustomParagraph content={phone} /> 
                        </Box>
-
+                       
+                  </Box>
+                  <Box sx={{ 
+                      display:"flex",
+                      flexDirection: "row", 
+                   }}>
+                      <Box sx={{ 
+                          width:"50%"
+                       }}>
+                      <CustomButtonSecondary width="30%" caption="EDIT" OnClick={goEdit}/>
+                      </Box>
+                      <Box sx={{ 
+                          width:"50%",
+                          textAlign:"end"
+                       }}>
+                      <CustomButtonPrimary width="30%" caption="DELETE"/>
+                      </Box>
+                       
                   </Box>
 
              </Box>
 
         </Box>
+        {/* <Footer/> */}
+    </Box>
     )
 }
 

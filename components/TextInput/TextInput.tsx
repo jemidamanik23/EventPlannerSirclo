@@ -75,7 +75,7 @@ function TextInput(props:inputDetail) {
     <Box>
         <Typography><CustomParagraph content={props.textLabel}/> <span style={{ color: "red" }}>{props.errorVal}</span></Typography>
         
-        <CustomInput  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
+        <CustomInput value={props.value}  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
     </Box>
     
     )
@@ -120,7 +120,7 @@ function TextArea(props:inputDetail) {
     <Box>
         <Typography><CustomParagraph content={props.textLabel}/> <span style={{ color: "red" }}>{props.errorVal}</span></Typography>
         
-        <CustomTextArea  placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
+        <CustomTextArea value={props.value} placeholder={props.placeholder} type={props.type} onChange={props.onChange} />
     </Box>
     
     )

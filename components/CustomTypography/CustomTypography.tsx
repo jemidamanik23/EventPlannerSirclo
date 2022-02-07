@@ -35,7 +35,7 @@ function CustomH1({ content }: { content:string | undefined}) {
     );
   }
 
-  function CustomParagraph({ content }: { content:string | undefined}) {
+  function CustomParagraph({ content }: { content:string | undefined | number}) {
     return (
       <Typography sx={{ 
         fontFamily: "Nunito",

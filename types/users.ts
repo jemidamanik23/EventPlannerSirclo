@@ -17,3 +17,8 @@ interface UsersType {
     gender: string
     address: string
 }
+
+export type alertType = {
+    message: string;
+    status: "error" | "info" | "success" | "warning" | undefined;
+};

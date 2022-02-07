@@ -1,3 +1,4 @@
+import Context from "@mui/base/TabsUnstyled/TabsContext";
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CommentBox from "../../components/CommentBox/CommentBox";
@@ -5,36 +6,65 @@ import { CustomButtonPrimary, CustomButtonSecondary } from "../../components/Cus
 import { CustomH1, CustomParagraph, CustomParticipantNumberBox, CustomTitle } from "../../components/CustomTypography/CustomTypography";
 import { ParticipantBox, ParticipantNumber } from "../../components/ParticipantBox/ParticipantBox";
 import { TextInput } from "../../components/TextInput/TextInput";
+import { useEffect } from "react";
+import client from "../../utils/apollo-client";
+import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT } from "../../utils/queries";
+import { useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 
-const DetailEvent = () => {
-    // dummy
-    const [detailEvent, setDetailEvent] = useState<{title: string, image: string, category: string, location: string, start_date: string, end_date: string, details: string}>({
-        title: "Nobar LFC",
-        image: "https://asset.kompas.com/crops/XkmYW_kYriJrbuoh2iGAokbwDxU=/0x0:1280x853/750x500/data/photo/2019/04/01/2005092166.jpeg",
-        category: "Sport",
-        location: "Bandung",
-        start_date: "23 Februari 2022",
-        end_date: "23 Februari 2022",
-        details: "Nobar Liverpool Official Fans Club di Bandung"
-    })
+export type participantTypes = {
+    id: number,
+    id_event: number,
+    id_user: number,
+    name: string,
+    email: string,
+    photo: string
+  };
 
-    const [participants, setParticipants] = useState<{id: number, name: string}[]>([
-        {id: 1, name: "Adi"}, 
-        {id: 2, name: "Jemi"}, 
-        {id: 3, name: "Ryan"},
-        {id: 4, name: "Hilmi"}, 
-        {id: 5, name: "Eldy"}, 
-        {id: 6, name: "Dhaifan"},
-        {id: 7, name: "Bahtiar"}
-    ]);
+  export type commentTypes = {
+      id_user: number,
+      comment: string,
+      name: string,
+      email: string,
+      photo: string,
+      id: number,
+      id_event: number
+
+
+  }
+
+const DetailEvent = (props:any) => {
+    const [title, setTitle] = useState<string>("");
+    const [image, setImage] = useState<string>("");
+    const [category, setCategory] = useState<number>(1);
+    const [location, setLocation] = useState<string>("");
+    const [start, setStart] = useState<string>("");
+    const [end, setEnd] = useState<string>("");
+    const [details, setdetails] = useState<string>("");
+    const [token, setToken] = useState<string | null>("");
+    const [idUser, setIdUsers] = useState<string | null>("");
+    
+    const [sumParticipant, setSumParticipant] = useState<number | null>(0);
+    const [postComment] = useMutation(POST_COMMENT);
+    const [setJoinEvent] = useMutation(JOIN_EVENT);
+    const router = useRouter();
+    // const {id} = router.query;
+    const id = parseInt(router.query.id as string, 10)
+    const [idEvent, setIdEvent] = useState<number>(5);
+    
+    const participantDefault: participantTypes[] = [];
+    const [dataParticipant, setDataParticipant] = useState(participantDefault);
+    const commentDefault: commentTypes[] = [];
+    const [dataComment, setDataComment] = useState(commentDefault)
     const [countParticipants, setCountParticipants] = useState<number>(7);
     const [inputComment, setInputComment] = useState<string>("");
     const [commentError, setCommentError] = useState<string>("");
-    const [comments, setComments] = useState<{id: number, comment: string}[]>([
-        {id: 1, comment: "Seruuuuu"},
-        {id: 2, comment: "Sugoiiii"}
-    ]);
     const [disabledVal, setDisabled] = useState<boolean>(false);
+
+    // if(id!==undefined)(
+    // setIdEvent(parseInt(id))
+    // )
+
 
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -47,19 +77,87 @@ const DetailEvent = () => {
         }
     };
 
-    const fetchData = async () => {
+    useEffect(() => {
+        if(localStorage.getItem("token")!==null){            
+            setToken(localStorage.getItem("token"));  
+            setIdUsers(localStorage.getItem("id_user")) 
+            setIdEvent(id)
+                fetchData();        
+                fetchComment();          
+            
+        }else{
+        }
+
+      }, []);  
+
+      const fetchData = async () => {      
+        const { data } = await client.query({
+            query: GET_EVENT_DETAILS,
+            variables : {id:idEvent},
+        })
+        console.log(id)
+        console.log(idEvent)        
+        console.log(data)
+        console.log(data.eventsById.comments);  
+        setDataComment(data.eventsById.comments)
+        // setIdEvent(data.eventsById.id)
+        setTitle(data.eventsById.title)
+        setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxiA3wZcNw_qdIFKsVKrKLX3ObK3qxQ7Hig&usqp=CAU")
+        setCategory(data.eventsById.id_category)
+        setLocation(data.eventsById.location)
+        setStart(data.eventsById.start_date)
+        setEnd(data.eventsById.end_date)
+        setdetails(data.eventsById.details)        
+        if(data.eventsById.participant!==null && data.eventsById.participant!==undefined){
+            setSumParticipant((data.eventsById.participant).length)
+        }
+        const datas = data.eventsById.participant
+        setDataParticipant(data.eventsById.participant);
+
+    };
+
+    const join = async () => {
+        setJoinEvent({
+            variables: {id_event:id, id_user: idUser},
+            context: {
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+        })        
+    }
+
+    const fetchComment = async () => {
+        // const { data } = await client.query({
+        //     query: GET_COMMENT,
+        //     variables : {id_event:1},
+        //     context: {
+        //         headers: { 
+        //           Authorization: `Bearer ${token}`,
+        //         },
+        //       },
+        // })
+        // console.log(data.comments)
+        // setDataComment(data.comments)
+        
+    };
+
+    const sendComment = async () => {
         if (inputComment === "") {
           setCommentError("Comment Empty");
         } else {
-          setDisabled(true);   
-        //   const { data } = await client.query({
-        //     query: GET_LOGIN,
-        //     variables: { email, password },
-        //   })
-        //   console.log(data);
-          //localStorage.setItem("token", data.login.token);
+          setDisabled(true);
 
+        postComment({
+            variables: { id_event: id, id_user: idUser, comment: inputComment },
+            context: {
+                      headers: { 
+                        Authorization: `Bearer ${token}`,
+                      },
+                    },
+        })
           setInputComment("");
+          router.push('/details/5')
         }    
     };
 
@@ -83,7 +181,7 @@ const DetailEvent = () => {
                         fontSize: "36px",
                         color: "#000000",
                     }}>
-                    <CustomH1 content={detailEvent.title} />
+                    <CustomH1 content={title} />
                     </Typography>
                 </Box>
                 <Box
@@ -102,7 +200,7 @@ const DetailEvent = () => {
                         color: "#000000",
                         textAlign: "center"
                         }}>
-                        <CustomH1 content={detailEvent.title} />
+                        <CustomH1 content={title} />
                     </Typography>
                     </Box>
                 </Box>
@@ -110,31 +208,31 @@ const DetailEvent = () => {
                     <Grid item xs={6} md={5}>
                         <Box sx={{ display: { xs: "block", md: "block" }, alignItems: "center" }}>
                             <img 
-                            src={detailEvent.image} 
-                            alt={detailEvent.title}
+                            src={image} 
+                            alt={title}
                             width="70%"
                             >
                                 {/* <CustomH1 content={detailEvent.title} /> */}
                             </img>
                         </Box>
                         <Box sx={{ display: { xs: "block", md: "block" }, justifyContent: "center" }}>
-                            <CustomButtonPrimary width="70%" caption="Join"/>
+                            <CustomButtonPrimary width="70%" caption="Join" OnClick={join}/>
                         </Box>
                     </Grid>
                     <Grid item xs={6} md={5}>
-                        <CustomParagraph content={detailEvent.location} />
-                        <CustomParagraph content={detailEvent.details} />
-                        <CustomParagraph content={detailEvent.start_date} />
+                        <CustomParagraph content={location} />
+                        <CustomParagraph content={details} />
+                        <CustomParagraph content={start} />
                     </Grid>
                 </Grid>
                 <Box sx={{mt:5}}>
-                    <ParticipantNumber content={5}/>
+                    <ParticipantNumber content={sumParticipant}/>
                 </Box>
                 <Box sx={{mt:5}}>
                     <Grid container spacing={2}>
-                        {participants.map((value)=>(
-                            <Grid item xs={8} md={3} key={value.id}>
-                                <ParticipantBox participant={value.name}/>
+                        {dataParticipant.map((item:any)=>(
+                            <Grid item xs={8} md={3} key={item.id}>
+                                <ParticipantBox participant={item.name}/>
                             </Grid>
                         ))}
                     </Grid>
@@ -142,14 +240,14 @@ const DetailEvent = () => {
                 <Box sx={{mt:5}}>
                     <Grid container spacing={1}>
                         <Grid item xs={9} md={9}>
-                            <TextInput textLabel='' placeholder='Komentar anda!' type='text' onChange={(e) => handleComment(e)} errorVal={commentError}/>
+                            <TextInput value={inputComment} textLabel='' placeholder='Komentar anda!' type='text' onChange={(e) => handleComment(e)} errorVal={commentError}/>
                         </Grid>
                         <Grid item xs={3} md={3}>
-                            <CustomButtonSecondary caption='Kirim' width='60%' OnClick={fetchData} isDisabled={disabledVal}/>
+                            <CustomButtonSecondary caption='Kirim' width='60%' OnClick={sendComment} isDisabled={disabledVal}/>
                         </Grid>
                     </Grid>
                 </Box>
-                {comments.map((value)=>(
+                {dataComment.map((value)=>(
                 <Box sx={{mt:3}} key={value.id}>
                     <CommentBox  caption={value.comment}/>
                 </Box>
