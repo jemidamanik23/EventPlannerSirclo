@@ -10,6 +10,25 @@ import { useEffect } from "react";
 import client from "../../utils/apollo-client";
 import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT } from "../../utils/queries";
 import { useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+
+export type participantTypes = {
+    id: number,
+    id_event: number,
+    id_user: number,
+    name: string,
+    email: string,
+    photo: string
+  };
+
+  export type commentTypes = {
+      id_user: number,
+      comment: string,
+      name: string,
+      email: string,
+      photo: string
+
+  }
 
 const DetailEvent = (props:any) => {
     const [title, setTitle] = useState<string>("");
@@ -21,28 +40,19 @@ const DetailEvent = (props:any) => {
     const [details, setdetails] = useState<string>("");
     const [token, setToken] = useState<string | null>("");
     const [idUser, setIdUsers] = useState<string | null>("");
+    const [idEvent, setIdEvent] = useState<number | null>(1);
     const [sumParticipant, setSumParticipant] = useState<number | null>(0);
-    const [postComment] = useMutation(POST_COMMENT)
-
+    const [postComment] = useMutation(POST_COMMENT);
     const [setJoinEvent] = useMutation(JOIN_EVENT);
-
-
-    const [participants, setParticipants] = useState<{id: number, name: string}[]>([
-        {id: 1, name: "Adi"}, 
-        {id: 2, name: "Jemi"}, 
-        {id: 3, name: "Ryan"},
-        {id: 4, name: "Hilmi"}, 
-        {id: 5, name: "Eldy"}, 
-        {id: 6, name: "Dhaifan"},
-        {id: 7, name: "Bahtiar"}
-    ]);
+    const router = useRouter();
+    const {id} = router.query;
+    const participantDefault: participantTypes[] = [];
+    const [dataParticipant, setDataParticipant] = useState(participantDefault);
+    const commentDefault: commentTypes[] = [];
+    const [dataComment, setDataComment] = useState(commentDefault)
     const [countParticipants, setCountParticipants] = useState<number>(7);
     const [inputComment, setInputComment] = useState<string>("");
     const [commentError, setCommentError] = useState<string>("");
-    const [comments, setComments] = useState<{id: number, comment: string}[]>([
-        {id: 1, comment: "Seruuuuu"},
-        {id: 2, comment: "Sugoiiii"}
-    ]);
     const [disabledVal, setDisabled] = useState<boolean>(false);
 
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +71,7 @@ const DetailEvent = (props:any) => {
             setToken(localStorage.getItem("token"));  
             setIdUsers(localStorage.getItem("id_user"))
             fetchData();        
+            fetchComment();
         }else{
         }
 
@@ -69,11 +80,11 @@ const DetailEvent = (props:any) => {
       const fetchData = async () => {
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:1}
-        })
-        console.log(data);  
-        console.log(data.eventsById.participant)   
+            variables : {id:id},
 
+        })
+        // console.log(data);  
+        setIdEvent(data.eventsById.id)
         setTitle(data.eventsById.title)
         setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxiA3wZcNw_qdIFKsVKrKLX3ObK3qxQ7Hig&usqp=CAU")
         setCategory(data.eventsById.id_category)
@@ -81,32 +92,49 @@ const DetailEvent = (props:any) => {
         setStart(data.eventsById.start_date)
         setEnd(data.eventsById.end_date)
         setdetails(data.eventsById.details)        
-
         if(data.eventsById.participant!==null && data.eventsById.participant!==undefined){
-            setSumParticipant(data.eventsById.participant)
+            setSumParticipant((data.eventsById.participant).length)
         }
+        const datas = data.eventsById.participant
+        setDataParticipant(data.eventsById.participant);
+
+
     };
 
     const join = async () => {
-        setJoinEvent({variables: {id_event:1, id_user: idUser}})
+        setJoinEvent({
+            variables: {id_event:id, id_user: idUser},
+            context: {
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+        })        
     }
 
     const fetchComment = async () => {
+        const { data } = await client.query({
+            query: GET_COMMENT,
+            variables : {id_event:1},
+            context: {
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+        })
+        console.log(data.comments)
+        setDataComment(data.comments)
+        
+    };
+
+    const sendComment = async () => {
         if (inputComment === "") {
           setCommentError("Comment Empty");
         } else {
-          setDisabled(true);   
-        //   const { data } = await client.mutate({
-        //     mutation: POST_COMMENT,
-        //     variables: { id_event: 1, id_user: idUser, comment: inputComment },
-        //     context: {
-        //       headers: { 
-        //         Authorization: `Bearer ${token}`,
-        //       },
-        //     },
-        //   });
+          setDisabled(true);
+
         postComment({
-            variables: { id_event: 1, id_user: idUser, comment: inputComment },
+            variables: { id_event: id, id_user: idUser, comment: inputComment },
             context: {
                       headers: { 
                         Authorization: `Bearer ${token}`,
@@ -115,6 +143,7 @@ const DetailEvent = (props:any) => {
 
         })
           setInputComment("");
+          router.push('/details/1')
         }    
     };
 
@@ -187,9 +216,9 @@ const DetailEvent = (props:any) => {
                 </Box>
                 <Box sx={{mt:5}}>
                     <Grid container spacing={2}>
-                        {participants.map((value)=>(
-                            <Grid item xs={8} md={3} key={value.id}>
-                                <ParticipantBox participant={value.name}/>
+                        {dataParticipant.map((item:any)=>(
+                            <Grid item xs={8} md={3} key={item.id}>
+                                <ParticipantBox participant={item.name}/>
                             </Grid>
                         ))}
                     </Grid>
@@ -197,15 +226,15 @@ const DetailEvent = (props:any) => {
                 <Box sx={{mt:5}}>
                     <Grid container spacing={1}>
                         <Grid item xs={9} md={9}>
-                            <TextInput textLabel='' placeholder='Komentar anda!' type='text' onChange={(e) => handleComment(e)} errorVal={commentError}/>
+                            <TextInput value={inputComment} textLabel='' placeholder='Komentar anda!' type='text' onChange={(e) => handleComment(e)} errorVal={commentError}/>
                         </Grid>
                         <Grid item xs={3} md={3}>
-                            <CustomButtonSecondary caption='Kirim' width='60%' OnClick={fetchComment} isDisabled={disabledVal}/>
+                            <CustomButtonSecondary caption='Kirim' width='60%' OnClick={sendComment} isDisabled={disabledVal}/>
                         </Grid>
                     </Grid>
                 </Box>
-                {comments.map((value)=>(
-                <Box sx={{mt:3}} key={value.id}>
+                {dataComment.map((value)=>(
+                <Box sx={{mt:3}} key={value.id_user}>
                     <CommentBox  caption={value.comment}/>
                 </Box>
                 ))}
