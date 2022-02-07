@@ -39,7 +39,7 @@ const Profile = () => {
     };
 
     const fetchData = async() => {
-        const { data } = await client.query({
+        const { loading, error, data } = await client.query({
             query: GET_PROFILE,
             variables: {id: idUser},
             context: {
@@ -48,6 +48,14 @@ const Profile = () => {
                 }
             }
         })
+
+        if (loading) {
+            return <Box><CustomH1 content="Loading..."/></Box>
+        }
+
+        if (error) {
+            return <Box><CustomH1 content="Error BOI"/></Box>
+        }
         
         setName(data.usersById.name)
         setEmail(data.usersById.email)

@@ -31,7 +31,7 @@ const ProfileEdit = () => {
     const [token, setToken] = useState<string | null>("");
     const router = useRouter(); 
     let idUser: number|string|null  ;
-    const [editProfile] = useMutation(EDIT_PROFILE)
+    const [editProfile, ] = useMutation(EDIT_PROFILE)
 
     useEffect(() => {
       // if(localStorage.getItem("token")!==null){
@@ -45,7 +45,7 @@ const ProfileEdit = () => {
     }, []);  
 
     const fetchData = async () => {   
-          const { data } = await client.query({
+          const { loading, error, data } = await client.query({
             query: GET_PROFILE,
             variables: {id: id},
             context: {
@@ -54,6 +54,15 @@ const ProfileEdit = () => {
                 }
             }
           })
+
+          if (loading) {
+            return <Box><CustomH1 content="Loading..."/></Box>
+          }
+
+          if (error) {
+            return <Box><CustomH1 content="Error BOI"/></Box>
+          }
+
           setName(data.usersById.name)
           setEmail(data.usersById.email)
           setBirthday(data.usersById.birth_date)
@@ -76,12 +85,12 @@ const ProfileEdit = () => {
             password: password,
             id: id,
           },
-          context: {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
+            context: {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
             }
-        }
-      })
+          })
 
           router.push('/profile')
       }
@@ -179,13 +188,13 @@ const ProfileEdit = () => {
                       justifyContent :"flex-start",
                       width: "70wh",
                    }}>
-                       <TextInput textLabel="Name" placeholder="Shay Pattrick Cormac" type="text" onChange={(e) => handleName(e)} errorVal={nameError} defValue={name}/>
-                       <TextInput textLabel="Birthday" placeholder="Enter your birthday" type="text" onChange={(e) => handleBirthday(e)} errorVal={birthdayError} defValue={birthday}/>
-                       <TextInput textLabel="Email" placeholder="shaycormac@gmail.com" type="text" onChange={(e) => handleEmail(e)} errorVal={emailError} defValue={email}/>
-                       <TextInput textLabel="Gender" placeholder="male" type="text" onChange={(e) => handleGender(e)} errorVal={genderError} defValue={gender}/>
-                       <TextInput textLabel="Address" placeholder="Enter your address" type="text" onChange={(e) => handleAddres(e)} errorVal={addressError} defValue={address}/>
-                       <TextInput textLabel="Phone Number" placeholder="Enter your phone number" type="text" onChange={(e) => handlePhone(e)} errorVal={phoneError} defValue={phone}/>
-                       <TextInput textLabel="Image URL" placeholder="Enter your profile picture url" type="text" onChange={(e) => handleImage(e)} errorVal={imageError} defValue={image}/>
+                       <TextInput textLabel="Name" placeholder="Shay Pattrick Cormac" type="text" onChange={(e) => handleName(e)} errorVal={nameError} value={name}/>
+                       <TextInput textLabel="Birthday" placeholder="Enter your birthday" type="text" onChange={(e) => handleBirthday(e)} errorVal={birthdayError} value={birthday}/>
+                       <TextInput textLabel="Email" placeholder="shaycormac@gmail.com" type="text" onChange={(e) => handleEmail(e)} errorVal={emailError} value={email}/>
+                       <TextInput textLabel="Gender" placeholder="male" type="text" onChange={(e) => handleGender(e)} errorVal={genderError} value={gender}/>
+                       <TextInput textLabel="Address" placeholder="Enter your address" type="text" onChange={(e) => handleAddres(e)} errorVal={addressError} value={address}/>
+                       <TextInput textLabel="Phone Number" placeholder="Enter your phone number" type="text" onChange={(e) => handlePhone(e)} errorVal={phoneError} value={phone}/>
+                       <TextInput textLabel="Image URL" placeholder="Enter your profile picture url" type="text" onChange={(e) => handleImage(e)} errorVal={imageError} value={image}/>
                        <CustomButtonPrimary width="30%" caption="SUBMIT" OnClick={handleEdit} isDisabled={disabledVal} />
                   </Box>
              </Box>

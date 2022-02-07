@@ -22,6 +22,7 @@ const HomePage = () => {
     const [page, setPage] = React.useState(1);
 
     const [openAlert, setOpenAlert] = React.useState(false);
+    const [error, setError] = useState<any>()
 
     useEffect(() => {
         fetchData();
@@ -31,12 +32,14 @@ const HomePage = () => {
     const fetchData = async() => {
         const { data } = await client.query({
             query: GET_EVENT,
+            context: {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
         })
-        
+
         setEvents(data.events)
-        console.log(data.events.counts);
-        console.log(data);
-        
     }
 
     const fetchCategory = async() => {
@@ -72,7 +75,6 @@ const HomePage = () => {
     };
 
     return(
-        
         <Box>
             {console.log(events)}
             <Box
@@ -125,7 +127,7 @@ const HomePage = () => {
                             fontFamily: "Nunito",
                             fontWeight: "700",
                             }}>
-                             Urutkan
+                            Urutkan
                         </Typography>
                     </Box>
                     <Box sx={{ display: { xs: "none", md: "block" }, alignItems: "center" }}>
@@ -210,7 +212,7 @@ const HomePage = () => {
                         />
                     </Grid>
                     </Link>
-                     ))}
+                    ))}
                 </Grid>
                 <Box
                     sx={{

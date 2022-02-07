@@ -5,8 +5,12 @@ import { CustomButtonPrimary, CustomButtonSecondary } from "../../components/Cus
 import { CustomH1, CustomParagraph, CustomParticipantNumberBox, CustomTitle } from "../../components/CustomTypography/CustomTypography";
 import { ParticipantBox, ParticipantNumber } from "../../components/ParticipantBox/ParticipantBox";
 import { TextInput } from "../../components/TextInput/TextInput";
+import { useRouter } from "next/router";
 
 const DetailEvent = () => {
+    const router = useRouter();
+    const { id } = router.query;
+
     // dummy
     const [detailEvent, setDetailEvent] = useState<{title: string, image: string, category: string, location: string, start_date: string, end_date: string, details: string}>({
         title: "Nobar LFC",
@@ -84,6 +88,7 @@ const DetailEvent = () => {
                         color: "#000000",
                     }}>
                     <CustomH1 content={detailEvent.title} />
+                    {console.log("pid: ", id)}
                     </Typography>
                 </Box>
                 <Box

@@ -6,10 +6,14 @@ import { CustomButtonPrimary } from '../components/CustomButton/CustomButton';
 import { useState } from 'react';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+import { CREATE_EVENT, GET_CATEGORY } from '../utils/queries';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import client from '../utils/apollo-client';
 
 const CuEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
-    const [categoryEvent, setCategoryEvent] = useState<string>("");
+    const [categoryEvent, setCategoryEvent] = useState<any>();
     const [linkEvent, setLinkEvent] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
@@ -24,6 +28,8 @@ const CuEvent = () => {
     const [detailEventError, setDetailEventError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>("");
+    const [category, setCategory] = useState<any[]>([]);
+    const [createEvent] = useMutation(CREATE_EVENT)
     const router = useRouter();
 
     useEffect(() => {
@@ -32,13 +38,28 @@ const CuEvent = () => {
           }else{
               router.replace('/login-page')
           }
+          fetchCategory();
     }, []);
+
+    const fetchCategory = async() => {
+      const { data } = await client.query({
+          query: GET_CATEGORY,
+          context: {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+          }
+      })
+
+      console.log(data);
+      setCategory(data.category);
+  }
 
     const handleSubmit = async () => {
         if (nameEvent === "") {
           setNameEventError("Name is required");
-        } else if (categoryEvent === "") {
-          setCategoryEventError("Category is required");
+        // } else if (categoryEvent === "") {
+        //   setCategoryEventError("Category is required");
         } else if (linkEvent === "") {
             setLinkEventError("Link/Location is required");
         } else if (startDate === "") {
@@ -50,8 +71,24 @@ const CuEvent = () => {
         } else if (nameEventError === "") {
           setDisabled(true);   
 
+          createEvent({variables: {
+            id_category: categoryEvent,
+            title: nameEvent,
+            start_date: startDate,
+            end_date: endDate,
+            location: linkEvent,
+            details: detailEvent,
+            photo: imgEvent
+            
+          },
+            context: {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+            }
+          })
 
-          router.push('/events')
+          // router.push('/events')
           
           
         }
@@ -68,16 +105,16 @@ const CuEvent = () => {
         }
       };
 
-    const handleCategoryEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setCategoryEvent(value);
-        var len = e.target.value.length;
-        if (len > 1000) {
-          setCategoryEventError("your name is too long");
-        } else {
-          setCategoryEventError("");
-        }
-      };
+    // const handleCategoryEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const value = e.target.value;
+    //     setCategoryEvent(value);
+    //     var len = e.target.value.length;
+    //     if (len > 1000) {
+    //       setCategoryEventError("your name is too long");
+    //     } else {
+    //       setCategoryEventError("");
+    //     }
+    //   };
 
       const handleLinkEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -126,6 +163,10 @@ const CuEvent = () => {
         }
       };
 
+      const handleChange = (event: SelectChangeEvent) => {
+        setCategoryEvent(event.target.value);
+      };
+
 
   return (
       <Box sx={{ 
@@ -156,7 +197,24 @@ const CuEvent = () => {
                     <Box sx={{ 
                         width: "50%",
                      }}>
-                    <TextInput textLabel='Kategori' placeholder='Technology' type='text' onChange={(e) => handleCategoryEvent(e)} errorVal={categoryEventError}/>
+                       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                          <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
+                          <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={categoryEvent}
+                            onChange={handleChange}
+                            label="Category"
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            {category.map((item) => (
+                            <MenuItem key={item.id} value={item.id}>{item.description}</MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                    {/* <TextInput textLabel='Kategori' placeholder='Technology' type='text' onChange={(e) => handleCategoryEvent(e)} errorVal={categoryEventError}/> */}
                     </Box>                   
                </Box>
                <Box>

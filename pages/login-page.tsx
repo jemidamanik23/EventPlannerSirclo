@@ -7,6 +7,8 @@ import { Typography } from '@mui/material';
 import client from '../utils/apollo-client';
 import { GET_LOGIN } from '../utils/queries';
 import { useRouter } from "next/router";
+import { GraphQLError } from 'graphql';
+import { alertType } from '../types/users';
 
 const Login = () => {
     const [email, setEmail] = useState<string>("");
@@ -14,7 +16,23 @@ const Login = () => {
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
+    const [error, setError] = useState<string | undefined[] | undefined>([])
+    const [openAlert, setOpenAlert] = React.useState(false);
+    const [alert, setAlert] = useState<alertType>({
+      message: "",
+      status: "info",
+    });
     const router = useRouter();
+
+    const handleCloseAlert = (
+      event?: React.SyntheticEvent | Event,
+      reason?: string
+    ) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setOpenAlert(false);
+    };
 
     useEffect(() => {
       if(localStorage.getItem("token")!==null){
@@ -29,16 +47,21 @@ const Login = () => {
           setPasswordError("Password is required");
         } else if (emailError === "" && passwordError === "") {
           setDisabled(true);   
-          const { data } = await client.query({
+          const { errors, data } = await client.query({
             query: GET_LOGIN,
             variables: { email, password },
+            errorPolicy: `all`,
           })
           console.log(data);
-          localStorage.setItem("token", data.login.token);
-          localStorage.setItem("id_user", data.login.id_user);
+          console.log(errors);
+          setError(JSON.parse(JSON.stringify(errors)))
+          console.log(error)
+          
+          // localStorage.setItem("token", data.login.token);
+          // localStorage.setItem("id_user", data.login.id_user);
           setEmail("");
           setPassword("");
-          router.push('/home')
+          // router.push('/home')
         } 
           
       };
@@ -69,6 +92,7 @@ const Login = () => {
           setPasswordError("");
         }
       };
+      
   return (
       <Box sx={{ 
           margin:"5% 10% 5% 10%"
