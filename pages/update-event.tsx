@@ -6,10 +6,15 @@ import { CustomButtonPrimary } from '../components/CustomButton/CustomButton';
 import { useState } from 'react';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+import { CREATE_EVENT } from '../utils/queries';
+import client from "../utils/apollo-client"
+import { start } from 'repl';
 
-const CuEvent = () => {
+const UpdateEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
     const [categoryEvent, setCategoryEvent] = useState<string>("");
+    const [categoryEventInt, setCategoryEventInt] = useState<number>(1);
     const [linkEvent, setLinkEvent] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
@@ -24,6 +29,7 @@ const CuEvent = () => {
     const [detailEventError, setDetailEventError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>("");
+    const [setCuEvent] = useMutation(CREATE_EVENT);
     const router = useRouter();
 
     useEffect(() => {
@@ -50,9 +56,22 @@ const CuEvent = () => {
         } else if (nameEventError === "") {
           setDisabled(true);   
 
-
-          router.push('/events')
-          
+          setCuEvent({
+            variables: {id_category: categoryEventInt,
+              title: nameEvent,
+              start_date: startDate,
+              end_date: endDate,
+              location: linkEvent,
+              details: detailEvent,
+              photo: imgEvent
+            },
+            context: {
+                      headers: { 
+                        Authorization: `Bearer ${token}`,
+                      },
+                    },
+        })
+          router.push('/events')        
           
         }
       };
@@ -69,14 +88,15 @@ const CuEvent = () => {
       };
 
     const handleCategoryEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setCategoryEvent(value);
-        var len = e.target.value.length;
-        if (len > 1000) {
-          setCategoryEventError("your name is too long");
-        } else {
-          setCategoryEventError("");
-        }
+        const value =parseInt(e.target.value);
+        setCategoryEvent(e.target.value);
+        setCategoryEventInt(value);
+
+        // if (len > 1000) {
+        //   setCategoryEventError("your name is too long");
+        // } else {
+        //   setCategoryEventError("");
+        // }
       };
 
       const handleLinkEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +122,7 @@ const CuEvent = () => {
       const handleEndDate = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setEndDate(value);
-        var len = e.target.value.length;
+
       };
       const handleImgEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -194,4 +214,4 @@ const CuEvent = () => {
   );
 };
 
-export default CuEvent;
+export default UpdateEvent;
