@@ -22,6 +22,7 @@ const DetailEvent = (props:any) => {
     const [token, setToken] = useState<string | null>("");
     const [idUser, setIdUsers] = useState<string | null>("");
     const [sumParticipant, setSumParticipant] = useState<number | null>(0);
+    const [postComment] = useMutation(POST_COMMENT)
 
     const [setJoinEvent] = useMutation(JOIN_EVENT);
 
@@ -95,16 +96,24 @@ const DetailEvent = (props:any) => {
           setCommentError("Comment Empty");
         } else {
           setDisabled(true);   
-          const { data } = await client.mutate({
-            mutation: POST_COMMENT,
+        //   const { data } = await client.mutate({
+        //     mutation: POST_COMMENT,
+        //     variables: { id_event: 1, id_user: idUser, comment: inputComment },
+        //     context: {
+        //       headers: { 
+        //         Authorization: `Bearer ${token}`,
+        //       },
+        //     },
+        //   });
+        postComment({
             variables: { id_event: 1, id_user: idUser, comment: inputComment },
             context: {
-              headers: { 
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          });
+                      headers: { 
+                        Authorization: `Bearer ${token}`,
+                      },
+                    },
 
+        })
           setInputComment("");
         }    
     };
