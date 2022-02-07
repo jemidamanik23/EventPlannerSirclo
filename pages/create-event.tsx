@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_EVENT } from '../utils/queries';
 import client from "../utils/apollo-client"
+import { start } from 'repl';
 
 const CuEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
@@ -55,20 +56,22 @@ const CuEvent = () => {
         } else if (nameEventError === "") {
           setDisabled(true);   
 
-          const { data } = await client.mutate({
-            mutation: CREATE_EVENT,
-            variables: {categoryEventInt, nameEvent, startDate, endDate, linkEvent, detailEvent, imgEvent},
-            context: {
-              headers: { 
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
+          setCuEvent({
+            variables: {id_category: categoryEventInt,
+              title: nameEvent,
+              start_date: startDate,
+              end_date: endDate,
+              location: linkEvent,
+              details: detailEvent,
+              photo: imgEvent
             },
-          });
-          // setCuEvent({variables: {categoryEvent, nameEvent, startDate, endDate, linkEvent, detailEvent, imgEvent}})
-          console.log(data)
-
-          router.push('/events')
-          
+            context: {
+                      headers: { 
+                        Authorization: `Bearer ${token}`,
+                      },
+                    },
+        })
+          router.push('/events')        
           
         }
       };

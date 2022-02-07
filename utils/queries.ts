@@ -192,3 +192,21 @@ export const GET_CATEGORY = gql`
         }
     }
 `;
+
+export const GET_MYEVENT = gql`
+query ($id:Int!) {
+    myEvent(id_user: $id){
+        id
+        id_user
+        id_category
+        title
+        start_date
+        end_date
+        location
+        details
+        photo
+        created_at
+        updated_at
+        deleted_at
+    }
+}`
