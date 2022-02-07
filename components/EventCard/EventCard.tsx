@@ -15,8 +15,8 @@ interface eventcard {
   srcImage?: string;
   eventTitle: string;
   time: string;
-  category:string;
-  handleDelete?:()=>void
+  category:string |number;
+  handleDelete?:()=>void |any;
   handleEdit?:()=>void
 
 }

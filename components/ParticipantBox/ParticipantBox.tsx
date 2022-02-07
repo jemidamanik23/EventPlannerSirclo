@@ -25,7 +25,7 @@ function ParticipantBox({ participant }: { participant: string }) {
     );
 }
 
-function ParticipantNumber({ content }: { content: number }) {
+function ParticipantNumber({ content }: { content: number | string | null}) {
     return (
         <Box sx={{ 
             width:"200px",
