@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queries';
+import { CREATE_EVENT, GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queries';
 import client from "../../utils/apollo-client"
 import { start } from 'repl';
 
@@ -94,7 +94,7 @@ const UpdateEvent = () => {
                       },
                     },
         })
-        //   router.push('/events')   
+        router.push('/events')   
         
         }
       };

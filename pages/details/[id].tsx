@@ -9,7 +9,7 @@ import { TextInput } from "../../components/TextInput/TextInput";
 import { useEffect } from "react";
 import client from "../../utils/apollo-client";
 import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT } from "../../utils/queries";
-import { useMutation } from "@apollo/client";
+import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 
 export type participantTypes = {
@@ -55,7 +55,7 @@ const DetailEvent = (props:any) => {
     const participantDefault: participantTypes[] = [];
     const [dataParticipant, setDataParticipant] = useState(participantDefault);
     const commentDefault: commentTypes[] = [];
-    const [dataComment, setDataComment] = useState(commentDefault)
+    const [dataComment, setDataComment] = useState<commentTypes[]>([])
     const [countParticipants, setCountParticipants] = useState<number>(7);
     const [inputComment, setInputComment] = useState<string>("");
     const [commentError, setCommentError] = useState<string>("");
@@ -71,7 +71,7 @@ const DetailEvent = (props:any) => {
         setInputComment(value);
         var len = e.target.value.length;
         if (len > 50) {
-          setCommentError("your password is too long");
+          setCommentError("your comment is too long");
         } else {
           setCommentError("");
         }
@@ -83,7 +83,7 @@ const DetailEvent = (props:any) => {
             setIdUsers(localStorage.getItem("id_user")) 
             setIdEvent(id)
                 fetchData();        
-                fetchComment();          
+                //fetchComment();          
             
         }else{
         }
@@ -93,7 +93,7 @@ const DetailEvent = (props:any) => {
       const fetchData = async () => {      
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:idEvent},
+            variables : {id:id},
         })
         console.log(id)
         console.log(idEvent)        
@@ -119,26 +119,33 @@ const DetailEvent = (props:any) => {
     const join = async () => {
         setJoinEvent({
             variables: {id_event:id, id_user: idUser},
+            onCompleted: (data)=> {
+                console.log(data);
+            },
+              onError:(error:ApolloError)=>{
+                console.log(error.message);
+            },
             context: {
                 headers: { 
                   Authorization: `Bearer ${token}`,
                 },
-              },
+            },
         })        
     }
 
     const fetchComment = async () => {
         // const { data } = await client.query({
         //     query: GET_COMMENT,
-        //     variables : {id_event:1},
+        //     variables : {id_event:id},
+        //     errorPolicy: `ignore`,
         //     context: {
         //         headers: { 
         //           Authorization: `Bearer ${token}`,
         //         },
-        //       },
+        //     },
         // })
         // console.log(data.comments)
-        // setDataComment(data.comments)
+        //setDataComment(data.comments)
         
     };
 
@@ -157,7 +164,8 @@ const DetailEvent = (props:any) => {
                     },
         })
           setInputComment("");
-          router.push('/details/5')
+          
+          router.push(`/details/${id}`)
         }    
     };
 
