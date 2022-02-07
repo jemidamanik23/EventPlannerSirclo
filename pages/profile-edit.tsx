@@ -50,21 +50,21 @@ const ProfileEdit = () => {
     };
 
     useEffect(() => {
-      // if(localStorage.getItem("token")!==null){
-      //         setToken(localStorage.getItem("token"))          
-      //     }else{
-      //         router.replace('/login-page')
-      //     }
+      if(localStorage.getItem("token")!==null){
+              setToken(localStorage.getItem("token"))       
+              setId(localStorage.getItem("id_user"));
+              fetchData();   
+          }else{
+              router.replace('/login-page')
+          }
 
-      setId(localStorage.getItem("id_user"));
-
-      fetchData();
+      
     }, []);  
 
     const fetchData = async () => {
       const { data } = await client.query({
         query: GET_PROFILE,
-        variables: {id: parseInt(id)},
+        variables: {id: localStorage.getItem("id_user")},
         context: {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
