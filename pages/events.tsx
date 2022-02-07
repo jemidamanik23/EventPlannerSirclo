@@ -9,7 +9,8 @@ import { Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
-
+import { GET_EVENT_DETAILS} from "../utils/queries"
+import client from "../utils/apollo-client"
 
 const Event = () => {
     const router = useRouter();
@@ -33,9 +34,30 @@ const Event = () => {
 
       ]);
 
+      const fetchData = async () => {
+        // if (name === "") {
+        //   setNameError("Name is required");
+        // } else if (email === "") {
+        //   setEmailError("Email is required");
+        // } else if (emailError === "") {
+        //   setDisabled(true);    
+          const { data } = await client.query({
+            query: GET_EVENT_DETAILS,
+            variables: { id: localStorage.getItem("id_user") },
+            context: {
+              headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            },
+          });
+          console.log(data);     
+          
+      };
+
       useEffect(() => {
         if(localStorage.getItem("token")!==null){
-                setToken(localStorage.getItem("token"))          
+                setToken(localStorage.getItem("token"));  
+                fetchData();        
             }else{
                 router.replace('/login-page')
             }

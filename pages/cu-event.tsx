@@ -6,10 +6,14 @@ import { CustomButtonPrimary } from '../components/CustomButton/CustomButton';
 import { useState } from 'react';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+import { CREATE_EVENT } from '../utils/queries';
+import client from "../utils/apollo-client"
 
 const CuEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
     const [categoryEvent, setCategoryEvent] = useState<string>("");
+    const [categoryEventInt, setCategoryEventInt] = useState<number>(1);
     const [linkEvent, setLinkEvent] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
@@ -24,6 +28,7 @@ const CuEvent = () => {
     const [detailEventError, setDetailEventError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>("");
+    const [setCuEvent] = useMutation(CREATE_EVENT);
     const router = useRouter();
 
     useEffect(() => {
@@ -50,6 +55,17 @@ const CuEvent = () => {
         } else if (nameEventError === "") {
           setDisabled(true);   
 
+          const { data } = await client.mutate({
+            mutation: CREATE_EVENT,
+            variables: {categoryEventInt, nameEvent, startDate, endDate, linkEvent, detailEvent, imgEvent},
+            context: {
+              headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            },
+          });
+          // setCuEvent({variables: {categoryEvent, nameEvent, startDate, endDate, linkEvent, detailEvent, imgEvent}})
+          console.log(data)
 
           router.push('/events')
           
@@ -69,14 +85,15 @@ const CuEvent = () => {
       };
 
     const handleCategoryEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setCategoryEvent(value);
-        var len = e.target.value.length;
-        if (len > 1000) {
-          setCategoryEventError("your name is too long");
-        } else {
-          setCategoryEventError("");
-        }
+        const value =parseInt(e.target.value);
+        setCategoryEvent(e.target.value);
+        setCategoryEventInt(value);
+
+        // if (len > 1000) {
+        //   setCategoryEventError("your name is too long");
+        // } else {
+        //   setCategoryEventError("");
+        // }
       };
 
       const handleLinkEvent = (e: React.ChangeEvent<HTMLInputElement>) => {

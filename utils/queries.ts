@@ -123,6 +123,7 @@ export const GET_EVENT = gql`
     }
 `;
 
+
 export const CREATE_EVENT = gql`
 mutation (
         $id_category: Int!,
