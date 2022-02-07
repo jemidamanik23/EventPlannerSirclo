@@ -58,7 +58,7 @@ const Home = ({users}: Users) => {
       <Login/> 
       <Register/> 
       <HomePage/>*/}
-      <HomePage/>
+      <Login/>
     </div>
     
   )
