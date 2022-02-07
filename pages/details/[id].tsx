@@ -93,7 +93,7 @@ const DetailEvent = (props:any) => {
       const fetchData = async () => {      
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:idEvent},
+            variables : {id:id},
         })
         console.log(id)
         console.log(idEvent)        
