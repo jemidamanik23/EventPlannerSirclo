@@ -202,8 +202,8 @@ const HomePage = () => {
                     },
                     }}>
                     {events.map((value) => (
-                    <Link href={`/details/${value.id}`}>
-                    <Grid item key={value.id}>
+                    <Link key={value.id} href={`/details/${value.id}`}>
+                    <Grid item>
                         <HomeCard
                         name={value.title}
                         image={value.photo}
