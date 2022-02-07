@@ -9,6 +9,8 @@ import GetToken from "../utils/getToken";
 import PrivateRoute from "../utils/privateRoute";
 import { CustomButtonPrimary, CustomButtonSecondary } from "../components/CustomButton/CustomButton";
 import { GET_PROFILE } from "../utils/queries";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer";
 
 const Profile = () => {
     const [name, setName] = useState<string>("");
@@ -60,6 +62,8 @@ const Profile = () => {
     }
 
     return(
+        <Box>
+            {/* <Header/> */}
         <Box  sx={{ 
             margin:"5% 10% 5% 10%"
          }}>
@@ -148,6 +152,8 @@ const Profile = () => {
              </Box>
 
         </Box>
+        {/* <Footer/> */}
+    </Box>
     )
 }
 

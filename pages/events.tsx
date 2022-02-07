@@ -61,14 +61,18 @@ const Event = () => {
       }, []); 
 
       const addEvent = async () => {
-          router.push('/cu-event')
+          router.push('/create-event')
     }
 
     const nextEvent = async () => {
         router.push('/eventHistory')
     }
 
-      const handleEdit = async () => {
+
+      const handleEdit =async (id: number) => {
+        router.push('/update-event/5')
+        
+
       }
 
       const handleDelete =async (id: number) => {
@@ -123,7 +127,7 @@ const Event = () => {
                {dataEvents.map((value) => (
                 <Grid item key={value.id}>
                     <Box>
-                        <EventCard eventTitle={value.title} time={value.start_date} category={value.id_category} handleEdit={handleEdit} handleDelete={() => handleDelete(value.id)} />
+                        <EventCard eventTitle={value.title} time={value.start_date} category={value.id_category} handleEdit={() => handleEdit(value.id)} handleDelete={() => handleDelete(value.id)} />
                     </Box>
                </Grid>
 

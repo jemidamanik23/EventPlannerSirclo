@@ -16,6 +16,8 @@ import Login from './login-page'
 import Register from './register'
 import HomePage from './home'
 import EventHistory from './eventHistory'
+import Header from '../components/Header/Header'
+import Footer from '../components/Footer'
 
 const Home = ({users}: Users) => {
   // useEffect(()=>{
@@ -58,7 +60,9 @@ const Home = ({users}: Users) => {
       <Login/> 
       <Register/> 
       <HomePage/>*/}
+      <Header/>
       <Login/>
+      <Footer/>
     </div>
     
   )

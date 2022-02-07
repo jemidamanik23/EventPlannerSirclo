@@ -47,10 +47,10 @@ const UpdateEvent = () => {
     const fetchData = async () => {
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:5},
+            variables : {id:8},
 
         })
-        console.log(data.eventsById.details)        
+        console.log(data)        
         setNameEvent(data.eventsById.title)
         setCategoryEventInt(data.eventsById.id_category)
         setLinkEvent(data.eventsById.location)
@@ -86,7 +86,7 @@ const UpdateEvent = () => {
               location: linkEvent,
               details: detailEvent,
               photo: imgEvent,
-              id:5,
+              id:8,
             },
             context: {
                       headers: { 
@@ -94,7 +94,8 @@ const UpdateEvent = () => {
                       },
                     },
         })
-        //   router.push('/events')     
+        //   router.push('/events')   
+        
         }
       };
 
