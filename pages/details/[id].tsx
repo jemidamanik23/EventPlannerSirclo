@@ -26,7 +26,10 @@ export type participantTypes = {
       comment: string,
       name: string,
       email: string,
-      photo: string
+      photo: string,
+      id: number,
+      id_event: number
+
 
   }
 
@@ -46,6 +49,7 @@ const DetailEvent = (props:any) => {
     const [setJoinEvent] = useMutation(JOIN_EVENT);
     const router = useRouter();
     const {id} = router.query;
+    
     const participantDefault: participantTypes[] = [];
     const [dataParticipant, setDataParticipant] = useState(participantDefault);
     const commentDefault: commentTypes[] = [];
@@ -54,6 +58,10 @@ const DetailEvent = (props:any) => {
     const [inputComment, setInputComment] = useState<string>("");
     const [commentError, setCommentError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
+
+    // if(id!==undefined)(
+    // setIdEvent(parseInt(id))
+    // )
 
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -77,12 +85,14 @@ const DetailEvent = (props:any) => {
 
       }, []);  
 
-      const fetchData = async () => {
+      const fetchData = async () => {          
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:id},
+            variables : {id:1},
 
         })
+        console.log(idEvent)        
+        console.log(data)
         console.log(data.eventsById.comments);  
         setDataComment(data.eventsById.comments)
         setIdEvent(data.eventsById.id)
@@ -98,7 +108,6 @@ const DetailEvent = (props:any) => {
         }
         const datas = data.eventsById.participant
         setDataParticipant(data.eventsById.participant);
-
 
     };
 
@@ -234,7 +243,7 @@ const DetailEvent = (props:any) => {
                     </Grid>
                 </Box>
                 {dataComment.map((value)=>(
-                <Box sx={{mt:3}} key={value.id_user}>
+                <Box sx={{mt:3}} key={value.id}>
                     <CommentBox  caption={value.comment}/>
                 </Box>
                 ))}

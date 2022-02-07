@@ -33,12 +33,7 @@ const Event = () => {
     const [deleteEvent] = useMutation(DELETE_EVENT);
 
       const fetchData = async () => {
-        // if (name === "") {
-        //   setNameError("Name is required");
-        // } else if (email === "") {
-        //   setEmailError("Email is required");
-        // } else if (emailError === "") {
-        //   setDisabled(true);    
+
           const { data } = await client.query({
             query: GET_MYEVENT,
             variables: { id: localStorage.getItem("id_user") },
@@ -49,6 +44,7 @@ const Event = () => {
             },
           });
           console.log((data.myEvent).length); 
+          console.log(data)
           if((data.myEvent).length!==0){
             setDataComment(data.myEvent)
           }    

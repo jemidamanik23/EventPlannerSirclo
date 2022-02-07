@@ -210,3 +210,30 @@ query ($id:Int!) {
         deleted_at
     }
 }`
+
+export const UPDATE_EVENT = gql`
+mutation ($id_category: Int!,
+    $title: String!,
+    $start_date: String!,
+    $end_date: String!,
+    $location: String!,
+    $details: String!,
+    $photo: String!,
+    $id: Int!
+    ){
+    updateEvent(
+        input:{
+            id_category: $id_category,
+            title: $title,
+            start_date: $start_date,
+            end_date: $end_date,
+            location: $location,
+            details: $details,
+            photo: $photo
+        }, id:$id
+    ){
+        code
+        message
+    }
+}
+`;
