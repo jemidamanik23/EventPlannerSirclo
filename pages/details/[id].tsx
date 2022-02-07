@@ -83,7 +83,8 @@ const DetailEvent = (props:any) => {
             variables : {id:id},
 
         })
-        // console.log(data);  
+        console.log(data.eventsById.comments);  
+        setDataComment(data.eventsById.comments)
         setIdEvent(data.eventsById.id)
         setTitle(data.eventsById.title)
         setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxiA3wZcNw_qdIFKsVKrKLX3ObK3qxQ7Hig&usqp=CAU")
@@ -113,17 +114,17 @@ const DetailEvent = (props:any) => {
     }
 
     const fetchComment = async () => {
-        const { data } = await client.query({
-            query: GET_COMMENT,
-            variables : {id_event:1},
-            context: {
-                headers: { 
-                  Authorization: `Bearer ${token}`,
-                },
-              },
-        })
-        console.log(data.comments)
-        setDataComment(data.comments)
+        // const { data } = await client.query({
+        //     query: GET_COMMENT,
+        //     variables : {id_event:1},
+        //     context: {
+        //         headers: { 
+        //           Authorization: `Bearer ${token}`,
+        //         },
+        //       },
+        // })
+        // console.log(data.comments)
+        // setDataComment(data.comments)
         
     };
 
@@ -140,7 +141,6 @@ const DetailEvent = (props:any) => {
                         Authorization: `Bearer ${token}`,
                       },
                     },
-
         })
           setInputComment("");
           router.push('/details/1')
