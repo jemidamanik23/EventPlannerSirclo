@@ -3,7 +3,7 @@ import { Box } from '@mui/system';
 import { CustomH1, CustomParagraph } from '../components/CustomTypography/CustomTypography';
 import { TextInput } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton';
-import { Typography } from '@mui/material';
+import { Alert, Snackbar, Typography } from '@mui/material';
 import client from '../utils/apollo-client';
 import { GET_LOGIN } from '../utils/queries';
 import { useRouter } from "next/router";
@@ -20,7 +20,7 @@ const Login = () => {
     const [openAlert, setOpenAlert] = React.useState(false);
     const [alert, setAlert] = useState<alertType>({
       message: "",
-      status: "info",
+      status: "error",
     });
     const router = useRouter();
 
@@ -50,18 +50,24 @@ const Login = () => {
           const { errors, data } = await client.query({
             query: GET_LOGIN,
             variables: { email, password },
-            errorPolicy: `all`,
+            errorPolicy: `ignore`,
           })
           console.log(data);
-          console.log(errors);
-          setError(JSON.parse(JSON.stringify(errors)))
-          console.log(error)
+          if(data==null){
+            setAlert({
+              message: "Login Gagal",
+              status: "error",
+            });
+            setOpenAlert(true);
+          } else {
+            localStorage.setItem("token", data.login.token);
+            localStorage.setItem("id_user", data.login.id_user);
+            setEmail("");
+            setPassword("");
+            router.push('/home')
+          }
           
-          // localStorage.setItem("token", data.login.token);
-          // localStorage.setItem("id_user", data.login.id_user);
-          setEmail("");
-          setPassword("");
-          // router.push('/home')
+          
         } 
           
       };
@@ -132,7 +138,17 @@ const Login = () => {
                 </Box>  
                        
             </Box>
-
+            <Snackbar
+                open={openAlert}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}>
+                <Alert
+                  onClose={handleCloseAlert}
+                  color={alert.status}
+                  sx={{ width: "100%" }}>
+                  {alert.message}
+                </Alert>
+            </Snackbar>
            
 
       </Box>
