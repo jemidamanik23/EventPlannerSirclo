@@ -165,7 +165,7 @@ const DetailEvent = (props:any) => {
         })
           setInputComment("");
           
-          router.push(`/details/${id}`)
+          
         }    
     };
 

@@ -28,6 +28,7 @@ const HomePage = () => {
     useEffect(() => {
         fetchData();
         fetchCategory();
+        
     }, []); 
 
     const fetchData = async() => {
@@ -41,6 +42,7 @@ const HomePage = () => {
         })
 
         setEvents(data.events)
+        
     }
 
     const fetchCategory = async() => {
