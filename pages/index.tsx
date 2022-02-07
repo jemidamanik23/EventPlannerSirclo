@@ -60,9 +60,7 @@ const Home = ({users}: Users) => {
       <Login/> 
       <Register/> 
       <HomePage/>*/}
-      <Header/>
-      <Login/>
-      <Footer/>
+      <HomePage/>
     </div>
     
   )

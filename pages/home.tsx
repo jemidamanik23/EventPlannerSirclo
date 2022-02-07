@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import client from "../utils/apollo-client";
 import { GET_CATEGORY, GET_EVENT } from "../utils/queries";
+import Footer from "../components/Footer";
+import Header from "../components/Header/Header";
 
 const HomePage = () => {
     const router = useRouter();
@@ -77,6 +79,7 @@ const HomePage = () => {
 
     return(
         <Box>
+            <Header/>
             <Box
                 sx={{
                     minHeight: "900px",
@@ -105,31 +108,7 @@ const HomePage = () => {
                     justifyContent: "space-between",
                     }}>
                     {/* Sub Header */}
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <IconButton
-                            id='category-button'
-                            aria-controls="basic-menu"
-                            aria-haspopup='true'
-                            aria-expanded = "true"
-                            //onClick={handleClickCategory}
-                            size='small'
-                            sx={{
-                            backgroundColor: "#FFFFFF",
-                            border: "2px solid #F34F51",
-                            borderRadius: "5px",
-                            "&:hover": { backgroundColor: "#F34F51" },
-                            }}>
-                            <FilterListIcon sx={{ color: "black" }} />
-                        </IconButton>
-                        <Typography
-                            sx={{
-                            marginLeft: "10px",
-                            fontFamily: "Nunito",
-                            fontWeight: "700",
-                            }}>
-                            Urutkan
-                        </Typography>
-                    </Box>
+
                     <Box sx={{ display: { xs: "none", md: "block" }, alignItems: "center" }}>
                     <Typography
                         sx={{
@@ -258,6 +237,7 @@ const HomePage = () => {
                     Jalan
                 </Alert>
                 </Snackbar>
+                <Footer/>
         </Box>
     )
 }

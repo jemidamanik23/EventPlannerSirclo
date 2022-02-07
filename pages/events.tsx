@@ -12,6 +12,8 @@ import { useEffect } from 'react';
 import { GET_MYEVENT, DELETE_EVENT} from "../utils/queries"
 import client from "../utils/apollo-client"
 import { useMutation } from '@apollo/client';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer';
 
 export type eventsTypes = {
   id: number,
@@ -88,6 +90,8 @@ const Event = () => {
       }
 
   return (
+    <Box>
+      <Header/>
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
@@ -134,6 +138,8 @@ const Event = () => {
                ))}
 
              </Box>
+      </Box>
+      <Footer/>
       </Box>
   );
 };

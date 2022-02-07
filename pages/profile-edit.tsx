@@ -9,6 +9,8 @@ import { EDIT_PROFILE, GET_PROFILE } from "../utils/queries"
 import client from "../utils/apollo-client"
 import { ApolloError, useMutation } from "@apollo/client"
 import { alertType } from "../types/users"
+import Header from "../components/Header/Header"
+import Footer from "../components/Footer"
 
 
 const ProfileEdit = () => {
@@ -202,6 +204,8 @@ const ProfileEdit = () => {
     };
 
     return(
+      <Box>
+        <Header/>
         <Box  sx={{ 
             margin:"5% 10% 5% 10%",
             width:"100wh",
@@ -227,6 +231,8 @@ const ProfileEdit = () => {
                        <CustomButtonPrimary width="30%" caption="SUBMIT" OnClick={handleEdit} isDisabled={disabledVal} />
                   </Box>
              </Box>
+        </Box>
+        <Footer/>
         </Box>
     )
 }
