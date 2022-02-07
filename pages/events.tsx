@@ -9,30 +9,28 @@ import { Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
-import { GET_EVENT_DETAILS} from "../utils/queries"
+import { GET_MYEVENT, DELETE_EVENT} from "../utils/queries"
 import client from "../utils/apollo-client"
+import { useMutation } from '@apollo/client';
+
+export type eventsTypes = {
+  id: number,
+  id_user: number,
+  id_category: number,
+  title: string,
+  start_date: string,
+  end_date: string,
+  location: string,
+  details: string,
+  photo: string
+}
 
 const Event = () => {
     const router = useRouter();
     const [token, setToken] = useState<string | null>("");
-    const [events, setEvents] = useState<{title: string, time: string, category: string}[]>([
-        {
-        title: "Nobar LFC",
-        time: "13 Januari 2022",
-        category: "Technology"
-          },
-        {
-        title: "Nobar LFC",
-        time: "13 Januari 2022",
-        category: "Technology"
-            },
-        {
-        title: "Nobar LFC",
-        time: "13 Januari 2022",
-        category: "Technology"
-            },
-
-      ]);
+    const eventsDefault: eventsTypes[] = [];
+    const [dataEvents, setDataComment] = useState(eventsDefault);
+    const [deleteEvent] = useMutation(DELETE_EVENT);
 
       const fetchData = async () => {
         // if (name === "") {
@@ -42,7 +40,7 @@ const Event = () => {
         // } else if (emailError === "") {
         //   setDisabled(true);    
           const { data } = await client.query({
-            query: GET_EVENT_DETAILS,
+            query: GET_MYEVENT,
             variables: { id: localStorage.getItem("id_user") },
             context: {
               headers: { 
@@ -50,7 +48,10 @@ const Event = () => {
               },
             },
           });
-          console.log(data);     
+          console.log((data.myEvent).length); 
+          if((data.myEvent).length!==0){
+            setDataComment(data.myEvent)
+          }    
           
       };
 
@@ -74,11 +75,17 @@ const Event = () => {
       const handleEdit = async () => {
       }
 
-      const handleDelete = async () => {
+      const handleDelete =async (id: number) => {
+        deleteEvent({
+          variables: { id:id },
+          context: {
+                    headers: { 
+                      Authorization: `Bearer ${token}`,
+                    },
+                  },
+        })
+
       }
-
-
-
 
   return (
       <Box sx={{ 
@@ -117,10 +124,10 @@ const Event = () => {
                     </Box>                   
                </Box>
                
-               {events.map((value) => (
-                <Grid item key={1}>
+               {dataEvents.map((value) => (
+                <Grid item key={value.id}>
                     <Box>
-                        <EventCard eventTitle={value.title} time={value.time} category={value.category} handleEdit={handleEdit} handleDelete={handleDelete} />
+                        <EventCard eventTitle={value.title} time={value.start_date} category={value.id_category} handleEdit={handleEdit} handleDelete={() => handleDelete(value.id)} />
                     </Box>
                </Grid>
 
