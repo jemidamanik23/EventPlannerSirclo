@@ -43,12 +43,14 @@ const DetailEvent = (props:any) => {
     const [details, setdetails] = useState<string>("");
     const [token, setToken] = useState<string | null>("");
     const [idUser, setIdUsers] = useState<string | null>("");
-    const [idEvent, setIdEvent] = useState<number | null>(1);
+    
     const [sumParticipant, setSumParticipant] = useState<number | null>(0);
     const [postComment] = useMutation(POST_COMMENT);
     const [setJoinEvent] = useMutation(JOIN_EVENT);
     const router = useRouter();
-    const {id} = router.query;
+    // const {id} = router.query;
+    const id = parseInt(router.query.id as string, 10)
+    const [idEvent, setIdEvent] = useState<number>(5);
     
     const participantDefault: participantTypes[] = [];
     const [dataParticipant, setDataParticipant] = useState(participantDefault);
@@ -63,6 +65,7 @@ const DetailEvent = (props:any) => {
     // setIdEvent(parseInt(id))
     // )
 
+
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setInputComment(value);
@@ -75,27 +78,29 @@ const DetailEvent = (props:any) => {
     };
 
     useEffect(() => {
-        if(localStorage.getItem("token")!==null){
+        if(localStorage.getItem("token")!==null){            
             setToken(localStorage.getItem("token"));  
-            setIdUsers(localStorage.getItem("id_user"))
-            fetchData();        
-            fetchComment();
+            setIdUsers(localStorage.getItem("id_user")) 
+            setIdEvent(id)
+                fetchData();        
+                fetchComment();          
+            
         }else{
         }
 
       }, []);  
 
-      const fetchData = async () => {          
+      const fetchData = async () => {      
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:1},
-
+            variables : {id:idEvent},
         })
+        console.log(id)
         console.log(idEvent)        
         console.log(data)
         console.log(data.eventsById.comments);  
         setDataComment(data.eventsById.comments)
-        setIdEvent(data.eventsById.id)
+        // setIdEvent(data.eventsById.id)
         setTitle(data.eventsById.title)
         setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxiA3wZcNw_qdIFKsVKrKLX3ObK3qxQ7Hig&usqp=CAU")
         setCategory(data.eventsById.id_category)
@@ -152,7 +157,7 @@ const DetailEvent = (props:any) => {
                     },
         })
           setInputComment("");
-          router.push('/details/1')
+          router.push('/details/5')
         }    
     };
 
