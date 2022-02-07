@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router";
 import { EDIT_PROFILE, GET_PROFILE } from "../utils/queries"
 import client from "../utils/apollo-client"
-import { useMutation } from "@apollo/client"
+import { ApolloError, useMutation } from "@apollo/client"
 import { alertType } from "../types/users"
 
 
@@ -95,6 +95,16 @@ const ProfileEdit = () => {
           address: address,
           password: password,
           id: id,
+        },
+        onCompleted: (data)=> {
+          console.log(data);
+          setName("")
+          setEmail("")
+          setPassword("")
+          router.push('/home')
+        },
+        onError:(error:ApolloError)=>{
+          console.log(error.message);
         },
         context: {
           headers: {

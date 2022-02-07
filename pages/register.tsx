@@ -4,7 +4,7 @@ import { CustomH1, CustomParagraph } from '../components/CustomTypography/Custom
 import { TextInput } from '../components/TextInput/TextInput';
 import { CustomButtonPrimary, CustomButtonSecondary } from '../components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { SET_REGISTER } from '../utils/queries';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
@@ -36,11 +36,23 @@ const Register = () => {
           setPasswordError("Password is required");
         } else if (emailError === "" && nameError === "" && passwordError === "") {
           setDisabled(true);          
-          setRegister({variables: {name, email, password}})
-          setName("")
-          setEmail("")
-          setPassword("")
-          router.push('/login-page')
+          setRegister({
+            variables: {
+              name, 
+              email, 
+              password},
+            onCompleted: (data)=> {
+              console.log(data);
+              setName("")
+              setEmail("")
+              setPassword("")
+              router.push('/login-page')
+            },
+            onError:(error:ApolloError)=>{
+              console.log(error.message);
+            }
+          })
+          
         }
       };
       const login = () => {
