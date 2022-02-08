@@ -126,9 +126,9 @@ const HomePage = () => {
                     md: "50px 100px 0px 100px",
                     },
                 }}>
-                <Box sx={{ display: { xs: "block", md: "none" } }}>
+                {/* <Box sx={{ display: { xs: "block", md: "none" } }}>
                     <CustomH1 content='Events' />
-                </Box>
+                </Box> */}
                 <Box
                     sx={{
                     display: "flex",
@@ -136,7 +136,12 @@ const HomePage = () => {
                     justifyContent: "space-between",
                     }}>
                     {/* Sub Header */}
-                    <Box sx={{ display: { xs: "none", md: "block" }, alignItems: "center" }}>
+                    <Box sx={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        flexDirection:"row",
+                        justifyContent: "space-between"
+                          }}>
                     <Typography
                         sx={{
                         fontFamily: "Nunito",
@@ -204,7 +209,7 @@ const HomePage = () => {
                     maxWidth: "1300px",
                     minHeight: "800px",
                     justifyContent: {
-                        xs: "space-between",
+                        xs: "center",
                         sm: "space-evenly",
                         md: "flex-start",
                     },

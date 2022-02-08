@@ -12,11 +12,35 @@ function CustomH1({ content }: { content:string | undefined}) {
     );
   }
 
+  function CustomH1White({ content }: { content:string | undefined}) {
+    return (
+      <Typography sx={{ 
+        fontFamily: "Nunito",
+        fontSize:{xs:"30px", sm:"40px",md:"48px"},
+        color:"white",
+       }}>
+           {content}
+      </Typography>
+    );
+  }
+
   function CustomH2({ content }: { content:string | undefined}) {
     return (
       <Typography sx={{ 
         fontFamily: "Nunito",
         fontSize:{xs:"20px", sm:"24px",md:"28px"},
+       }}>
+           {content}
+      </Typography>
+    );
+  }
+
+  function CustomH2White({ content }: { content:string | undefined}) {
+    return (
+      <Typography sx={{ 
+        fontFamily: "Nunito",
+        fontSize:{xs:"20px", sm:"24px",md:"28px"},
+        color: "white"
        }}>
            {content}
       </Typography>
@@ -34,6 +58,7 @@ function CustomH1({ content }: { content:string | undefined}) {
       </Typography>
     );
   }
+  
 
   function CustomParagraph({ content }: { content:string | undefined | number}) {
     return (
@@ -41,6 +66,18 @@ function CustomH1({ content }: { content:string | undefined}) {
         fontFamily: "Nunito",
         fontSize:{xs:"12px", sm:"18px",md:"20px"},
         color:"#000000",
+       }}>
+           {content}
+      </Typography>
+    );
+  }
+
+  function CustomParagraphWhite({ content }: { content:string | undefined | number}) {
+    return (
+      <Typography sx={{ 
+        fontFamily: "Nunito",
+        fontSize:{xs:"12px", sm:"18px",md:"20px"},
+        color:"#FFFFFF",
        }}>
            {content}
       </Typography>
@@ -86,4 +123,4 @@ function CustomH1({ content }: { content:string | undefined}) {
   }
   
   
-  export { CustomH1, CustomPlaceholder, CustomH2, CustomParagraph, CustomParticipantBox, CustomParticipantNumberBox, CustomTitle };
+  export { CustomH1,  CustomH1White, CustomPlaceholder, CustomH2, CustomH2White, CustomParagraph, CustomParagraphWhite, CustomParticipantBox, CustomParticipantNumberBox, CustomTitle };
