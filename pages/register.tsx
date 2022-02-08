@@ -8,6 +8,8 @@ import { ApolloError, useMutation } from '@apollo/client';
 import { SET_REGISTER } from '../utils/queries';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer';
 
 const Register = () => {
     const [name, setName] = useState<string>("");
@@ -93,6 +95,7 @@ const Register = () => {
       };
   return (
     <>
+      <Header/>
       <Box sx={{ 
           margin:"5px 200px 5px 200px"
        }}>
@@ -134,6 +137,7 @@ const Register = () => {
            
 
       </Box>
+      <Footer/>
     </>
   )
 };

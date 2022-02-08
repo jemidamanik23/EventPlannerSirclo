@@ -109,7 +109,7 @@ export const JOIN_EVENT = gql`
 
 export const GET_EVENT = gql`
     query{
-        events(offset: 0, limit: 4){
+        events(offset: 0, limit: 10){
             id
             id_user
             id_category

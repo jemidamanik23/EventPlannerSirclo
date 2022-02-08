@@ -11,6 +11,8 @@ import client from "../../utils/apollo-client";
 import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT } from "../../utils/queries";
 import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header/Header";
 
 export type participantTypes = {
     id: number,
@@ -95,21 +97,19 @@ const DetailEvent = (props:any) => {
             query: GET_EVENT_DETAILS,
             variables : {id:id},
         })
-        console.log(id)
-        console.log(idEvent)        
-        console.log(data)
-        console.log(data.eventsById.comments);  
+        console.log(data);
+        // console.log(data.eventsById.comments);  
         setDataComment(data.eventsById.comments)
-        // setIdEvent(data.eventsById.id)
+        setIdEvent(data.eventsById.id)
         setTitle(data.eventsById.title)
-        setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxiA3wZcNw_qdIFKsVKrKLX3ObK3qxQ7Hig&usqp=CAU")
+        setImage(data.eventsById.photo)
         setCategory(data.eventsById.id_category)
         setLocation(data.eventsById.location)
         setStart(data.eventsById.start_date)
         setEnd(data.eventsById.end_date)
         setdetails(data.eventsById.details)        
         if(data.eventsById.participant!==null && data.eventsById.participant!==undefined){
-            setSumParticipant((data.eventsById.participant).length)
+             setSumParticipant((data.eventsById.participant).length)
         }
         const datas = data.eventsById.participant
         setDataParticipant(data.eventsById.participant);
@@ -155,23 +155,28 @@ const DetailEvent = (props:any) => {
         } else {
           setDisabled(true);
 
-        postComment({
-            variables: { id_event: id, id_user: idUser, comment: inputComment },
-            context: {
-                      headers: { 
-                        Authorization: `Bearer ${token}`,
-                      },
-                    },
-        })
-          setInputComment("");
-          
-          router.push(`/details/${id}`)
-        }    
+            postComment({
+                variables: { id_event: id, id_user: idUser, comment: inputComment },
+                onCompleted: (data) => {
+                    console.log(data);
+                    //refetch();
+                },
+                context: {
+                        headers: { 
+                            Authorization: `Bearer ${token}`,
+                        },
+                },
+            })
+            setInputComment("");
+            
+            router.push(`/details/${id}`)
+            }    
     };
 
 
     return (
         <Box>
+            <Header/>
             <Box
                 sx={{
                     minHeight: "900px",
@@ -255,12 +260,15 @@ const DetailEvent = (props:any) => {
                         </Grid>
                     </Grid>
                 </Box>
+                {console.log(dataComment)}
+                {console.log(id)}
                 {dataComment.map((value)=>(
                 <Box sx={{mt:3}} key={value.id}>
                     <CommentBox  caption={value.comment}/>
                 </Box>
                 ))}
             </Box>
+            <Footer/>
         </Box>
     )
 }

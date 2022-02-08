@@ -10,6 +10,8 @@ import { useMutation } from '@apollo/client';
 import { CREATE_EVENT } from '../utils/queries';
 import client from "../utils/apollo-client"
 import { start } from 'repl';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer';
 
 const CuEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
@@ -152,6 +154,7 @@ const CuEvent = () => {
           width: "90wh", 
           margin: "5% ",
        }}>
+         <Header/>
            <Box sx={{ 
                textAlign:"center",
             }}>
@@ -210,6 +213,7 @@ const CuEvent = () => {
                     <CustomButtonPrimary width='25vh' caption='SIMPAN' OnClick={handleSubmit} isDisabled={disabledVal}/>
                 </Box>
            </Box>
+          <Footer/>
       </Box>
   );
 };

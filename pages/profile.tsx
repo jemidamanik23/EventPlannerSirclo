@@ -63,7 +63,7 @@ const Profile = () => {
 
     return(
         <Box>
-            {/* <Header/> */}
+            <Header/>
         <Box  sx={{ 
             margin:"5% 10% 5% 10%"
          }}>
@@ -152,7 +152,7 @@ const Profile = () => {
              </Box>
 
         </Box>
-        {/* <Footer/> */}
+        <Footer/>
     </Box>
     )
 }
