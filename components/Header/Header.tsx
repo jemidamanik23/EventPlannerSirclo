@@ -88,8 +88,9 @@ function Header({
         justifyContent: "space-between",
         alignItems: "center",
       }}>
-          <Box sx={{ display: { xs: "none", md: "block" } }}>
-          <Image src={logo} alt="eventkoe" width="120" height="50" 
+          {/* <Box sx={{ display: { xs: "block", md: "block" } }}> */}
+          <Box sx={{ display: `${!isHidden ? {xs: "none", md: "block", sm:"none"} : "block"}` }}>
+          <Image src={logo} alt="eventkoe" width="70%" height="40vh" 
           onClick={() => router.push('/')} />
           </Box>
 
@@ -117,7 +118,7 @@ function Header({
               onChange={handleGetText}
               className='input-search'
               type='text'
-              style={{ outline: "none", border: "none", background: "#F34F51" }}
+              style={{ outline: "none", border: "none", background: "#F34F51", color:"white" }}
               placeholder='Search'
             />
           </Box>
@@ -175,7 +176,7 @@ function Header({
                   aria-expanded={open ? "true" : undefined}>
                   <Avatar
 
-                    sx={{ width: "25px", height: "25px" }}
+                    sx={{ width: "25px", height: "25px", color: "#F34F51", background:"white" }}
                   />
 
                   <Typography sx={{ fontFamily: "Nunito", marginLeft: "10px", color: "white" }}>

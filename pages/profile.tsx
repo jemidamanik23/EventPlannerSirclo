@@ -45,7 +45,7 @@ const Profile = () => {
         setId(localStorage.getItem("id_user"))
         refetch();
         console.log(router.route);
-        
+        console.log(data )
         
         
     }, [router.route]);  
@@ -84,7 +84,8 @@ const Profile = () => {
         <Box>
             <Header isHidden={true}/>
         <Box  sx={{ 
-            margin:"5% 10% 5% 10%"
+            margin:"5% 10% 5% 10%",
+            minHeight: "80vh"
          }}>
              <CustomH1 content="Profile"/>
              <Box sx={{ 
@@ -104,7 +105,7 @@ const Profile = () => {
                         minWidth: "250px",
                         }}
                         src={data && data.usersById.photo}
-                        alt='vga'
+                        alt="Profile Picture"
                     />
                  </Box>
              </Box>

@@ -41,17 +41,18 @@ function EventCard(props: eventcard) {
                 display:"flex",
                 flexDirection:"row",
                 gap:"5px",
-                justifyContent: "space-between", 
+                justifyContent: "space-between",
              }}>
-                <Box sx={{ width: '80%' }}>
+                <Box sx={{ width: '60%' }}>
                     <CustomParagraph content={props.category}/>
                     <CustomParagraph content={props.time}/>
                 </Box>
                 <Box sx={{ 
-                    width:"20%",
+                    width:{xs:"45%",sm:"25%", md:"20%"},
                     display:"flex",
                     flexDirection:"row",
-                    gap:"5%", }}>
+                    paddingRight: {xs:"40%",sm:"5%", md:"0%"},
+                    gap:{xs:"10%", md:"4%"}, }}>
                     <ButtonEdit OnClick={props.handleEdit}/>
                     <ButtonDelete OnClick={props.handleDelete}/>                    
 
