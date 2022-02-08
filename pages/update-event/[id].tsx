@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box } from '@mui/system';
 import { CustomH1 } from '../../components/CustomTypography/CustomTypography';
-import { TextInput, TextArea } from '../../components/TextInput/TextInput';
+import { TextInput, TextArea, SelectInput } from '../../components/TextInput/TextInput';
 import { CustomButtonPrimary } from '../../components/CustomButton/CustomButton';
 import { useState } from 'react';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { CREATE_EVENT, GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queries';
+import { CREATE_EVENT, GET_EVENT_AND_CATEGORY, GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queries';
 import client from "../../utils/apollo-client"
 import Header from "../../components/Header/Header"
 import { start } from 'repl';
@@ -16,6 +16,7 @@ import Footer from '../../components/Footer';
 const UpdateEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
     const [categoryEvent, setCategoryEvent] = useState<string>("");
+    const [categoryEventList, setcategoryEventList] = useState<any[]>([]);
     const [categoryEventInt, setCategoryEventInt] = useState<number>(1);
     const [linkEvent, setLinkEvent] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
@@ -48,9 +49,14 @@ const UpdateEvent = () => {
 
     const fetchData = async () => {
         const { data } = await client.query({
-            query: GET_EVENT_DETAILS,
+            query: GET_EVENT_AND_CATEGORY,
             variables : {id:id},
-        })
+            // context: {
+            //   headers: { 
+            //     Authorization: `Bearer ${token}`,
+            //   },
+            // },
+          })
         console.log(data)        
         setNameEvent(data.eventsById.title)
         setCategoryEventInt(data.eventsById.id_category)
@@ -59,14 +65,12 @@ const UpdateEvent = () => {
         setImgEvent(data.eventsById.photo)
         setDetailEvent(data.eventsById.details)
         setIdUsers(data.eventsById.id_user)
-
+        setcategoryEventList(data.category)
     };
 
     const handleSubmit = async () => {
         if (nameEvent === "") {
           setNameEventError("Name is required");
-        } else if (categoryEvent === "") {
-          setCategoryEventError("Category is required");
         } else if (linkEvent === "") {
             setLinkEventError("Link/Location is required");
         } else if (startDate === "") {
@@ -90,10 +94,10 @@ const UpdateEvent = () => {
               id:8,
             },
             context: {
-                      headers: { 
-                        Authorization: `Bearer ${token}`,
-                      },
-                    },
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+            },
         })
         router.push('/events')   
         
@@ -115,12 +119,6 @@ const UpdateEvent = () => {
         const value =parseInt(e.target.value);
         setCategoryEvent(e.target.value);
         setCategoryEventInt(value);
-
-        // if (len > 1000) {
-        //   setCategoryEventError("your name is too long");
-        // } else {
-        //   setCategoryEventError("");
-        // }
       };
 
       const handleLinkEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,7 +200,15 @@ const UpdateEvent = () => {
                     <Box sx={{ 
                         width: "50%",
                      }}>
-                    <TextInput textLabel='Kategori' value={categoryEvent} placeholder='Technology' type='text' onChange={(e) => handleCategoryEvent(e)} errorVal={categoryEventError}/>
+                    {/* <TextInput textLabel='Kategori' value={categoryEvent} placeholder='Technology' type='text' onChange={(e) => handleCategoryEvent(e)} errorVal={categoryEventError}/> */}
+                    <SelectInput 
+                      textLabel='Kategori'
+                      errorVal={categoryEventError}
+                      value={categoryEventInt}
+                      onChange={(e) => handleCategoryEvent(e)}
+                      helperText='Pilih Kategori'
+                      data={categoryEventList}
+                    />
                     </Box>                   
                </Box>
                <Box>

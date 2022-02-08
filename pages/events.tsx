@@ -33,6 +33,7 @@ const Event = () => {
     const [token, setToken] = useState<string | null>("");
     const eventsDefault: eventsTypes[] = [];
     const [dataEvents, setDataComment] = useState(eventsDefault);
+    const [idUser, setIdUsers] = useState<string | null>("");
     const [deleteEvent] = useMutation(DELETE_EVENT);
     const [id, setId] = useState<number|string|null>();
 
@@ -67,8 +68,7 @@ const Event = () => {
       useEffect(() => {
         if(localStorage.getItem("token")!==null){
                 setToken(localStorage.getItem("token"));  
-                setId(localStorage.getItem("id_user"))
-                // fetchData();        
+                setId(localStorage.getItem("id_user"))      
                 refetch();
 
             }else{
@@ -108,6 +108,7 @@ const Event = () => {
           width: "90wh", 
           margin: "5% ",
        }}>
+         {console.log(idUser)}
            <Box sx={{ 
                textAlign:"center",
             }}>
