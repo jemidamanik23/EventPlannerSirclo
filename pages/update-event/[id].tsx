@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_EVENT, GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queries';
 import client from "../../utils/apollo-client"
+import Header from "../../components/Header/Header"
 import { start } from 'repl';
 
 const UpdateEvent = () => {
@@ -171,6 +172,8 @@ const UpdateEvent = () => {
 
 
   return (
+    <Box> 
+      <Header isHidden={true} />
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
@@ -233,6 +236,7 @@ const UpdateEvent = () => {
                     <CustomButtonPrimary width='25vh' caption='SIMPAN' OnClick={handleSubmit} isDisabled={disabledVal}/>
                 </Box>
            </Box>
+      </Box>
       </Box>
   );
 };

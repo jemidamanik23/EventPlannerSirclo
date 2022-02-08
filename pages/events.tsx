@@ -91,7 +91,7 @@ const Event = () => {
 
   return (
     <Box>
-      <Header/>
+      <Header isHidden={true} />
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",

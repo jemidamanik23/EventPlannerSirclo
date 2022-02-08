@@ -26,7 +26,7 @@ const EventHistory = () => {
 
     return(
         <Box>
-            <Header/>
+            <Header isHidden={true}/>
             <Box sx={{
                     minHeight: "900px",
                     padding: {

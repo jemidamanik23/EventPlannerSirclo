@@ -109,7 +109,7 @@ export const JOIN_EVENT = gql`
 
 export const GET_EVENT = gql`
     query{
-        events(offset: 0, limit: 4){
+        events(offset: 0, limit: 10){
             id
             id_user
             id_category
@@ -237,3 +237,21 @@ mutation ($id_category: Int!,
     }
 }
 `;
+
+export const GET_SEARCH =gql`
+query($search: String!) {
+    eventSearch(title: $search){
+        id
+        id_user
+        id_category
+        title
+        start_date
+        end_date
+        location
+        details
+        photo
+        created_at
+        updated_at
+        deleted_at
+    }
+}`

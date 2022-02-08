@@ -11,6 +11,8 @@ import client from "../../utils/apollo-client";
 import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT } from "../../utils/queries";
 import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer";
 
 export type participantTypes = {
     id: number,
@@ -172,6 +174,7 @@ const DetailEvent = (props:any) => {
 
     return (
         <Box>
+            <Header isHidden={true}/>
             <Box
                 sx={{
                     minHeight: "900px",
@@ -261,6 +264,7 @@ const DetailEvent = (props:any) => {
                 </Box>
                 ))}
             </Box>
+            <Footer/>
         </Box>
     )
 }
