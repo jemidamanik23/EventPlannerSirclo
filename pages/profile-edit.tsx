@@ -57,7 +57,7 @@ const ProfileEdit = () => {
               setId(localStorage.getItem("id_user"));
               fetchData();   
           }else{
-              router.replace('/login-page')
+              router.push('/login-page')
           }
 
       
@@ -103,7 +103,7 @@ const ProfileEdit = () => {
           setName("")
           setEmail("")
           setPassword("")
-          router.push('/home')
+          router.push('/profile')
         },
         onError:(error:ApolloError)=>{
           console.log(error.message);
@@ -228,7 +228,6 @@ const ProfileEdit = () => {
                        <CustomButtonPrimary width="30%" caption="SUBMIT" OnClick={handleEdit} isDisabled={disabledVal} />
                   </Box>
              </Box>
-            <Footer/>
         </Box>
         <Footer/>
         </Box>

@@ -9,10 +9,11 @@ import { TextInput } from "../../components/TextInput/TextInput";
 import { useEffect } from "react";
 import client from "../../utils/apollo-client";
 import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT, GET_PARTICIPANT } from "../../utils/queries";
-import { ApolloError, useMutation } from "@apollo/client";
+import { ApolloError, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer";
+
 
 export type participantTypes = {
     id: number,
@@ -62,7 +63,10 @@ const DetailEvent = (props:any) => {
     const [inputComment, setInputComment] = useState<string>("");
     const [commentError, setCommentError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
-
+    const { data, refetch } = useQuery(GET_COMMENT, {
+        variables : {id_event:id},
+        }
+    )
 
 
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,8 +86,8 @@ const DetailEvent = (props:any) => {
             setIdUsers(localStorage.getItem("id_user")) 
             setIdEvent(id)
                 fetchData();        
-                fetchComment();  
-                fetchParticipant();
+                //fetchComment();  
+                //fetchParticipant();
         }else{
         }
 
@@ -140,17 +144,18 @@ const DetailEvent = (props:any) => {
     };
 
     const fetchComment = async () => {
-        const { data } = await client.query({
-            query: GET_COMMENT,
-            variables : {id_event:id},
-            context: {
-                headers: { 
-                  Authorization: `Bearer ${token}`,
-                },
-            },
-        })
-        console.log(data.comments)
-        setDataComment(data.comments)
+        
+        // const { data } = await client.query({
+        //     query: GET_COMMENT,
+        //     variables : {id_event:id},
+        //     context: {
+        //         headers: { 
+        //           Authorization: `Bearer ${token}`,
+        //         },
+        //     },
+        // })
+        // console.log(data.comments)
+        // setDataComment(data.comments)
     };
 
     const sendComment = async () => {
@@ -166,8 +171,11 @@ const DetailEvent = (props:any) => {
                 Authorization: `Bearer ${token}`,
                 },
             },
+        }).finally(()=>{
+            refetch();
+            setInputComment("");
         })
-          setInputComment("");
+            
         }    
     };
 
@@ -258,7 +266,9 @@ const DetailEvent = (props:any) => {
                         </Grid>
                     </Grid>
                 </Box>
-                {dataComment.map((value)=>(
+                
+                {data && 
+                data.comments.map((value: any)=>(
                 <Box sx={{mt:3}} key={value.id}>
                     <CommentBox  caption={value.comment}/>
                 </Box>
