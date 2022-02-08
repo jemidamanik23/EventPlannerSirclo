@@ -97,7 +97,8 @@ const Register = () => {
     <>
       <Header/>
       <Box sx={{ 
-          margin:"5px 200px 5px 200px"
+          margin:"5% 10% 5% 10%",
+          background:"#A95050"
        }}>
            <Box sx={{ 
                padding:"2% 5% 2% 5%",
@@ -105,7 +106,7 @@ const Register = () => {
                 <CustomH1 content='Register' />
            </Box>
            <Box sx={{ 
-               width: "1000px",
+               width: "100%",
                height: "600px",
                border: "5px solid #C4C4C4",
                bordeRadius: "10%",
@@ -122,19 +123,15 @@ const Register = () => {
                 <Box sx={{ 
                     margin:"0% 5% 0% 5%",
                     display:"flex",
-                    flexDirection:"row",                    
+                    flexDirection:"row",        
+                    gap: "3px"            
                  }}>
                      <CustomParagraph content='Already have an account? '/>
-                     <Typography onClick={login}>
+                     <Typography onClick={login} sx={{ color:"white" }}>
                          Login
-                     </Typography>
-                     <span onClick={login} style={{ color: "#F34F51" }}>{" "} Login {" "}</span>{" "}
-                    
-                </Box>  
-                       
-            </Box>
-
-           
+                     </Typography>                    
+                </Box>                        
+            </Box>       
 
       </Box>
       <Footer/>

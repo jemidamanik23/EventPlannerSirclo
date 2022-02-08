@@ -200,8 +200,8 @@ const ProfileEdit = () => {
     };
 
     return(
-      <>
-      <Header/>
+      <Box>
+        <Header/>
         <Box  sx={{ 
             margin:"5% 10% 5% 10%",
             width:"100wh",
@@ -231,7 +231,7 @@ const ProfileEdit = () => {
             <Footer/>
         </Box>
         <Footer/>
-      </>
+        </Box>
     )
 }
 export default ProfileEdit

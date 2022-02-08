@@ -90,6 +90,8 @@ const Event = () => {
       }
 
   return (
+    <Box>
+      <Header/>
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
@@ -138,6 +140,8 @@ const Event = () => {
 
              </Box>
           <Footer/>
+      </Box>
+      <Footer/>
       </Box>
   );
 };

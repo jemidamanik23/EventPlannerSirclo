@@ -8,8 +8,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import client from "../utils/apollo-client";
 import { GET_CATEGORY, GET_EVENT } from "../utils/queries";
-import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import Header from "../components/Header/Header";
 
 const HomePage = () => {
     const router = useRouter();
@@ -218,18 +218,18 @@ const HomePage = () => {
                     />
                 </Box>
             </Box>
-            <Snackbar
-            open={openAlert}
-            autoHideDuration={6000}
-            onClose={handleCloseAlert}>
-            <Alert
-                onClose={handleCloseAlert}
-                color="warning"
-                sx={{ width: "100%" }}>
-                Jalan
-            </Alert>
-            </Snackbar>
-            <Footer/>
+                <Snackbar
+                open={openAlert}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}>
+                <Alert
+                    onClose={handleCloseAlert}
+                    color="warning"
+                    sx={{ width: "100%" }}>
+                    Jalan
+                </Alert>
+                </Snackbar>
+                <Footer/>
         </Box>
     )
 }

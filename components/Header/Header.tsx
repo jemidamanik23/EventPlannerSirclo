@@ -132,7 +132,7 @@ function Header({
           alignItems: "center",
           gap: "20px",
         }}>
-        <Tooltip title='Shopping Cart'>
+        <Tooltip title='My Events'>
           <Box
             onClick={toEvent}
             sx={{

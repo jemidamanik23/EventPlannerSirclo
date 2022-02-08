@@ -95,10 +95,13 @@ const Login = () => {
         }
       };
   return (
-    <>
-      <Header/>
+    <Box sx={{ 
+
+     }}>
+
       <Box sx={{ 
-          margin:"5% 10% 5% 10%"
+          margin:"5% 10% 5% 10%",
+          background:"#A95050"
        }}>
          
            <Box sx={{ 
@@ -128,7 +131,7 @@ const Login = () => {
                  }}>
                      <CustomParagraph content="Don't have any account?"/>
                      <Typography sx={{ 
-                         color:"#F34F51"
+                         color:"white"
                       }} 
                       onClick={signup}>
                      {" "}Register
@@ -147,8 +150,7 @@ const Login = () => {
                 </Alert>
             </Snackbar>  
       </Box>
-      <Footer/>
-    </>
+    </Box>
   )
 };
 
