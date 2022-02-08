@@ -72,8 +72,8 @@ const Event = () => {
 
 
       const handleEdit =async (id: number) => {
-        router.push('/update-event/5')
-        
+        router.push(`/update-event/${id}`)
+   
 
       }
 
@@ -91,7 +91,7 @@ const Event = () => {
 
   return (
     <Box>
-      <Header/>
+      <Header isHidden={true} />
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
