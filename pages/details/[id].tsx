@@ -86,8 +86,6 @@ const DetailEvent = (props:any) => {
             setIdUsers(localStorage.getItem("id_user")) 
             setIdEvent(id)
                 fetchData();        
-                //fetchComment();  
-                //fetchParticipant();
         }else{
         }
 
@@ -97,7 +95,10 @@ const DetailEvent = (props:any) => {
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
             variables : {id:id},
+            errorPolicy: 'ignore'
         })
+        console.log(data.eventsById);
+        
         setIdEvent(data.eventsById.id)
         setTitle(data.eventsById.title)
         setImage(data.eventsById.photo)
@@ -105,7 +106,12 @@ const DetailEvent = (props:any) => {
         setLocation(data.eventsById.location)
         setStart(data.eventsById.start_date)
         setEnd(data.eventsById.end_date)
-        setdetails(data.eventsById.details)        
+        setdetails(data.eventsById.details)
+        if(data.eventsById.participant!==null && data.eventsById.participant!==undefined){
+            setSumParticipant((data.eventsById.participant).length)
+        }
+        const datas = data.eventsById.participant
+        setDataParticipant(data.eventsById.participant);       
     };
 
     const join = async () => {
@@ -141,21 +147,6 @@ const DetailEvent = (props:any) => {
         }
         const datas = data.participants
         setDataParticipant(data.participants);
-    };
-
-    const fetchComment = async () => {
-        
-        // const { data } = await client.query({
-        //     query: GET_COMMENT,
-        //     variables : {id_event:id},
-        //     context: {
-        //         headers: { 
-        //           Authorization: `Bearer ${token}`,
-        //         },
-        //     },
-        // })
-        // console.log(data.comments)
-        // setDataComment(data.comments)
     };
 
     const sendComment = async () => {
@@ -247,8 +238,10 @@ const DetailEvent = (props:any) => {
                 <Box sx={{mt:5}}>
                     <ParticipantNumber content={sumParticipant}/>
                 </Box>
+                {dataParticipant!==null?(
                 <Box sx={{mt:5}}>
                     <Grid container spacing={2}>
+                        
                         {dataParticipant.map((item:any)=>(
                             <Grid item xs={8} md={3} key={item.id}>
                                 <ParticipantBox participant={item.name}/>
@@ -256,6 +249,14 @@ const DetailEvent = (props:any) => {
                         ))}
                     </Grid>
                 </Box>
+                ) : (
+                <Box sx={{mt:5}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={8} md={3}>
+                            <ParticipantBox participant="Join this event!"/>
+                        </Grid>
+                    </Grid>
+                </Box>)}
                 <Box sx={{mt:5}}>
                     <Grid container spacing={1}>
                         <Grid item xs={9} md={9}>
