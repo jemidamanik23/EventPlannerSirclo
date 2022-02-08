@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router";
 import { EDIT_PROFILE, GET_PROFILE } from "../utils/queries"
 import client from "../utils/apollo-client"
-import { ApolloError, useMutation } from "@apollo/client"
+import { ApolloError, useMutation, useQuery } from "@apollo/client"
 import { alertType } from "../types/users"
 import Header from "../components/Header/Header"
 import Footer from "../components/Footer"
@@ -37,9 +37,18 @@ const ProfileEdit = () => {
       message: "",
       status: "info",
     });
+    
     const router = useRouter(); 
-    let idUser: number|string|null  ;
     const [editProfile, { loading: loadingRegister, error: errorRegister, data: dataRegister}] = useMutation(EDIT_PROFILE)
+    const { data, refetch } = useQuery(GET_PROFILE, {
+      variables : {id: id},
+          context: {
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+          }
+      }
+  )
 
     const handleCloseAlert = (
       event?: React.SyntheticEvent | Event,
@@ -99,11 +108,12 @@ const ProfileEdit = () => {
           id: id,
         },
         onCompleted: (data)=> {
+          refetch()
           console.log(data);
           setName("")
           setEmail("")
           setPassword("")
-          router.push('/profile')
+          router.replace('/profile')
         },
         onError:(error:ApolloError)=>{
           console.log(error.message);
@@ -112,7 +122,7 @@ const ProfileEdit = () => {
           headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
           }
-        }
+        },
       })
 
       if (dataRegister!=null) {
