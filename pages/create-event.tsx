@@ -156,7 +156,6 @@ const CuEvent = () => {
           width: "90wh", 
           margin: "5% ",
        }}>
-         <Header/>
            <Box sx={{ 
                textAlign:"center",
             }}>
@@ -215,7 +214,6 @@ const CuEvent = () => {
                     <CustomButtonPrimary width='25vh' caption='SIMPAN' OnClick={handleSubmit} isDisabled={disabledVal}/>
                 </Box>
            </Box>
-          <Footer/>
       </Box>
       <Footer/>
       </Box>

@@ -175,7 +175,7 @@ function Header({
                   aria-expanded={open ? "true" : undefined}>
                   <Avatar
 
-                    sx={{ width: "25px", height: "25px" }}
+                    sx={{ width: "25px", height: "25px", color: "#F34F51", background:"white" }}
                   />
 
                   <Typography sx={{ fontFamily: "Nunito", marginLeft: "10px", color: "white" }}>
