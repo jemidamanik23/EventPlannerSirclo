@@ -23,7 +23,7 @@ const Home = ({users}: Users) => {
   
   return (
     <div>
-      <Login/>
+      <HomePage/>
     </div>
     
   )

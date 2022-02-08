@@ -11,6 +11,7 @@ import { CustomButtonPrimary, CustomButtonSecondary } from "../components/Custom
 import { GET_PROFILE } from "../utils/queries";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import { useQuery } from "@apollo/client";
 
 const Profile = () => {
     const [name, setName] = useState<string>("");
@@ -21,20 +22,34 @@ const Profile = () => {
     const [address, setAddress] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
     const [image, setImage] = useState<string>("");
-    const [id, setId] = useState<string>("");
+    const [id, setId] = useState<number|string|null>("");
     const [token, setToken] = useState<string | null>("");
     const router = useRouter();    
     let idUser: number|string|null  ;
+    // const { data, refetch } = useQuery(GET_PROFILE, {
+    //     variables : {id: id},
+    //         context: {
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem("token")}`
+    //             }
+    //         }
+    //     }
+    // )
 
     useEffect(() => {
-    if(localStorage.getItem("token")!==null){
+        if(localStorage.getItem("token")!==null){
             setToken(localStorage.getItem("token"))          
-        }else{
+        } else {
             router.replace('/login-page')
         }
         idUser = localStorage.getItem("id_user")
         fetchData();
     }, []);  
+
+
+    useEffect(()=>{
+        console.log("TESt")
+    }, [router.pathname])
 
     const goEdit = () => {
     router.push('/profile-edit')

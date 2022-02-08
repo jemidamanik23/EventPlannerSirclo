@@ -44,9 +44,8 @@ function Header({
     if(localStorage.getItem('token')!==null){
       setAuth(true)
     }
-    console.log(auth)
     
-  },);
+  },[]);
 
   const handleClose = () => {
     setAnchorEl(null);

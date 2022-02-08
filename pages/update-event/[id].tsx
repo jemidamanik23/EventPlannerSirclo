@@ -11,7 +11,6 @@ import { CREATE_EVENT, GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queri
 import client from "../../utils/apollo-client"
 import Header from "../../components/Header/Header"
 import { start } from 'repl';
-import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer';
 
 const UpdateEvent = () => {
@@ -173,13 +172,8 @@ const UpdateEvent = () => {
 
 
   return (
-<<<<<<< HEAD
-    <>
-      <Header/>
-=======
     <Box> 
       <Header isHidden={true} />
->>>>>>> 32a2e2f852c2220ad6371fa44c8f43f815f30a99
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
@@ -243,12 +237,7 @@ const UpdateEvent = () => {
                 </Box>
            </Box>
       </Box>
-<<<<<<< HEAD
-      <Footer/>
-    </>
-=======
       </Box>
->>>>>>> 32a2e2f852c2220ad6371fa44c8f43f815f30a99
   );
 };
 

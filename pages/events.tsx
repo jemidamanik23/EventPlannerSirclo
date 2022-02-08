@@ -81,10 +81,10 @@ const Event = () => {
         deleteEvent({
           variables: { id:id },
           context: {
-                    headers: { 
-                      Authorization: `Bearer ${token}`,
-                    },
-                  },
+            headers: { 
+              Authorization: `Bearer ${token}`,
+            },
+          },
         })
 
       }
@@ -96,7 +96,6 @@ const Event = () => {
           width: "90wh", 
           margin: "5% ",
        }}>
-         <Header/>
            <Box sx={{ 
                textAlign:"center",
             }}>
@@ -139,7 +138,6 @@ const Event = () => {
                ))}
 
              </Box>
-          <Footer/>
       </Box>
       <Footer/>
       </Box>
