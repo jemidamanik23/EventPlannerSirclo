@@ -1,5 +1,5 @@
 import Context from "@mui/base/TabsUnstyled/TabsContext";
-import { Box, Grid, Typography } from "@mui/material";
+import { Alert, Box, Grid, Snackbar, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CommentBox from "../../components/CommentBox/CommentBox";
 import { CustomButtonPrimary, CustomButtonSecondary } from "../../components/CustomButton/CustomButton";
@@ -13,6 +13,7 @@ import { ApolloError, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer";
+import { alertType } from "../../types/users";
 
 
 export type participantTypes = {
@@ -67,6 +68,22 @@ const DetailEvent = (props:any) => {
         variables : {id_event:id},
         }
     )
+    const [openAlert, setOpenAlert] = React.useState(false);
+    const [alert, setAlert] = useState<alertType>({
+      message: "",
+      status: "error",
+    });
+
+    const handleCloseAlert = (
+      event?: React.SyntheticEvent | Event,
+      reason?: string
+    ) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setOpenAlert(false);
+    };
+
 
 
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +112,12 @@ const DetailEvent = (props:any) => {
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
             variables : {id:id},
-            errorPolicy: 'ignore'
+            context: {
+                  headers: { 
+                    Authorization: `Bearer ${token}`,
+                  },
+                },
+            errorPolicy: 'ignore',
         })
         console.log(data.eventsById);
         
@@ -122,6 +144,11 @@ const DetailEvent = (props:any) => {
             },
               onError:(error:ApolloError)=>{
                 console.log(error.message);
+                setAlert({
+                    message: error.message,
+                    status: "error",
+                });
+                setOpenAlert(true);
             },
             context: {
                 headers: { 
@@ -275,6 +302,17 @@ const DetailEvent = (props:any) => {
                 </Box>
                 ))}
             </Box>
+            <Snackbar
+                open={openAlert}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}>
+                <Alert
+                  onClose={handleCloseAlert}
+                  color={alert.status}
+                  sx={{ width: "100%" }}>
+                  {alert.message}
+                </Alert>
+            </Snackbar>
             <Footer/>
         </Box>
     )

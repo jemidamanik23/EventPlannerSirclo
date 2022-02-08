@@ -32,16 +32,17 @@ const Event = () => {
     const [token, setToken] = useState<string | null>("");
     const eventsDefault: eventsTypes[] = [];
     const [dataEvents, setDataComment] = useState(eventsDefault);
+    const [idUser, setIdUsers] = useState<string | null>("");
     const [deleteEvent] = useMutation(DELETE_EVENT);
 
       const fetchData = async () => {
 
           const { data } = await client.query({
             query: GET_MYEVENT,
-            variables: { id: localStorage.getItem("id_user") },
+            variables: { id_user: idUser },
             context: {
               headers: { 
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${token}`,
               },
             },
           });
@@ -55,7 +56,8 @@ const Event = () => {
 
       useEffect(() => {
         if(localStorage.getItem("token")!==null){
-                setToken(localStorage.getItem("token"));  
+                setToken(localStorage.getItem("token")); 
+                setIdUsers(localStorage.getItem("id_user"));
                 fetchData();        
             }else{
                 router.replace('/login-page')
@@ -96,6 +98,7 @@ const Event = () => {
           width: "90wh", 
           margin: "5% ",
        }}>
+         {console.log(idUser)}
            <Box sx={{ 
                textAlign:"center",
             }}>

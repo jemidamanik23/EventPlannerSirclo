@@ -325,3 +325,25 @@ query($idCategory : Int!){
         photo
     }
 }`
+
+export const GET_EVENT_AND_CATEGORY=gql`
+    query($id: Int!){
+        eventsById (id:$id){
+            id
+            id_user
+            id_category
+            title
+            start_date
+            end_date
+            location
+            details
+            photo
+            comments{id,id_event,id_user,comment,name,email,photo}
+            participant{id,id_event,id_user,name,email,photo}
+        }
+        category {
+        id
+        description
+        }
+    }
+`;

@@ -27,10 +27,11 @@ import PopperUnstyled from '@mui/base/PopperUnstyled';
     label?: string;
     textLabel?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    data?: string[];
     defValue?: string;
     value?: string | number;
     errorVal?: string
-}
+  }
 
 
 type inputSelect = {
@@ -40,7 +41,6 @@ type inputSelect = {
   value?: string,
   placeholder?: string
   errorVal?: string
-
 }
 
   
@@ -85,7 +85,7 @@ function TextInput(props:inputDetail) {
     </Box>
     
     )
-  }
+}
 
   const StyledInputElementText = styled('input')(
     ({ theme }) => `
@@ -344,7 +344,75 @@ export default function TextSelect() {
   );
 }
 
-export {TextInput, TextArea, InputText3, TextSelect}
+type inputSelect2 = {
+  textLabel?: string;
+  errorVal?: string;
+  value?: string|number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  helperText?: string;
+  data?: {id: number, description: string}[];
+}
+
+function SelectInput({textLabel, errorVal, value, onChange, helperText, data}:inputSelect2) {
+  return (
+  <Box>
+      <Typography><CustomParagraph content={textLabel}/> <span style={{ color: "red" }}>{errorVal}</span></Typography>
+      
+      {/* <CustomInput select value={props.value}  placeholder={props.placeholder} type={props.type} onChange={props.onChange} /> */}
+      <TextField select value={value} onChange={onChange}
+          helperText={helperText}
+        >
+          {data !== undefined ? data.map((datas)=>(
+            <MenuItem key={datas.id} value={datas.id}>{datas.description}</MenuItem>
+          )) : <MenuItem value="kosong">Kosong</MenuItem>}
+      </TextField>
+  </Box>
+  )
+}
+
+type inputSelectGender = {
+  textLabel?: string;
+  errorVal?: string;
+  value?: string|number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  helperText?: string;
+  data?: string[];
+}
+
+function SelectInputGender({textLabel, errorVal, value, onChange, helperText, data}:inputSelectGender) {
+  return (
+  <Box>
+      <Typography><CustomParagraph content={textLabel}/> <span style={{ color: "red" }}>{errorVal}</span></Typography>
+      
+      {/* <CustomInput select value={props.value}  placeholder={props.placeholder} type={props.type} onChange={props.onChange} /> */}
+      <TextField select value={value} onChange={onChange}
+          helperText={helperText}
+        >
+          {data !== undefined ? data.map((datas, index)=>(
+            <MenuItem key={index} value={datas}>{datas}</MenuItem>
+          )) : <MenuItem value="kosong">Kosong</MenuItem>}
+      </TextField>
+  </Box>
+  )
+}
+
+
+{/* <TextField
+          id="outlined-select-currency"
+          select
+          label="Select"
+          value={currency}
+          onChange={handleChange}
+          helperText="Please select your currency"
+        >
+          {currencies.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+</TextField> */}
+
+export {TextInput, TextArea, InputText3, TextSelect, SelectInput, SelectInputGender}
 
 // how to call
 {/* <InputText2 textLabel='Nama' placeholder='nama' width='300px'/> */}
