@@ -73,7 +73,8 @@ function HomeCard({
               color: "white",
               fontWeight: "700",
             }}>
-                {time}
+
+                {time?.substring(0, 10) + "..."}
 
           </Typography>
         </Box>

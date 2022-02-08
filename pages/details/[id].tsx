@@ -8,9 +8,11 @@ import { ParticipantBox, ParticipantNumber } from "../../components/ParticipantB
 import { TextInput } from "../../components/TextInput/TextInput";
 import { useEffect } from "react";
 import client from "../../utils/apollo-client";
-import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT } from "../../utils/queries";
+import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT, GET_PARTICIPANT } from "../../utils/queries";
 import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header/Header";
 
 export type participantTypes = {
     id: number,
@@ -61,9 +63,6 @@ const DetailEvent = (props:any) => {
     const [commentError, setCommentError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
 
-    // if(id!==undefined)(
-    // setIdEvent(parseInt(id))
-    // )
 
 
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,8 +82,8 @@ const DetailEvent = (props:any) => {
             setIdUsers(localStorage.getItem("id_user")) 
             setIdEvent(id)
                 fetchData();        
-                //fetchComment();          
-            
+                fetchComment();  
+                fetchParticipant();
         }else{
         }
 
@@ -95,25 +94,14 @@ const DetailEvent = (props:any) => {
             query: GET_EVENT_DETAILS,
             variables : {id:id},
         })
-        console.log(id)
-        console.log(idEvent)        
-        console.log(data)
-        console.log(data.eventsById.comments);  
-        setDataComment(data.eventsById.comments)
-        // setIdEvent(data.eventsById.id)
+        setIdEvent(data.eventsById.id)
         setTitle(data.eventsById.title)
-        setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxiA3wZcNw_qdIFKsVKrKLX3ObK3qxQ7Hig&usqp=CAU")
+        setImage(data.eventsById.photo)
         setCategory(data.eventsById.id_category)
         setLocation(data.eventsById.location)
         setStart(data.eventsById.start_date)
         setEnd(data.eventsById.end_date)
         setdetails(data.eventsById.details)        
-        if(data.eventsById.participant!==null && data.eventsById.participant!==undefined){
-            setSumParticipant((data.eventsById.participant).length)
-        }
-        const datas = data.eventsById.participant
-        setDataParticipant(data.eventsById.participant);
-
     };
 
     const join = async () => {
@@ -133,20 +121,36 @@ const DetailEvent = (props:any) => {
         })        
     }
 
+    const fetchParticipant = async () => {
+        const { data } = await client.query({
+            query: GET_PARTICIPANT,
+            variables : {id_event:id},
+            context: {
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+            },
+        })
+        console.log(data)
+        if(data.participants!==null && data.participants!==undefined){
+             setSumParticipant((data.participants).length)
+        }
+        const datas = data.participants
+        setDataParticipant(data.participants);
+    };
+
     const fetchComment = async () => {
-        // const { data } = await client.query({
-        //     query: GET_COMMENT,
-        //     variables : {id_event:id},
-        //     errorPolicy: `ignore`,
-        //     context: {
-        //         headers: { 
-        //           Authorization: `Bearer ${token}`,
-        //         },
-        //     },
-        // })
-        // console.log(data.comments)
-        //setDataComment(data.comments)
-        
+        const { data } = await client.query({
+            query: GET_COMMENT,
+            variables : {id_event:id},
+            context: {
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+            },
+        })
+        console.log(data.comments)
+        setDataComment(data.comments)
     };
 
     const sendComment = async () => {
@@ -158,20 +162,19 @@ const DetailEvent = (props:any) => {
         postComment({
             variables: { id_event: id, id_user: idUser, comment: inputComment },
             context: {
-                      headers: { 
-                        Authorization: `Bearer ${token}`,
-                      },
-                    },
+                headers: { 
+                Authorization: `Bearer ${token}`,
+                },
+            },
         })
           setInputComment("");
-          
-          router.push(`/details/${id}`)
         }    
     };
 
 
     return (
         <Box>
+            <Header/>
             <Box
                 sx={{
                     minHeight: "900px",
@@ -261,6 +264,7 @@ const DetailEvent = (props:any) => {
                 </Box>
                 ))}
             </Box>
+            <Footer/>
         </Box>
     )
 }

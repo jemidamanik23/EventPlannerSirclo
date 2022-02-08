@@ -10,6 +10,8 @@ import { useMutation } from '@apollo/client';
 import { CREATE_EVENT, GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queries';
 import client from "../../utils/apollo-client"
 import { start } from 'repl';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer';
 
 const UpdateEvent = () => {
     const [nameEvent, setNameEvent] = useState<string>("");
@@ -171,6 +173,8 @@ const UpdateEvent = () => {
 
 
   return (
+    <>
+      <Header/>
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
@@ -234,6 +238,8 @@ const UpdateEvent = () => {
                 </Box>
            </Box>
       </Box>
+      <Footer/>
+    </>
   );
 };
 

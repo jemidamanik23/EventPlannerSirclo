@@ -8,6 +8,8 @@ import client from '../utils/apollo-client';
 import { GET_LOGIN } from '../utils/queries';
 import { useRouter } from "next/router";
 import { alertType } from '../types/users';
+import Footer from '../components/Footer';
+import Header from '../components/Header/Header';
 
 const Login = () => {
     const [email, setEmail] = useState<string>("");
@@ -93,9 +95,15 @@ const Login = () => {
         }
       };
   return (
+    <Box sx={{ 
+
+     }}>
+
       <Box sx={{ 
-          margin:"5% 10% 5% 10%"
+          margin:"5% 10% 5% 10%",
+          background:"#A95050"
        }}>
+         
            <Box sx={{ 
                padding:"2% 5% 2% 5%",
             }}>
@@ -123,7 +131,7 @@ const Login = () => {
                  }}>
                      <CustomParagraph content="Don't have any account?"/>
                      <Typography sx={{ 
-                         color:"#F34F51"
+                         color:"white"
                       }} 
                       onClick={signup}>
                      {" "}Register
@@ -140,8 +148,9 @@ const Login = () => {
                   sx={{ width: "100%" }}>
                   {alert.message}
                 </Alert>
-            </Snackbar>
+            </Snackbar>  
       </Box>
+    </Box>
   )
 };
 

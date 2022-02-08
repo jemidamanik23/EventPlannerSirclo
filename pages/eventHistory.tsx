@@ -4,6 +4,8 @@ import { CustomH1 } from "../components/CustomTypography/CustomTypography";
 import {EventCard, EventHistoryCard} from "../components/EventCard/EventCard";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer";
 
 const EventHistory = () => {
     const router = useRouter();
@@ -24,6 +26,7 @@ const EventHistory = () => {
 
     return(
         <Box>
+            <Header/>
             <Box sx={{
                     minHeight: "900px",
                     padding: {
@@ -54,6 +57,7 @@ const EventHistory = () => {
                     ))}
                 </Box>
             </Box>
+            <Footer/>
         </Box>
     )
 }
