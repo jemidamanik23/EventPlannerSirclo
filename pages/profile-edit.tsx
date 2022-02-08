@@ -2,7 +2,7 @@ import { Box } from "@mui/material"
 import { CustomButtonPrimary } from "../components/CustomButton/CustomButton"
 import { CustomH1 } from "../components/CustomTypography/CustomTypography"
 import { CustomParagraph } from "../components/CustomTypography/CustomTypography"
-import { TextInput } from "../components/TextInput/TextInput"
+import TextSelect, { TextInput, InputText3 } from "../components/TextInput/TextInput"
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router";
 import { EDIT_PROFILE, GET_PROFILE } from "../utils/queries"
@@ -163,11 +163,7 @@ const ProfileEdit = () => {
       const value = e.target.value;
       setGender(value);
       var len = e.target.value.length;
-      if (value !== "Male" && value!=="Female") {
-        setGenderError("your gender is invalid");
-      } else {
-        setGenderError("");
-      }
+      
     };
 
     const handleAddres = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -204,11 +200,12 @@ const ProfileEdit = () => {
     };
 
     return(
+      <>
+      <Header/>
         <Box  sx={{ 
             margin:"5% 10% 5% 10%",
             width:"100wh",
          }}>
-           <Header/>
              <CustomH1 content="Edit Profile"/>
              <Box sx={{ 
                  padding: "5% ",
@@ -223,6 +220,7 @@ const ProfileEdit = () => {
                        <TextInput textLabel="Name" placeholder="Shay Pattrick Cormac" type="text" onChange={(e) => handleName(e)} errorVal={nameError} value={name}/>
                        <TextInput textLabel="Birthday" placeholder="Enter your birthday" type="text" onChange={(e) => handleBirthday(e)} errorVal={birthdayError} value={birthday}/>
                        <TextInput textLabel="Email" placeholder="shaycormac@gmail.com" type="text" onChange={(e) => handleEmail(e)} errorVal={emailError} value={email}/>
+                       <TextSelect/>
                        <TextInput textLabel="Gender" placeholder="male" type="text" onChange={(e) => handleGender(e)} errorVal={genderError} value={gender}/>
                        <TextInput textLabel="Address" placeholder="Enter your address" type="text" onChange={(e) => handleAddres(e)} errorVal={addressError} value={address}/>
                        <TextInput textLabel="Phone Number" placeholder="Enter your phone number" type="text" onChange={(e) => handlePhone(e)} errorVal={phoneError} value={phone}/>
@@ -232,6 +230,8 @@ const ProfileEdit = () => {
              </Box>
             <Footer/>
         </Box>
+        <Footer/>
+      </>
     )
 }
 export default ProfileEdit

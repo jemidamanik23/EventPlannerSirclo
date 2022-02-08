@@ -155,22 +155,18 @@ const DetailEvent = (props:any) => {
         } else {
           setDisabled(true);
 
-            postComment({
-                variables: { id_event: id, id_user: idUser, comment: inputComment },
-                onCompleted: (data) => {
-                    console.log(data);
-                    //refetch();
-                },
-                context: {
-                        headers: { 
-                            Authorization: `Bearer ${token}`,
-                        },
-                },
-            })
-            setInputComment("");
-            
-            router.push(`/details/${id}`)
-            }    
+        postComment({
+            variables: { id_event: id, id_user: idUser, comment: inputComment },
+            context: {
+                      headers: { 
+                        Authorization: `Bearer ${token}`,
+                      },
+                    },
+        })
+          setInputComment("");
+          
+          
+        }    
     };
 
 
