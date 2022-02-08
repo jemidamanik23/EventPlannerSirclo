@@ -111,8 +111,8 @@ export const JOIN_EVENT = gql`
 `;
 
 export const GET_EVENT = gql`
-    query{
-        events(offset: 0, limit: 10){
+    query($offset: Int!){
+        events(offset: $offset, limit: 10){
             id
             id_user
             id_category
@@ -289,3 +289,25 @@ query($id: Int!) {
         deleted_at
     }
 }`
+
+export const GET_PAGINATION= gql`
+query {
+    eventsPagination(offset: 0, limit: 10){
+        total_page
+        data{
+            id
+            id_user
+            id_category
+            title
+            start_date
+            end_date
+            location
+            details
+            photo
+            created_at
+            updated_at
+            deleted_at
+        }
+    }
+}
+`
