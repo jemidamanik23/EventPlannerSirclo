@@ -72,8 +72,8 @@ const Event = () => {
 
 
       const handleEdit =async (id: number) => {
-        router.push('/update-event/5')
-        
+        router.push(`/update-event/${id}`)
+   
 
       }
 

@@ -36,11 +36,11 @@ const HomePage = () => {
     const fetchData = async() => {
         const { data } = await client.query({
             query: GET_EVENT,
-            context: {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            }
+            // context: {
+            //     headers: {
+            //         Authorization: `Bearer ${localStorage.getItem("token")}`
+            //     }
+            // }
         })
 
         setEvents(data.events)
@@ -49,11 +49,11 @@ const HomePage = () => {
     const fetchCategory = async() => {
         const { data } = await client.query({
             query: GET_CATEGORY,
-            context: {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            }
+            // context: {
+            //     headers: {
+            //         Authorization: `Bearer ${localStorage.getItem("token")}`
+            //     }
+            // }
         })
 
         console.log(data);
@@ -90,13 +90,7 @@ const HomePage = () => {
         const { data } = await client.query({
             query: GET_SEARCH,
             variables: {search: textSend},
-            // context: {
-            //     headers: {
-            //         Authorization: `Bearer ${localStorage.getItem("token")}`
-            //     }
-            // }
         })
-
         setEvents(data.eventSearch)
         console.log(data)
     }

@@ -33,7 +33,7 @@ const UpdateEvent = () => {
     const [token, setToken] = useState<string | null>("");
     const [updateEvent] = useMutation(UPDATE_EVENT);
     const router = useRouter();
-    const {id} = router.query;
+    const id = parseInt(router.query.id as string, 10)
 
     useEffect(() => {
       if(localStorage.getItem("token")!==null){
@@ -48,8 +48,7 @@ const UpdateEvent = () => {
     const fetchData = async () => {
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:8},
-
+            variables : {id:id},
         })
         console.log(data)        
         setNameEvent(data.eventsById.title)
