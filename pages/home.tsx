@@ -100,6 +100,11 @@ const HomePage = () => {
         console.log(data)
     }
 
+    const handleAllCategory = async() => {
+        router.reload()
+
+    }
+
     const handleCategoryProcessor = async(e:any) => {
 
         const { data } = await client.query({
@@ -176,8 +181,9 @@ const HomePage = () => {
                                 "aria-labelledby": "category-button",
                                 }}>
                                 <MenuItem 
-                                onClick={fetchData}
+                                onClick={handleAllCategory}
                                 >
+                                    All Category
                                     
                                 </MenuItem>
                                 {category.map((item) => (
