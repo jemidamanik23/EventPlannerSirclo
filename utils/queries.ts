@@ -80,11 +80,14 @@ export const POST_COMMENT = gql`
 export const GET_COMMENT = gql`
     query ($id_event: Int!) {
         comments(id_event: $id_event) {
+            id
+            id_event
             id_user
             comment
             name
             email
             photo
+            created_at
         }
     }
 `;
@@ -236,4 +239,18 @@ mutation ($id_category: Int!,
         message
     }
 }
+`;
+
+export const GET_PARTICIPANT = gql`
+    query ($id_event: Int!){
+        participants(id_event: $id_event){
+            id
+            id_event
+            id_user
+            name
+            email
+            photo
+            created_at
+        }
+    }
 `;

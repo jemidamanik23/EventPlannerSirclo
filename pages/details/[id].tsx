@@ -8,7 +8,7 @@ import { ParticipantBox, ParticipantNumber } from "../../components/ParticipantB
 import { TextInput } from "../../components/TextInput/TextInput";
 import { useEffect } from "react";
 import client from "../../utils/apollo-client";
-import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT } from "../../utils/queries";
+import {  JOIN_EVENT, GET_EVENT_DETAILS, POST_COMMENT, GET_COMMENT, GET_PARTICIPANT } from "../../utils/queries";
 import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
@@ -63,9 +63,6 @@ const DetailEvent = (props:any) => {
     const [commentError, setCommentError] = useState<string>("");
     const [disabledVal, setDisabled] = useState<boolean>(false);
 
-    // if(id!==undefined)(
-    // setIdEvent(parseInt(id))
-    // )
 
 
     const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,8 +82,8 @@ const DetailEvent = (props:any) => {
             setIdUsers(localStorage.getItem("id_user")) 
             setIdEvent(id)
                 fetchData();        
-                //fetchComment();          
-            
+                fetchComment();  
+                fetchParticipant();
         }else{
         }
 
@@ -97,9 +94,6 @@ const DetailEvent = (props:any) => {
             query: GET_EVENT_DETAILS,
             variables : {id:id},
         })
-        console.log(data);
-        // console.log(data.eventsById.comments);  
-        setDataComment(data.eventsById.comments)
         setIdEvent(data.eventsById.id)
         setTitle(data.eventsById.title)
         setImage(data.eventsById.photo)
@@ -108,12 +102,6 @@ const DetailEvent = (props:any) => {
         setStart(data.eventsById.start_date)
         setEnd(data.eventsById.end_date)
         setdetails(data.eventsById.details)        
-        if(data.eventsById.participant!==null && data.eventsById.participant!==undefined){
-             setSumParticipant((data.eventsById.participant).length)
-        }
-        const datas = data.eventsById.participant
-        setDataParticipant(data.eventsById.participant);
-
     };
 
     const join = async () => {
@@ -133,20 +121,36 @@ const DetailEvent = (props:any) => {
         })        
     }
 
+    const fetchParticipant = async () => {
+        const { data } = await client.query({
+            query: GET_PARTICIPANT,
+            variables : {id_event:id},
+            context: {
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+            },
+        })
+        console.log(data)
+        if(data.participants!==null && data.participants!==undefined){
+             setSumParticipant((data.participants).length)
+        }
+        const datas = data.participants
+        setDataParticipant(data.participants);
+    };
+
     const fetchComment = async () => {
-        // const { data } = await client.query({
-        //     query: GET_COMMENT,
-        //     variables : {id_event:id},
-        //     errorPolicy: `ignore`,
-        //     context: {
-        //         headers: { 
-        //           Authorization: `Bearer ${token}`,
-        //         },
-        //     },
-        // })
-        // console.log(data.comments)
-        //setDataComment(data.comments)
-        
+        const { data } = await client.query({
+            query: GET_COMMENT,
+            variables : {id_event:id},
+            context: {
+                headers: { 
+                  Authorization: `Bearer ${token}`,
+                },
+            },
+        })
+        console.log(data.comments)
+        setDataComment(data.comments)
     };
 
     const sendComment = async () => {
@@ -158,14 +162,12 @@ const DetailEvent = (props:any) => {
         postComment({
             variables: { id_event: id, id_user: idUser, comment: inputComment },
             context: {
-                      headers: { 
-                        Authorization: `Bearer ${token}`,
-                      },
-                    },
+                headers: { 
+                Authorization: `Bearer ${token}`,
+                },
+            },
         })
           setInputComment("");
-          
-          
         }    
     };
 
@@ -256,8 +258,6 @@ const DetailEvent = (props:any) => {
                         </Grid>
                     </Grid>
                 </Box>
-                {console.log(dataComment)}
-                {console.log(id)}
                 {dataComment.map((value)=>(
                 <Box sx={{mt:3}} key={value.id}>
                     <CommentBox  caption={value.comment}/>
