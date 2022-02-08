@@ -22,19 +22,19 @@ const Profile = () => {
     const [address, setAddress] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
     const [image, setImage] = useState<string>("");
-    const [id, setId] = useState<number|string|null>("");
+    const [id, setId] = useState<number|string|null>();
     const [token, setToken] = useState<string | null>("");
     const router = useRouter();    
     let idUser: number|string|null  ;
-    // const { data, refetch } = useQuery(GET_PROFILE, {
-    //     variables : {id: id},
-    //         context: {
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem("token")}`
-    //             }
-    //         }
-    //     }
-    // )
+    const { data, refetch } = useQuery(GET_PROFILE, {
+        variables : {id: id},
+            context: {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        }
+    )
 
     useEffect(() => {
         if(localStorage.getItem("token")!==null){
@@ -42,17 +42,21 @@ const Profile = () => {
         } else {
             router.replace('/login-page')
         }
-        idUser = localStorage.getItem("id_user")
-        fetchData();
-    }, []);  
+        setId(localStorage.getItem("id_user"))
+        refetch();
+        console.log(router.route);
+        
+        
+        
+    }, [router.route]);  
 
 
-    useEffect(()=>{
-        console.log("TESt")
-    }, [router.pathname])
+    // useEffect(()=>{
+    //     console.log("TESt")
+    // }, [router.pathname])
 
     const goEdit = () => {
-    router.push('/profile-edit')
+    router.replace('/profile-edit')
     };
 
     const fetchData = async() => {
@@ -99,7 +103,7 @@ const Profile = () => {
                         maxWidth: "140px",
                         minWidth: "250px",
                         }}
-                        src={image}
+                        src={data && data.usersById.photo}
                         alt='vga'
                     />
                  </Box>
@@ -137,12 +141,12 @@ const Profile = () => {
                            flexDirection : "column",
                             gap : "5vh",
                         }}>
-                            <CustomParagraph content={name} />
-                            <CustomParagraph content={birthday} />
-                            <CustomParagraph content={email} />
-                            <CustomParagraph content={gender} />
-                            <CustomParagraph content={address}/>
-                            <CustomParagraph content={phone} /> 
+                            <CustomParagraph content={data && data.usersById.name} />
+                            <CustomParagraph content={data && data.usersById.birth_date} />
+                            <CustomParagraph content={data && data.usersById.email} />
+                            <CustomParagraph content={data && data.usersById.gender} />
+                            <CustomParagraph content={data && data.usersById.address}/>
+                            <CustomParagraph content={data && data.usersById.phone_number} /> 
                        </Box>
                        
                   </Box>
@@ -161,7 +165,7 @@ const Profile = () => {
                        }}>
                       <CustomButtonPrimary width="30%" caption="DELETE"/>
                       </Box>
-                       
+                       {console.log(data)}
                   </Box>
 
              </Box>
