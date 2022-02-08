@@ -7,7 +7,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import client from "../utils/apollo-client";
-import { GET_CATEGORY, GET_EVENT } from "../utils/queries";
+import { GET_CATEGORY, GET_EVENT, GET_SEARCH } from "../utils/queries";
 import Footer from "../components/Footer";
 import Header from "../components/Header/Header";
 
@@ -21,6 +21,7 @@ const HomePage = () => {
     const [category, setCategory] = useState<any[]>([]);
     const [categoryPage, setCategoryPage] = useState<string>("All Category");
     const openCategory = Boolean(categoryOpenMenu);
+    const [textSend, setTextSend] = useState<string>("")
 
     const [page, setPage] = React.useState(1);
 
@@ -36,11 +37,11 @@ const HomePage = () => {
     const fetchData = async() => {
         const { data } = await client.query({
             query: GET_EVENT,
-            context: {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            }
+            // context: {
+            //     headers: {
+            //         Authorization: `Bearer ${localStorage.getItem("token")}`
+            //     }
+            // }
         })
 
         setEvents(data.events)
@@ -50,11 +51,11 @@ const HomePage = () => {
     const fetchCategory = async() => {
         const { data } = await client.query({
             query: GET_CATEGORY,
-            context: {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            }
+            // context: {
+            //     headers: {
+            //         Authorization: `Bearer ${localStorage.getItem("token")}`
+            //     }
+            // }
         })
 
         console.log(data);
@@ -79,9 +80,26 @@ const HomePage = () => {
         setCategoryOpenMenu(null);
     };
 
+    const handleGetText = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const values = e.target.value;
+        setTextSend(values)
+      };
+      const handleSendText = () =>{
+        fetchDataByKeyword()
+      }
+
+      const fetchDataByKeyword = async() => {
+        const { data } = await client.query({
+            query: GET_SEARCH,
+            variables: {search: textSend},
+        })
+        setEvents(data.eventSearch)
+        console.log(data)
+    }
+
     return(
         <Box>
-            <Header/>
+            <Header handleGetText={(e)=>handleGetText(e)} handleSendText={handleSendText}/>
             <Box
                 sx={{
                     minHeight: "900px",

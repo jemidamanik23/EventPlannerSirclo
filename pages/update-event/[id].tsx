@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_EVENT, GET_EVENT_DETAILS, UPDATE_EVENT } from '../../utils/queries';
 import client from "../../utils/apollo-client"
+import Header from "../../components/Header/Header"
 import { start } from 'repl';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer';
@@ -34,7 +35,7 @@ const UpdateEvent = () => {
     const [token, setToken] = useState<string | null>("");
     const [updateEvent] = useMutation(UPDATE_EVENT);
     const router = useRouter();
-    const {id} = router.query;
+    const id = parseInt(router.query.id as string, 10)
 
     useEffect(() => {
       if(localStorage.getItem("token")!==null){
@@ -49,8 +50,7 @@ const UpdateEvent = () => {
     const fetchData = async () => {
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
-            variables : {id:8},
-
+            variables : {id:id},
         })
         console.log(data)        
         setNameEvent(data.eventsById.title)
@@ -173,8 +173,13 @@ const UpdateEvent = () => {
 
 
   return (
+<<<<<<< HEAD
     <>
       <Header/>
+=======
+    <Box> 
+      <Header isHidden={true} />
+>>>>>>> 32a2e2f852c2220ad6371fa44c8f43f815f30a99
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
@@ -238,8 +243,12 @@ const UpdateEvent = () => {
                 </Box>
            </Box>
       </Box>
+<<<<<<< HEAD
       <Footer/>
     </>
+=======
+      </Box>
+>>>>>>> 32a2e2f852c2220ad6371fa44c8f43f815f30a99
   );
 };
 

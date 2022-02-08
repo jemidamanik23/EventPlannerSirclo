@@ -254,3 +254,38 @@ export const GET_PARTICIPANT = gql`
         }
     }
 `;
+export const GET_SEARCH =gql`
+query($search: String!) {
+    eventSearch(title: $search){
+        id
+        id_user
+        id_category
+        title
+        start_date
+        end_date
+        location
+        details
+        photo
+        created_at
+        updated_at
+        deleted_at
+    }
+}`
+
+export const GET_HISTORY=gql`
+query($id: Int!) {
+    eventHistory(id_user: $id){
+        id
+        id_user
+        id_category
+        title
+        start_date
+        end_date
+        location
+        details
+        photo
+        created_at
+        updated_at
+        deleted_at
+    }
+}`

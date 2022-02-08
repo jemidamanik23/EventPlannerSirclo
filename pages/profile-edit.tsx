@@ -201,7 +201,7 @@ const ProfileEdit = () => {
 
     return(
       <Box>
-        <Header/>
+        <Header isHidden={true}/>
         <Box  sx={{ 
             margin:"5% 10% 5% 10%",
             width:"100wh",
