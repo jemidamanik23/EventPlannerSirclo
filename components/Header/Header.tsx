@@ -257,6 +257,9 @@ function Header({
           </Box>
         )}
       </Box>
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Burger isAuth={auth} onLogOut={handleLogOut} />
+      </Box>
 
 
       </Box>

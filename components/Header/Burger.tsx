@@ -14,6 +14,7 @@ import Avatar from "@mui/material/Avatar";
 import Logout from "@mui/icons-material/Logout";
 import "@fontsource/nunito/700.css";
 import ClassIcon from '@mui/icons-material/Class';
+import { useRouter } from 'next/router';
 
 type burgerProps = {
   isAuth?: boolean,
@@ -24,6 +25,7 @@ type burgerProps = {
 function Burger({ isAuth, name, onLogOut }: burgerProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();  
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -33,19 +35,26 @@ function Burger({ isAuth, name, onLogOut }: burgerProps) {
   };
 
   const toLogin = () => {
-
+    router.push('/login-page')
   };
 
   const toEvent = () => {
-
+    router.push('/events')
   };
 
   const toProfile = () => {
+    router.push('/profile')
 
   };
 
   const toHome = () => {
+    router.push('/')
 
+  };
+
+  const handleLogOut = () => {
+    localStorage.clear()
+    router.push('/login-page')
   };
 
   return (
@@ -101,7 +110,7 @@ function Burger({ isAuth, name, onLogOut }: burgerProps) {
           sx={{ display: `${isAuth ? "flex" : "none"}` }}
           onClick={toProfile}>
           <Avatar />
-          <Typography sx={{fontFamily: "Nunito"}}>{name?.substring(0, 7) + "..."}</Typography>
+          <Typography sx={{fontFamily: "Nunito"}}>Profile</Typography>
         </MenuItem>
         <MenuItem onClick={toEvent}>
           <ListItemIcon>
@@ -109,7 +118,7 @@ function Burger({ isAuth, name, onLogOut }: burgerProps) {
               color:"#000000"
              }} />
           </ListItemIcon>
-          <Typography sx={{ fontFamily: "Nunito" }}>My Cart</Typography>
+          <Typography sx={{ fontFamily: "Nunito" }}>My Event</Typography>
         </MenuItem>
         <MenuItem onClick={toHome}>
           <ListItemIcon>
