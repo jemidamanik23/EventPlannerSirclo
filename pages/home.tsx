@@ -7,7 +7,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import client from "../utils/apollo-client";
-import { GET_CATEGORY, GET_EVENT, GET_SEARCH } from "../utils/queries";
+import { GET_CATEGORY, GET_EVENT, GET_SEARCH, GET_PAGINATION } from "../utils/queries";
 import Footer from "../components/Footer";
 import Header from "../components/Header/Header";
 
@@ -16,49 +16,52 @@ const HomePage = () => {
     const [categoryOpenMenu, setCategoryOpenMenu] = useState<null | HTMLElement>(
         null
     );
-    const [countProducts, setCountProducts] = useState<number>(0);
+    const [countPage, setCountPage] = useState<number>(1);
     const [events, setEvents] = useState<any[]>([]);
     const [category, setCategory] = useState<any[]>([]);
     const [categoryPage, setCategoryPage] = useState<string>("All Category");
     const openCategory = Boolean(categoryOpenMenu);
     const [textSend, setTextSend] = useState<string>("")
-
     const [page, setPage] = React.useState(1);
-
+    const [offset, setOffset] = useState<number>(0);
     const [openAlert, setOpenAlert] = React.useState(false);
-    const [error, setError] = useState<any>()
+    const [error, setError] = useState<any>();
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+        console.log(value)
+        setOffset((value*10)-10)
+        console.log(offset)
+        fetchData();        
+      };
 
     useEffect(() => {
+        fetchPagination();
         fetchData();
-        fetchCategory();
+        fetchCategory();       
         
     }, []); 
 
     const fetchData = async() => {
         const { data } = await client.query({
             query: GET_EVENT,
-            // context: {
-            //     headers: {
-            //         Authorization: `Bearer ${localStorage.getItem("token")}`
-            //     }
-            // }
+            variables: {offset:offset}
         })
+        setEvents(data.events)        
+    }
 
-        setEvents(data.events)
-        
+    const fetchPagination = async() => {
+        const { data } = await client.query({
+            query: GET_PAGINATION,
+
+        })
+        setCountPage(data.eventsPagination.total_page)
     }
 
     const fetchCategory = async() => {
         const { data } = await client.query({
-            query: GET_CATEGORY,
-            // context: {
-            //     headers: {
-            //         Authorization: `Bearer ${localStorage.getItem("token")}`
-            //     }
-            // }
+            query: GET_CATEGORY
         })
-
-        console.log(data);
         setCategory(data.category);
     }
 
@@ -210,11 +213,11 @@ const HomePage = () => {
                     margin: "30px 0px",
                     }}>
                     <Pagination
-                    count={Math.ceil(countProducts / 10)}
+                    count={countPage}
                     variant='outlined'
                     shape='rounded'
                     page={page}
-                    //onChange={handleChange}
+                    onChange={handleChange}
                     sx={{
                         ".MuiButtonBase-root": {
                         fontFamily: "Nunito",
@@ -236,6 +239,7 @@ const HomePage = () => {
                     />
                 </Box>
             </Box>
+
                 <Snackbar
                 open={openAlert}
                 autoHideDuration={6000}
