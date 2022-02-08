@@ -309,5 +309,19 @@ query {
             deleted_at
         }
     }
-}
-`
+}`
+
+export const GET_BYCATEGORY= gql`
+query($idCategory : Int!){
+    eventsByCategory(id_category: $idCategory, limit: 10, offset: 0){
+        id
+        id_user
+        id_category
+        title
+        start_date
+        end_date
+        location
+        details
+        photo
+    }
+}`

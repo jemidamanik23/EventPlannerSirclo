@@ -7,7 +7,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import client from "../utils/apollo-client";
-import { GET_CATEGORY, GET_EVENT, GET_SEARCH, GET_PAGINATION } from "../utils/queries";
+import { GET_CATEGORY, GET_EVENT, GET_SEARCH, GET_PAGINATION, GET_BYCATEGORY } from "../utils/queries";
 import Footer from "../components/Footer";
 import Header from "../components/Header/Header";
 
@@ -100,6 +100,15 @@ const HomePage = () => {
         console.log(data)
     }
 
+    const handleCategoryProcessor = async(e:any) => {
+
+        const { data } = await client.query({
+            query: GET_BYCATEGORY,
+            variables: {idCategory: e}
+        })
+        setEvents(data.eventsByCategory) 
+    }
+
     return(
         <Box>
             <Header handleGetText={(e)=>handleGetText(e)} handleSendText={handleSendText}/>
@@ -167,13 +176,14 @@ const HomePage = () => {
                                 "aria-labelledby": "category-button",
                                 }}>
                                 <MenuItem 
-                                //onClick={handleAllCategory}
+                                onClick={fetchData}
                                 >
-                                    All Category
+                                    
                                 </MenuItem>
                                 {category.map((item) => (
                                 <MenuItem key={item.id}
-                                //onClick={handleCategoryProcessor}
+                                onClick={ () => handleCategoryProcessor(item.id)}
+                                // onClick={handleCategoryProcessor}
                                 >{item.description}
                                 </MenuItem>
                                 ))}
@@ -248,7 +258,7 @@ const HomePage = () => {
                     onClose={handleCloseAlert}
                     color="warning"
                     sx={{ width: "100%" }}>
-                    Jalan
+                    Berhasil
                 </Alert>
                 </Snackbar>
                 <Footer/>
