@@ -14,6 +14,7 @@ import client from "../utils/apollo-client"
 import { useMutation } from '@apollo/client';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer';
+import { useQuery } from "@apollo/client";
 
 export type eventsTypes = {
   id: number,
@@ -33,34 +34,47 @@ const Event = () => {
     const eventsDefault: eventsTypes[] = [];
     const [dataEvents, setDataComment] = useState(eventsDefault);
     const [deleteEvent] = useMutation(DELETE_EVENT);
+    const [id, setId] = useState<number|string|null>();
 
-      const fetchData = async () => {
+    const { data, refetch } = useQuery(GET_MYEVENT, {
+      variables : {id: id},
+          context: {
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+          },
+      }
+  )
 
-          const { data } = await client.query({
-            query: GET_MYEVENT,
-            variables: { id: localStorage.getItem("id_user") },
-            context: {
-              headers: { 
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            },
-          });
-          console.log((data.myEvent).length); 
-          console.log(data)
-          if((data.myEvent).length!==0){
-            setDataComment(data.myEvent)
-          }    
+      // const fetchData = async () => {
+      //     const { data } = await client.query({
+      //       query: GET_MYEVENT,
+      //       variables: { id: localStorage.getItem("id_user") },
+      //       context: {
+      //         headers: { 
+      //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+      //         },
+      //       },
+      //     });
+      //     console.log((data.myEvent).length); 
+      //     console.log(data)
+      //     if((data.myEvent).length!==0){
+      //       setDataComment(data.myEvent)
+      //     }    
           
-      };
+      // };
 
       useEffect(() => {
         if(localStorage.getItem("token")!==null){
                 setToken(localStorage.getItem("token"));  
-                fetchData();        
+                setId(localStorage.getItem("id_user"))
+                // fetchData();        
+                refetch();
+
             }else{
                 router.replace('/login-page')
             }
-      }, []); 
+      }, [router.route]); 
 
       const addEvent = async () => {
           router.push('/create-event')
@@ -72,9 +86,7 @@ const Event = () => {
 
 
       const handleEdit =async (id: number) => {
-        router.push(`/update-event/${id}`)
-   
-
+        router.push(`/update-event/${id}`) 
       }
 
       const handleDelete =async (id: number) => {
@@ -90,7 +102,7 @@ const Event = () => {
       }
 
   return (
-    <Box>
+    <Box sx={{  }}>
       <Header isHidden={true} />
       <Box sx={{ 
           width: "90wh", 
@@ -127,8 +139,10 @@ const Event = () => {
                     <CustomButtonPrimary OnClick={nextEvent} width='40%' caption='Event yang diikuti'/>
                     </Box>                   
                </Box>
+                  
                
-               {dataEvents.map((value) => (
+               {data && 
+               data.myEvent.map((value:any) => (
                 <Grid item key={value.id}>
                     <Box>
                         <EventCard eventTitle={value.title} time={value.start_date} category={value.id_category} handleEdit={() => handleEdit(value.id)} handleDelete={() => handleDelete(value.id)} />
