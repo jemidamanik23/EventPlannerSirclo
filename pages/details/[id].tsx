@@ -112,11 +112,11 @@ const DetailEvent = (props:any) => {
         const { data } = await client.query({
             query: GET_EVENT_DETAILS,
             variables : {id:id},
-            context: {
-                  headers: { 
-                    Authorization: `Bearer ${token}`,
-                  },
-                },
+            // context: {
+            //       headers: { 
+            //         Authorization: `Bearer ${token}`,
+            //       },
+            //     },
             errorPolicy: 'ignore',
         })
         console.log(data.eventsById);
