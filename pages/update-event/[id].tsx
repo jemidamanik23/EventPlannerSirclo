@@ -91,7 +91,7 @@ const UpdateEvent = () => {
               location: linkEvent,
               details: detailEvent,
               photo: imgEvent,
-              id:8,
+              id:id,
             },
             context: {
                 headers: { 
