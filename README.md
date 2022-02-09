@@ -8,12 +8,17 @@ Group Project by Group 4 Sirclo Tech Academy 2022
 ## Deploy Link
 https://eventkoe.vercel.app/
 
-## Feature
+## Limitation
 
-#### Login-Register
-#### CRUD User, Event
-#### Search
-#### Filter By Category
+#### User can regist and login 
+#### User can see home with or without login
+#### User can search event in home
+#### User can filter event by category
+#### Login user can create, update, and delete event
+#### Login user can edit data profile
+#### Login user can join and give comment in event
+#### every input image only render an url
+#### Login user can logout
 
 ## Acknowledgements
 
