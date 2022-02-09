@@ -107,6 +107,7 @@ const Event = () => {
       <Box sx={{ 
           width: "90wh", 
           margin: "5% ",
+            minHeight: "80vh",
        }}>
          {console.log(idUser)}
            <Box sx={{ 
