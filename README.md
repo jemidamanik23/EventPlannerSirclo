@@ -20,7 +20,6 @@ https://eventkoe.vercel.app/
 #### every input image only render an url
 #### Login user can logout
 
-## Acknowledgements
 
  ## Acknowledgements
 
