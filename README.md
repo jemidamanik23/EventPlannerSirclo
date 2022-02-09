@@ -5,6 +5,9 @@ Group Project by Group 4 Sirclo Tech Academy 2022
 {(FE : Jemi Damanik and Moh Adi Pramudiono) && 
 (BE : Muhamad Ryan Adi Wiguna && Muhamad Hilmi Hibatullah)
 
+## Deploy Link
+https://eventkoe.vercel.app/
+
 ## Feature
 
 #### Login-Register
