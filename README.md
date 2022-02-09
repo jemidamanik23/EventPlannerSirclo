@@ -8,6 +8,9 @@ Group Project by Group 4 Sirclo Tech Academy 2022
 ## Deploy Link
 https://eventkoe.vercel.app/
 
+## Prototype and WireFrame
+https://www.figma.com/file/c699hMJzzbT3ttDEPfViv2/EventPlanner?node-id=20%3A722
+
 ## Limitation
 
 #### User can regist and login 
